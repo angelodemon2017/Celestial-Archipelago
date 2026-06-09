@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1326835485015618785}
   - component: {fileID: 4828376428870748376}
   - component: {fileID: 8163209721534079592}
+  - component: {fileID: 4963991494058231926}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -74,3 +75,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cacdeab3ae19884408252439b10d7fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectInstaller
+  _systemSO: {fileID: 11400000, guid: 39bd1f7db18303f4ea983d5222c7d47e, type: 2}
+  _dayNightSO: {fileID: 11400000, guid: 0df5db97dcde56c4d8ecd56e809b5143, type: 2}
+  _coroutineRunner: {fileID: 4963991494058231926}
+--- !u!114 &4963991494058231926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6083551297513348530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 129640071b2057c438181a7ffcd0a755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Core::CoroutineRunner

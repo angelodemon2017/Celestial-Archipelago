@@ -9,11 +9,17 @@ EditorBuildSettings:
     path: Assets/SkyArchipelago/Scenes/BootStrapScene.unity
     guid: a94c8738eefefde43bff180b67cd78ad
   - enabled: 1
+    path: Assets/SkyArchipelago/Scenes/Loading.unity
+    guid: 39b170f9a9e600247ac3d9cd43f7d934
+  - enabled: 1
     path: Assets/SkyArchipelago/Scenes/Menu.unity
     guid: 0123e40d782781342a178d31c3823ae3
   - enabled: 1
     path: Assets/SkyArchipelago/Scenes/Island.unity
     guid: e808c244b67ca3f49ae85a6d6f5723a7
+  - enabled: 1
+    path: Assets/SkyArchipelago/Scenes/Dungeon.unity
+    guid: dd39b5b9af8edfe45a1e6c804bce09d0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
