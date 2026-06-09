@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Handle Topology SO
   m_EditorClassIdentifier: Procedural::HandleTopologySO
   handleModelShape:
-    material: {fileID: 2100000, guid: a3253c4697a646348a8e158734049ebe, type: 2}
+    Seed: 0
+    Material: {fileID: 2100000, guid: a3253c4697a646348a8e158734049ebe, type: 2}
     handleLength: 1.2
     handleRadius: 0.08
   handleSegments: 12
-  rings: 18
+  rings: 16
   segments: 24

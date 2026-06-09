@@ -3,5 +3,7 @@
 [System.Serializable]
 public class BaseModelShape
 {
-    public Material material;
+    public int Seed;
+
+    public Material Material;
 }

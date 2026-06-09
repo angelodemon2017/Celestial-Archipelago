@@ -1,45 +1,47 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ProceduralMeshService : MonoBehaviour
+public class ProceduralMeshService
 {
-    private static ProceduralMeshService _instance;
-    public static ProceduralMeshService Instance => _instance;
+    private Dictionary<BaseMeshTopologySO, Queue<Mesh>> _meshPool = new();
+    private Dictionary<BaseMeshTopologySO, ProceduralMeshGenerator> _mapGenerator = new();
 
-    private Dictionary<System.Type, object> generators = new Dictionary<System.Type, object>();
-
-    private void Awake()
+    private void CheckAndRegisterTopology(BaseMeshTopologySO baseMeshTopology)
     {
-        _instance = this;
-
-        // Можно регистрировать через инспектор или автоматически
-    }
-
-    public void RegisterGenerator<TTopology, TShape>(ProceduralPartGenerator<TTopology, TShape> generator)
-        where TTopology : BaseMeshTopologySO
-        where TShape : BaseModelShape
-    {
-        var key = typeof(ProceduralPartGenerator<TTopology, TShape>);
-        generators[key] = generator;
-    }
-
-    public Mesh GetMesh<TTopology, TShape>(TTopology topology, TShape shape)
-        where TTopology : BaseMeshTopologySO
-        where TShape : BaseModelShape
-    {
-        var generatorType = typeof(ProceduralPartGenerator<TTopology, TShape>);
-
-        if (generators.TryGetValue(generatorType, out object genObj) &&
-            genObj is ProceduralPartGenerator<TTopology, TShape> generator)
+        if (!_meshPool.ContainsKey(baseMeshTopology))
         {
-            // Здесь можно добавить кэширование по комбинации topology + shape параметров
-            Mesh baseMesh = generator.CreateNewMesh(topology);
-            Mesh finalMesh = Instantiate(baseMesh);
-            generator.ApplyShape(finalMesh, topology, shape);
-            return finalMesh;
+            _meshPool.Add(baseMeshTopology, new Queue<Mesh>());
+        }
+        if (!_mapGenerator.ContainsKey(baseMeshTopology))
+        {
+            _mapGenerator.Add(baseMeshTopology, baseMeshTopology.MeshGenerator);
+        }
+    }
+
+    public Mesh GetMesh(BaseMeshTopologySO baseMeshTopology)
+    {
+        CheckAndRegisterTopology(baseMeshTopology);
+
+        if (_meshPool.TryGetValue(baseMeshTopology, out Queue<Mesh> queueMesh) &&
+            queueMesh.TryDequeue(out Mesh result))
+        {
+            return result;
         }
 
-        Debug.LogError($"No generator registered for {typeof(TTopology)} / {typeof(TShape)}");
-        return null;
+        return _mapGenerator[baseMeshTopology].CreateNewMesh();
+    }
+
+    public void EditMesh(BaseMeshTopologySO baseMeshTopology, Mesh mesh, BaseModelShape baseModelShape)
+    {
+        CheckAndRegisterTopology(baseMeshTopology);
+
+        _mapGenerator[baseMeshTopology].ApplyShape(mesh, baseModelShape);
+    }
+
+    public void ReturnMesh(BaseMeshTopologySO baseMeshTopology, Mesh mesh)
+    {
+        CheckAndRegisterTopology(baseMeshTopology);
+
+        _meshPool[baseMeshTopology].Enqueue(mesh);
     }
 }

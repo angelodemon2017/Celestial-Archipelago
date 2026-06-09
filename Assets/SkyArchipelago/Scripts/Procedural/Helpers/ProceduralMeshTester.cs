@@ -29,13 +29,13 @@ public class ProceduralMeshTester : MonoBehaviour
     [ContextMenu("Generate Mesh")]
     public void GenerateMesh()
     {
-        var gen = new HandleOfWeaponGenerator();
-        Mesh mesh = gen.CreateNewMesh((HandleTopologySO)topology);
+        var gen = new ProceduralMeshService();
+        Mesh mesh = gen.GetMesh(topology);
 
         if (mesh != null)
         {
             meshFilter.sharedMesh = mesh;
-            meshRenderer.sharedMaterial = topology.DefShape.material;
+            meshRenderer.sharedMaterial = topology.DefShape.Material;
             Debug.Log($"Меш успешно сгенерирован! Вершины: {mesh.vertexCount}");
         }
     }

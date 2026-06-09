@@ -1,48 +1,38 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class BladeOfWeaponGenerator : ProceduralPartGenerator<BladeTopologySO, BladeModelShape>
+public class BladeMeshGenerator : ProceduralMeshGeneratorByConfig<BladeTopologySO>
 {
-    public override void ApplyShape(Mesh mesh, BladeTopologySO topo, BladeModelShape shape)
-    {
-        Vector3[] verts = mesh.vertices;
-        for (int i = 0; i < verts.Length; i++)
-        {
-            //apply shape
-        }
-        mesh.vertices = verts;
-        mesh.RecalculateNormals();
-        mesh.RecalculateBounds();
-    }
+    public BladeMeshGenerator(BladeTopologySO topConfig) : base(topConfig) { }
 
-    protected override void GeneratePols(ref List<Vector3> vertices, ref List<int> triangles, ref List<Vector2> uvs, BladeTopologySO topo)
+    protected override void GeneratePols(ref List<Vector3> vertices, ref List<int> triangles, ref List<Vector2> uvs)
     {
-        float halfL = topo.bladeModelShape.bladeLength * 0.5f;
-        float halfW = topo.bladeModelShape.bladeWidth * 0.5f;
-        float halfT = topo.bladeModelShape.bladeThickness * 0.5f;
+        float halfL = _topology.bladeModelShape.bladeLength * 0.5f;
+        float halfW = _topology.bladeModelShape.bladeWidth * 0.5f;
+        float halfT = _topology.bladeModelShape.bladeThickness * 0.5f;
 
-        for (int i = 0; i <= topo.bladeSegments; i++)
+        for (int i = 0; i <= _topology.bladeSegments; i++)
         {
-            float t = i / (float)topo.bladeSegments;
-            float y = -halfL + t * topo.bladeModelShape.bladeLength;
+            float t = i / (float)_topology.bladeSegments;
+            float y = -halfL + t * _topology.bladeModelShape.bladeLength;
 
             // === Профиль ширины ===
             float localT;
             float currentWidth;
 
-            if (t * topo.bladeModelShape.bladeLength < topo.bladeModelShape.bladeBaseLength) // Широкая часть
+            if (t * _topology.bladeModelShape.bladeLength < _topology.bladeModelShape.bladeBaseLength) // Широкая часть
             {
-                localT = (t * topo.bladeModelShape.bladeLength) / topo.bladeModelShape.bladeBaseLength;
-                currentWidth = halfW * Mathf.Lerp(1f, topo.bladeModelShape.bladeTaperScale, localT * 0.3f); // лёгкое предварительное сужение
+                localT = (t * _topology.bladeModelShape.bladeLength) / _topology.bladeModelShape.bladeBaseLength;
+                currentWidth = halfW * Mathf.Lerp(1f, _topology.bladeModelShape.bladeTaperScale, localT * 0.3f); // лёгкое предварительное сужение
             }
             else // Сужающаяся часть
             {
-                float tipProgress = ((t * topo.bladeModelShape.bladeLength) - topo.bladeModelShape.bladeBaseLength) / topo.bladeModelShape.bladeTipLength;
-                currentWidth = halfW * topo.bladeModelShape.bladeTaperScale * (1f - tipProgress);
+                float tipProgress = ((t * _topology.bladeModelShape.bladeLength) - _topology.bladeModelShape.bladeBaseLength) / _topology.bladeModelShape.bladeTipLength;
+                currentWidth = halfW * _topology.bladeModelShape.bladeTaperScale * (1f - tipProgress);
             }
 
             float currThick = halfT * (1f - t * 0.75f);
-            float edge = currentWidth * topo.bladeModelShape.bladeSharpness;
+            float edge = currentWidth * _topology.bladeModelShape.bladeSharpness;
 
             // 8-гранное сечение
             vertices.Add(new Vector3(-currThick, y, 0));                    // 0
@@ -57,7 +47,7 @@ public class BladeOfWeaponGenerator : ProceduralPartGenerator<BladeTopologySO, B
 
         int vertsPerRing = 8;
 
-        for (int i = 0; i < topo.bladeSegments; i++)
+        for (int i = 0; i < _topology.bladeSegments; i++)
         {
             int b = i * vertsPerRing;
             int t = b + vertsPerRing;
@@ -78,7 +68,7 @@ public class BladeOfWeaponGenerator : ProceduralPartGenerator<BladeTopologySO, B
         int tipIndex = vertices.Count;
         vertices.Add(new Vector3(0, halfL, 0));
 
-        int lastRing = topo.bladeSegments * vertsPerRing;
+        int lastRing = _topology.bladeSegments * vertsPerRing;
         for (int i = 0; i < 8; i++)
         {
             int a = lastRing + i;
@@ -90,5 +80,17 @@ public class BladeOfWeaponGenerator : ProceduralPartGenerator<BladeTopologySO, B
 
         for (int i = 0; i < vertices.Count; i++)
             uvs.Add(new Vector2(0.5f, (float)i / vertices.Count));
+    }
+
+    public override void ApplyShape<T>(Mesh mesh, T model)
+    {
+        Vector3[] verts = mesh.vertices;
+        for (int i = 0; i < verts.Length; i++)
+        {
+            //apply shape
+        }
+        mesh.vertices = verts;
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
     }
 }

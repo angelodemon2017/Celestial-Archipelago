@@ -17,7 +17,8 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallServices()
     {
-
+        Container.BindInterfacesAndSelfTo<ProceduralMeshService>().AsSingle();
+        
     }
 
     private void InstallSignals()
