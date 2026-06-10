@@ -33,6 +33,7 @@ public class ProjectInstaller : MonoInstaller
     private void InstallServices()
     {
         Container.BindInterfacesAndSelfTo<GameTimeService>().AsSingle();
+//        Container.BindInterfacesAndSelfTo<GameTimeService_demo>().AsSingle();
         Container.BindInterfacesAndSelfTo<DayNightService>().AsSingle();
         Container.BindInterfacesAndSelfTo<ProceduralMeshService>().AsSingle();
         Container.BindInterfacesAndSelfTo<SceneLoadingService>().AsSingle();
