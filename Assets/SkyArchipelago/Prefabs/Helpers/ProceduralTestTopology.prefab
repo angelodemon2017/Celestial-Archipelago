@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Procedural::ProceduralMeshTester
   topology: {fileID: 11400000, guid: caa9f27bf8499734986c7c2bdc701add, type: 2}
+  TestColor: {r: 0.090071134, g: 0, b: 0.6377357, a: 1}
   meshFilter: {fileID: 5066633184113086468}
   meshRenderer: {fileID: 332569922023496597}
 --- !u!33 &5066633184113086468
@@ -82,7 +83,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1fc7e652a4478a84ba2c4f23ec3dc385, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

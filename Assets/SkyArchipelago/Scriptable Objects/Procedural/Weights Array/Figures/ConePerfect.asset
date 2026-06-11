@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f2aa3b3df411fc4bb9453c9ea71b1e0, type: 3}
+  m_Name: ConePerfect
+  m_EditorClassIdentifier: Procedural::ConeShapeConfigSO
+  coneShape:
+    centerOffset: {x: 0, y: 0, z: 0}
+    seedOffset: 0
+    weight: 1
+    height: 12
+    radius: 8
+    hatHeight: 2
+    noiseStrength: 0
+    noiseScale: 1
+    perlinMultSeed: 1
+    airWeight: -3
