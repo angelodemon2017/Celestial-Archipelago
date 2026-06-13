@@ -75,8 +75,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cacdeab3ae19884408252439b10d7fb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectInstaller
+  _uIConfig: {fileID: 11400000, guid: 4ed9b4b911e56464c84e1b138731900c, type: 2}
+  _playerConfig: {fileID: 11400000, guid: 065b755150668474f8b56c20ff6f9eac, type: 2}
   _systemSO: {fileID: 11400000, guid: 39bd1f7db18303f4ea983d5222c7d47e, type: 2}
   _dayNightSO: {fileID: 11400000, guid: 0df5db97dcde56c4d8ecd56e809b5143, type: 2}
+  _canvasPrefab: {fileID: 0}
   _coroutineRunner: {fileID: 4963991494058231926}
 --- !u!114 &4963991494058231926
 MonoBehaviour:

@@ -1,11 +1,15 @@
 ﻿using MarchingCubesProject;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 [ExecuteInEditMode]
 public class MarchingCubesGeneratorController : MonoBehaviour
 {
+    public Transform RootModules;
     public MarchingCubesConfigSO config;
+
+    private DiContainer _diContainer = null;
 
     [Header("Output")]
     public Material material;
@@ -13,9 +17,28 @@ public class MarchingCubesGeneratorController : MonoBehaviour
     public bool useChunking = false;
     public Vector3Int chunkSize = new Vector3Int(32, 32, 32);
 
-    private void Start()
+    [Inject]
+    private void Init(
+        DiContainer diContainer)
     {
+        _diContainer = diContainer;
         if (generateOnStart) Generate();
+    }
+
+    [ContextMenu("Clear")]
+    private void Clear()
+    {
+        Transform parent = chunkParent != null ? chunkParent : transform;
+
+        foreach (Transform child in parent)
+        {
+            DestroyImmediate(child.gameObject);
+        }
+
+        foreach (Transform child in RootModules)
+        {
+            DestroyImmediate(child.gameObject);
+        }
     }
 
     [ContextMenu("Generate")]
@@ -23,12 +46,16 @@ public class MarchingCubesGeneratorController : MonoBehaviour
     {
         if (config == null) return;
 
+        Clear();
+
         float[,,] density = GenerateDensityField();
 
         if (useChunking)
             GenerateChunked(density);
         else
             GenerateSingleMesh(density);
+
+        ProcessContentItems();
     }
 
     private float[,,] GenerateDensityField()
@@ -45,15 +72,32 @@ public class MarchingCubesGeneratorController : MonoBehaviour
 
                     foreach (var instance in config.shapes)
                     {
-                        float shapeValue = instance.shape.GetShape.Evaluate(pos + instance.shapeOffset, gs, config.globalSeed);
+                        float shapeValue = instance.shape.GetShape.Evaluate(pos + instance.shapeOffset, gs, GetRndSeed());
 
                         value = ApplyOperation(value, shapeValue, instance.operation, instance.smoothK);
+                    }
+
+                    foreach (var cont in config.contentItems)
+                    {
+                        if (!cont.IsCuttingWeight)
+                            continue;
+
+                        if (cont.TryGetDensityInfluence(pos, gs, GetRndSeed(), out float contValue))
+                        {
+//                            Debug.Log($"Try appl Density {contValue} in {pos}");
+                            value = SmoothSubtraction(value, -contValue, cont.smoothK);
+                        }
                     }
 
                     density[x, y, z] = value;
                 }
 
         return density;
+    }
+
+    private int GetRndSeed()
+    {
+        return Random.Range(0, 1000000);
     }
 
     private float ApplyOperation(float a, float b, ShapeOperation op, float k)
@@ -83,7 +127,7 @@ public class MarchingCubesGeneratorController : MonoBehaviour
     {
         var mesh = GenerateMeshFromDensity(density, config.surfaceLevel, config.cellSize);
 
-        CreateMeshObject(mesh, "Island_Mesh", Vector3.zero);
+        CreateMeshObject(mesh, "Island_Mesh", -config.gridSize / 2);
     }
 
     private void GenerateChunked(float[,,] fullDensity)
@@ -191,13 +235,13 @@ public class MarchingCubesGeneratorController : MonoBehaviour
     }
 
     [Header("Chunking Settings")]
-    public Transform chunkParent; // если хочешь отдельный объект-контейнер
+    public Transform chunkParent;
 
     private void CreateMeshObject(Mesh mesh, string name, Vector3 localPosition)
     {
-        GameObject go = new GameObject(name);
-
         Transform parent = chunkParent != null ? chunkParent : transform;
+
+        GameObject go = new GameObject(name);
         go.transform.SetParent(parent, false);
         go.transform.localPosition = localPosition;
 
@@ -206,9 +250,46 @@ public class MarchingCubesGeneratorController : MonoBehaviour
         var col = go.AddComponent<MeshCollider>();
 
         mf.mesh = mesh;
-        mr.material = material ?? new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        mr.material = material;
         col.sharedMesh = mesh;
+    }
 
-        // Опционально: LODGroup позже
+    private void ProcessContentItems()
+    {
+        foreach (var item in config.contentItems)
+        {
+            if (item != null)
+                item.Process(this, _diContainer);
+        }
+    }
+
+    [Header("Gizmo")]
+    public bool GizmoOn = false;
+    public float transparent = 0.5f;
+
+    private void OnDrawGizmos()
+    {
+        if (!config || !GizmoOn)
+            return;
+
+        var gizCol = Color.yellow;
+        gizCol.a = transparent;
+        Gizmos.color = gizCol;
+
+        foreach (var shapeInst in config.shapes)
+        {
+            var centr = shapeInst.GizmoCentr() + transform.position;
+            Gizmos.DrawCube(centr, shapeInst.shape.GetShape.GetSizeBound());
+        }
+
+        gizCol = Color.cyan;
+        gizCol.a = transparent;
+        Gizmos.color = gizCol;
+
+        foreach (var cont in config.contentItems)
+        {
+            var centr = cont.GetOffsetBound() + transform.position;
+            Gizmos.DrawCube(centr, cont.GetSizeBound());
+        }
     }
 }

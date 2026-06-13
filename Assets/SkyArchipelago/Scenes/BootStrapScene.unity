@@ -241,6 +241,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55957a4c8c59ff642af4fe5277deff4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Core::SceneInstaller
+  _playerConfig: {fileID: 0}
+  gameObjects: []
 --- !u!4 &1654019417
 Transform:
   m_ObjectHideFlags: 0

@@ -1,0 +1,16 @@
+﻿using UnityEngine;
+
+public interface IInputProvider
+{
+    bool CursorIsAvailable { get; }
+    void SetInputActive(bool active);           // Включаем/выключаем обработку
+
+    void ProcessMovement(Vector2 moveInput);
+    void ProcessLook(Vector2 lookInput);
+    void ProcessJump(bool jumpPressed);
+    void ProcessInteract(bool interacted);
+    void ProcessTab(bool interact);
+    // Добавляй по мере необходимости:
+    // void ProcessAttack(bool attackPressed);
+    // void ProcessAbility(int index);
+}

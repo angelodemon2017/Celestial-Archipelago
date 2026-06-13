@@ -1,0 +1,81 @@
+﻿using UnityEngine;
+using Zenject;
+using System;
+
+public class InputService : ITickable, IInitializable, IDisposable
+{
+    private readonly SignalBus _signalBus;
+
+    private IInputProviderContainer _inputProviderContainer;
+    private IInputProvider _currentProvider;
+    private bool _inputEnabled = true;
+
+    public InputService(
+        SignalBus signalBus)
+    {
+        _signalBus = signalBus;
+    }
+
+    public void Initialize()
+    {
+    }
+
+    public void Dispose() { }
+
+    public void Tick()
+    {
+        UpdateInput();
+    }
+
+    public void UpdateInput()
+    {
+        if (!_inputEnabled || _currentProvider == null) return;
+
+        Vector2 move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
+        bool tryInteract = Input.GetKeyDown(KeyCode.E);
+        bool tab = Input.GetKeyDown(KeyCode.Tab);
+
+        _currentProvider.ProcessMovement(move);
+        _currentProvider.ProcessLook(look);
+        _currentProvider.ProcessJump(jumpPressed);
+        _currentProvider.ProcessInteract(tryInteract);
+        _currentProvider.ProcessTab(tab);
+    }
+
+    public void SetInputProviderContainer(IInputProviderContainer inputProviderContainer)
+    {
+        if (_inputProviderContainer != null)
+            _inputProviderContainer.InputProviderUpdated -= SetProviderFromContainer;
+
+        _inputProviderContainer = inputProviderContainer;
+        _inputProviderContainer.InputProviderUpdated += SetProviderFromContainer;
+        SetProviderFromContainer();
+    }
+
+    private void SetProviderFromContainer()
+    {
+        SetInputProvider(_inputProviderContainer.InputProvider);
+    }
+
+    public void SetInputProvider(IInputProvider requester)
+    {
+        if (_currentProvider != null)
+            _currentProvider.SetInputActive(false);
+
+        _currentProvider = requester;
+
+        if (_currentProvider != null)
+            _currentProvider.SetInputActive(true);
+    }
+
+    public void EnableInput(bool enable)
+    {
+        _inputEnabled = enable;
+        if (_currentProvider != null)
+            _currentProvider.SetInputActive(enable);
+    }
+
+    public IInputProvider CurrentRequester => _currentProvider;
+}

@@ -2,7 +2,9 @@
     "name": "Procedural",
     "rootNamespace": "",
     "references": [
-        "GUID:8c4dd21966739024fbd72155091d199e"
+        "GUID:8c4dd21966739024fbd72155091d199e",
+        "GUID:7d5c6efe40b599d44917e229db593d19",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

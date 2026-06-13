@@ -7,15 +7,20 @@ public class SceneLoadingService : IInitializable, IDisposable
 {
     private readonly SignalBus _signalBus;
     private readonly CoroutineRunner _coroutineRunner;
+    private readonly GameplayStateService _gameplayStateService;
 
     private Coroutine _currentLoadingCoroutine;
     private string _currentLoadingScene;
 
     [Inject]
-    public SceneLoadingService(SignalBus signalBus, CoroutineRunner coroutineRunner)
+    public SceneLoadingService(
+        SignalBus signalBus,
+        CoroutineRunner coroutineRunner,
+        GameplayStateService gameplayStateService)
     {
         _signalBus = signalBus;
         _coroutineRunner = coroutineRunner;
+        _gameplayStateService = gameplayStateService;
     }
 
     public void Initialize()
@@ -28,6 +33,12 @@ public class SceneLoadingService : IInitializable, IDisposable
     private void OnLoadSceneRequested(LoadSceneSignal signal)
     {
         SceneManager.LoadScene(signal.SceneName, signal.Mode);
+        switch (signal.SceneName)
+        {
+            case Dicts.Scenes.Menu:
+                _gameplayStateService.SetState<MainMenuState>();
+                break;
+        }
     }
 
     public void Dispose()

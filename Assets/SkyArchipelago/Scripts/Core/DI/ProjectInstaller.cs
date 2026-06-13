@@ -4,6 +4,8 @@ using Zenject;
 public class ProjectInstaller : MonoInstaller
 {
     [Header("Configs")]
+    [SerializeField] private UIConfig _uIConfig;
+    [SerializeField] private PlayerConfig _playerConfig;
     [SerializeField] private SystemSO _systemSO;
     [SerializeField] private DayNightSO _dayNightSO;
 
@@ -13,16 +15,25 @@ public class ProjectInstaller : MonoInstaller
     public override void InstallBindings()
     {
         InstallConfigs();
+        InstallBrefabs();
+        InstallGameStates();
         InstallModels();
         InstallMonoService();
         InstallServices();
+        InstallUI();
         InstallSignals();
     }
 
     private void InstallConfigs()
     {
+        Container.BindInstance(_playerConfig).AsSingle();
         Container.BindInstance(_systemSO).AsSingle();
         Container.BindInstance(_dayNightSO).AsSingle();
+    }
+
+    private void InstallBrefabs()
+    {
+        Container.BindInstance(_uIConfig._canvas).WithId(Dicts.DiPrefabIds.Canvas);
     }
 
     private void InstallModels()
@@ -32,16 +43,47 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallServices()
     {
+        //Common
+        Container.BindInterfacesAndSelfTo<HinterService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<PointsRepository>().AsSingle();
+        
+        Container.BindInterfacesAndSelfTo<CursorService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<PlayerInteractionService>().AsSingle();
+        
+        Container.BindInterfacesAndSelfTo<GameplayStateService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<UIViewCoordinator>().AsSingle();
+
         Container.BindInterfacesAndSelfTo<GameTimeService>().AsSingle();
-//        Container.BindInterfacesAndSelfTo<GameTimeService_demo>().AsSingle();
         Container.BindInterfacesAndSelfTo<DayNightService>().AsSingle();
         Container.BindInterfacesAndSelfTo<ProceduralMeshService>().AsSingle();
         Container.BindInterfacesAndSelfTo<SceneLoadingService>().AsSingle();
     }
 
+    private void InstallGameStates()
+    {
+        Container.BindInterfacesAndSelfTo<BattleFPSState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<BuildingFPSState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<MainFPSState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<MainMenuState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<ManagerMenuState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<PauseMenuState>().AsSingle();
+    }
+
     private void InstallMonoService()
     {
         Container.BindInstance(_coroutineRunner).AsSingle();
+    }
+
+    private void InstallUI()
+    {
+        Container.Bind<MenuOfManagerView>().FromComponentInNewPrefab(_uIConfig.menuOfManagerView).AsSingle();
+        Container.Bind<GameplayControllerView>().FromComponentInNewPrefab(_uIConfig.gameplayControllerView).AsSingle();
+        Container.Bind<MainMenuControllerView>().FromComponentInNewPrefab(_uIConfig.mainMenuControllerView).AsSingle();
+        Container.Bind<DialogMenuUI>().FromComponentInNewPrefab(_uIConfig.dialogMenuUI).AsSingle();
+        Container.Bind<PauseMenuUI>().FromComponentInNewPrefab(_uIConfig.pauseMenuUI).AsSingle();
     }
 
     private void InstallSignals()
@@ -53,5 +95,7 @@ public class ProjectInstaller : MonoInstaller
         Container.DeclareSignal<LoadSceneSignal>();
         Container.DeclareSignal<SceneLoadedSignal>();
         Container.DeclareSignal<SceneLoadingProgressSignal>();
+
+        Container.DeclareSignal<LaunchSpawnPointSignal>();
     }
 }

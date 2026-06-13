@@ -13,6 +13,9 @@ public class MarchingCubesConfigSO : ScriptableObject
     public int globalSeed = 42;
     public List<ShapeInstance> shapes = new List<ShapeInstance>();
 
+    [Header("Content")]
+    public List<IslandContentItem> contentItems;
+
     [Header("Marching Cubes")]
     public float surfaceLevel = 0f;
 
