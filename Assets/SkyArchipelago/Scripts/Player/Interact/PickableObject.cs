@@ -6,17 +6,15 @@ public class PickableObject : InteractableBase
     [SerializeField] private ItemData _itemData;           // ScriptableObject с данными предмета
     [SerializeField] private int _quantity = 1;
 
-    public override void Interact()
+    public override bool TryInteract(out InteractionResult result)
     {
-        if (!CanInteract) return;
+        result = 
+            new PickupResult(
+                gameObject,
+                _itemData,
+                _quantity);
 
-        // Здесь логика подбора
-        Debug.Log($"Подобрано: {_itemData?.ItemName} x{_quantity}");
-
-        // Пример: добавить в инвентарь
-        // InventoryService.Instance.AddItem(_itemData, _quantity);
-
-        Destroy(gameObject); // или отключить
+        return CanInteract;
     }
 
     public ItemData ItemData => _itemData;

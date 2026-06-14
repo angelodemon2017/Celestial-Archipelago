@@ -36,12 +36,14 @@ public class InputService : ITickable, IInitializable, IDisposable
         bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
         bool tryInteract = Input.GetKeyDown(KeyCode.E);
         bool tab = Input.GetKeyDown(KeyCode.Tab);
+        bool closing = Input.GetKeyDown(KeyCode.Q);
 
         _currentProvider.ProcessMovement(move);
         _currentProvider.ProcessLook(look);
         _currentProvider.ProcessJump(jumpPressed);
         _currentProvider.ProcessInteract(tryInteract);
         _currentProvider.ProcessTab(tab);
+        _currentProvider.ProcessTryClose(closing);
     }
 
     public void SetInputProviderContainer(IInputProviderContainer inputProviderContainer)

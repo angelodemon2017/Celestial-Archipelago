@@ -868,6 +868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7691573908865518494}
+  - component: {fileID: 7691573908865518496}
   - component: {fileID: 7691573908865518495}
   m_Layer: 7
   m_Name: NPC
@@ -1061,6 +1062,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7691573908865518496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810949770399137263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 416a3b30643b9a648bd3db4c478bba42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Player::NPCDemo1
+  _interactionPrompt: "\u0413\u043E\u0432\u043E\u0440\u0438\u0442\u044C"
+  _maxInteractionDistance: 3
+  _raycastLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _npcName: "\u041F\u0435\u0440\u0432\u044B\u0439 NPC"
 --- !u!1001 &7729897453330888941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1069,6 +1088,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1976314143067665815, guid: ecf45d46bbf21eb4291891d260f4ae15, type: 3}
+      propertyPath: _itemData
+      value: 
+      objectReference: {fileID: 11400000, guid: aaee85b750a0f214a8320cd66ac59ddb, type: 2}
     - target: {fileID: 2997554506336946879, guid: ecf45d46bbf21eb4291891d260f4ae15, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.55021

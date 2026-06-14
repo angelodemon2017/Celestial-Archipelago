@@ -10,6 +10,7 @@ public interface IInputProvider
     void ProcessJump(bool jumpPressed);
     void ProcessInteract(bool interacted);
     void ProcessTab(bool interact);
+    void ProcessTryClose(bool isClosing);
     // Добавляй по мере необходимости:
     // void ProcessAttack(bool attackPressed);
     // void ProcessAbility(int index);

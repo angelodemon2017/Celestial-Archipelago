@@ -48,4 +48,9 @@ public abstract class BaseGameplayState : ISourceHint, IInputProviderContainer, 
     public virtual void ProcessTab(bool interact)
     {
     }
+
+    public virtual void ProcessTryClose(bool isClosing)
+    {
+
+    }
 }

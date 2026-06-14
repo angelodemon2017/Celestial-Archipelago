@@ -15,4 +15,10 @@
         if (interact)
             _gameplayStateService.SetState<MainFPSState>();
     }
+
+    public override void ProcessTryClose(bool isClosing)
+    {
+        if (isClosing)
+            _gameplayStateService.SetState<MainFPSState>();
+    }
 }

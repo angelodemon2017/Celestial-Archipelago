@@ -11,6 +11,7 @@ public class PlayerInteractionService : ITickable, IInitializable, IDisposable, 
     public IInteractable CurrentFocus => _currentFocus;
     public string GetHint => _currentFocus == null ? string.Empty : _currentFocus.InteractionPrompt;
     public Action HintUpdated { get; set; }
+    public Action<InteractionResult> OnInteracted { get; set; }
 
     [Inject]
     public PlayerInteractionService(
@@ -56,9 +57,9 @@ public class PlayerInteractionService : ITickable, IInitializable, IDisposable, 
 
     public void TryInteract()
     {
-        if (_currentFocus != null)
+        if (_currentFocus != null && _currentFocus.TryInteract(out InteractionResult result))
         {
-            _currentFocus.Interact();
+            OnInteracted?.Invoke(result);
         }
     }
 

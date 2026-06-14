@@ -5,7 +5,6 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
     [Header("Interaction Settings")]
     [SerializeField] protected string _interactionPrompt = "Взаимодействовать";
     [SerializeField] protected float _maxInteractionDistance = 3f;
-    [SerializeField] protected LayerMask _raycastLayer = ~0;
 
     protected bool _isFocused = false;
 
@@ -24,7 +23,7 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
         _isFocused = false;
     }
 
-    public abstract void Interact();
+    public abstract bool TryInteract(out InteractionResult result);
 
     public bool IsInRange(Vector3 playerPosition)
     {

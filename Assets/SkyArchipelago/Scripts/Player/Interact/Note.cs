@@ -6,13 +6,9 @@ public class Note : InteractableBase
     [SerializeField, TextArea(5, 10)] private string _noteText = "Текст записки...";
     [SerializeField] private string _noteTitle = "Записка";
 
-    public string NoteText => _noteText;
-    public string NoteTitle => _noteTitle;
-
-    public override void Interact()
+    public override bool TryInteract(out InteractionResult result)
     {
-        if (!CanInteract) return;
-
-        Debug.Log($"Открыта записка: {_noteTitle}");
+        result = new OpenNoteResult(_noteTitle, _noteText);
+        return CanInteract;
     }
 }

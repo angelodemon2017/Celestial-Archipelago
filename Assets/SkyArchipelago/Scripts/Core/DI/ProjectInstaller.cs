@@ -38,6 +38,7 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallModels()
     {
+        Container.Bind<DialogModel>().AsSingle();
         Container.Bind<DayNightModel>().AsSingle();
     }
 
@@ -52,7 +53,8 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
         Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
         Container.BindInterfacesAndSelfTo<PlayerInteractionService>().AsSingle();
-        
+        Container.BindInterfacesAndSelfTo<InteractionHandlerService>().AsSingle();
+
         Container.BindInterfacesAndSelfTo<GameplayStateService>().AsSingle();
         Container.BindInterfacesAndSelfTo<UIViewCoordinator>().AsSingle();
 
@@ -66,6 +68,7 @@ public class ProjectInstaller : MonoInstaller
     {
         Container.BindInterfacesAndSelfTo<BattleFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<BuildingFPSState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<DialogMenuState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainMenuState>().AsSingle();
         Container.BindInterfacesAndSelfTo<ManagerMenuState>().AsSingle();

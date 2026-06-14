@@ -8,6 +8,6 @@ public interface IInteractable
 
     void OnFocusEnter();                        // Когда игрок навёл взгляд
     void OnFocusExit();                         // Когда взгляд ушёл
-    void Interact();                            // Основное действие (E / клик)
+    bool TryInteract(out InteractionResult result);
     bool IsInRange(Vector3 playerPosition);
 }

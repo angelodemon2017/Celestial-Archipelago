@@ -3,7 +3,7 @@
 public abstract class NPCBase : InteractableBase
 {
     [Header("NPC Settings")]
-    [SerializeField] private string _npcName = "NPC";
+    [SerializeField] protected string _npcName = "NPC";
 
     public string NpcName => _npcName;
 
@@ -11,16 +11,6 @@ public abstract class NPCBase : InteractableBase
     {
         base.OnFocusEnter();
         // Можно показать имя над головой и т.д.
-    }
-
-    public override void Interact()
-    {
-        if (!CanInteract) return;
-
-        Debug.Log($"Разговор с {_npcName}");
-
-        // Открыть UI диалога
-        // DialogueUI.Instance.OpenDialogue(_dialogueData, this);
     }
 
     // Для квестов, торговли и т.д.

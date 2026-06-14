@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-
-public class NPCDemo1 : NPCBase
+﻿public class NPCDemo1 : NPCBase
 {
-
-    public override void Interact()
+    public override bool TryInteract(out InteractionResult result)
     {
-        if (!CanInteract) return;
+        result = new OpenDialogueResult(_npcName);
 
+        return CanInteract;
     }
 }
