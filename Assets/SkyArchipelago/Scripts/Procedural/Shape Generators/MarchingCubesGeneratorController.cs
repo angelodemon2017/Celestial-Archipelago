@@ -13,6 +13,7 @@ public class MarchingCubesGeneratorController : MonoBehaviour
 
     [Header("Output")]
     public Material material;
+    public LayerMask meshLayer;
     public bool generateOnStart = false;
     public bool useChunking = false;
     public Vector3Int chunkSize = new Vector3Int(32, 32, 32);
@@ -244,6 +245,7 @@ public class MarchingCubesGeneratorController : MonoBehaviour
         GameObject go = new GameObject(name);
         go.transform.SetParent(parent, false);
         go.transform.localPosition = localPosition;
+        go.layer = (int)Mathf.Log(meshLayer.value, 2);
 
         var mf = go.AddComponent<MeshFilter>();
         var mr = go.AddComponent<MeshRenderer>();

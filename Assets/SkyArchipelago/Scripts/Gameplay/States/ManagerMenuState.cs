@@ -1,12 +1,15 @@
 ﻿public class ManagerMenuState : StateWithWindow<MenuOfManagerView>
 {
     private readonly GameplayStateService _gameplayStateService;
+    private readonly BuildingModel _buildingModel;
 
     public ManagerMenuState(
+        BuildingModel buildingModel,
         GameplayStateService gameplayStateService,
         UIViewCoordinator uIViewCoordinator) :
         base(uIViewCoordinator)
     {
+        _buildingModel = buildingModel;
         _gameplayStateService = gameplayStateService;
     }
 
@@ -20,5 +23,22 @@
     {
         if (isClosing)
             _gameplayStateService.SetState<MainFPSState>();
+    }
+
+    public override void StateOn()
+    {
+        base.StateOn();
+        _buildingModel.SelectedStruct += StartBuild;
+    }
+
+    private void StartBuild()
+    {
+        _gameplayStateService.SetState<BuildingFPSState>();
+    }
+
+    public override void StateOff()
+    {
+        base.StateOff();
+        _buildingModel.SelectedStruct -= StartBuild;
     }
 }

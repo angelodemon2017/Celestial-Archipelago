@@ -8,6 +8,7 @@ public class PlayerInteractionService : ITickable, IInitializable, IDisposable, 
 
     private IInteractable _currentFocus;
 
+    public Vector3 LastHit;
     public IInteractable CurrentFocus => _currentFocus;
     public string GetHint => _currentFocus == null ? string.Empty : _currentFocus.InteractionPrompt;
     public Action HintUpdated { get; set; }
@@ -32,6 +33,8 @@ public class PlayerInteractionService : ITickable, IInitializable, IDisposable, 
     public void UpdateInteraction()
     {
         bool hitSomething = _raycastService.Raycast(out RaycastHit hit, Mathf.Infinity);
+
+        LastHit = hit.point;
 
         IInteractable newFocus = null;
 

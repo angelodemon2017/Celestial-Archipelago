@@ -831,6 +831,9 @@ MonoBehaviour:
   RootModules: {fileID: 176568020}
   config: {fileID: 11400000, guid: a5437a22c5143ba4db2dd774242c4d5b, type: 2}
   material: {fileID: 2100000, guid: 47b15941386639546aa26205894cc8f7, type: 2}
+  meshLayer:
+    serializedVersion: 2
+    m_Bits: 64
   generateOnStart: 1
   useChunking: 0
   chunkSize: {x: 32, y: 32, z: 32}
@@ -1076,9 +1079,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Player::NPCDemo1
   _interactionPrompt: "\u0413\u043E\u0432\u043E\u0440\u0438\u0442\u044C"
   _maxInteractionDistance: 3
-  _raycastLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
   _npcName: "\u041F\u0435\u0440\u0432\u044B\u0439 NPC"
 --- !u!1001 &7729897453330888941
 PrefabInstance:

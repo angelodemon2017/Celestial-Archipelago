@@ -17,6 +17,6 @@ MonoBehaviour:
   FPSLayer:
     serializedVersion: 2
     m_Bits: 128
-  BuildingPlacement:
+  FPSBuildingLayer:
     serializedVersion: 2
     m_Bits: 64

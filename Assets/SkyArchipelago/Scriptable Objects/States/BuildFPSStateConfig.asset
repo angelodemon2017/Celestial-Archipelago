@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 077f2f0f98bf6ce4ab76f09a2f97db23, type: 3}
+  m_Name: BuildFPSStateConfig
+  m_EditorClassIdentifier: Gameplay::BuildFPSStateConfig
+  buildMarkerPrefab: {fileID: 7548734956966344503, guid: 76174c1965b600149a70d52b2f54ad69, type: 3}

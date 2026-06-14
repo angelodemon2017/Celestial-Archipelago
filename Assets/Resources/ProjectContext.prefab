@@ -79,7 +79,7 @@ MonoBehaviour:
   _playerConfig: {fileID: 11400000, guid: 065b755150668474f8b56c20ff6f9eac, type: 2}
   _systemSO: {fileID: 11400000, guid: 39bd1f7db18303f4ea983d5222c7d47e, type: 2}
   _dayNightSO: {fileID: 11400000, guid: 0df5db97dcde56c4d8ecd56e809b5143, type: 2}
-  _canvasPrefab: {fileID: 0}
+  _buildFPSState: {fileID: 11400000, guid: c7907478cac3b104e878a985a4213dda, type: 2}
   _coroutineRunner: {fileID: 4963991494058231926}
 --- !u!114 &4963991494058231926
 MonoBehaviour:

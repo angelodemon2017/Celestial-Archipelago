@@ -15,6 +15,11 @@ public abstract class BaseGameplayState : ISourceHint, IInputProviderContainer, 
         Debug.Log($"Start state:{GetType().Name}");
     }
 
+    public virtual void StateRun()
+    {
+
+    }
+
     public virtual void StateOff()
     {
 

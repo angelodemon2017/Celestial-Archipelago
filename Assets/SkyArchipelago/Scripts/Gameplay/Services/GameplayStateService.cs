@@ -1,7 +1,7 @@
 using System;
 using Zenject;
 
-public class GameplayStateService : IInitializable, IDisposable
+public class GameplayStateService : IInitializable, ITickable, IDisposable
 {   
     private readonly DiContainer _container;
     private readonly SignalBus _signalBus;
@@ -34,6 +34,11 @@ public class GameplayStateService : IInitializable, IDisposable
     private void OnHandle(LaunchSpawnPointSignal launchSpawnPoint)
     {
         SetState<MainFPSState>();
+    }
+
+    public void Tick()
+    {
+        _currentState?.StateRun();
     }
 
     public void SetState<T>() where T : BaseGameplayState

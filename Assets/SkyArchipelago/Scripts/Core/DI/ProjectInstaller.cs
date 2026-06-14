@@ -8,6 +8,8 @@ public class ProjectInstaller : MonoInstaller
     [SerializeField] private PlayerConfig _playerConfig;
     [SerializeField] private SystemSO _systemSO;
     [SerializeField] private DayNightSO _dayNightSO;
+    [SerializeField] private BuildFPSStateConfig _buildFPSState;
+    
 
     [Header("MonoBehaviours")]
     [SerializeField] private CoroutineRunner _coroutineRunner;
@@ -33,11 +35,14 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallBrefabs()
     {
+        Container.Bind<BuildMarkerMB>().FromComponentInNewPrefab(_buildFPSState.buildMarkerPrefab).AsSingle();
         Container.BindInstance(_uIConfig._canvas).WithId(Dicts.DiPrefabIds.Canvas);
     }
 
     private void InstallModels()
     {
+        Container.Bind<FPSCommonModel>().AsSingle();
+        Container.Bind<BuildingModel>().AsSingle();
         Container.Bind<DialogModel>().AsSingle();
         Container.Bind<DayNightModel>().AsSingle();
     }
