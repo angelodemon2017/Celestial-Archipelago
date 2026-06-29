@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Procedural/Marching Cubes/Marching Cubes Config")]
 public class MarchingCubesConfigSO : ScriptableObject
 {
+    public int IdConfig;
+
     [Header("Grid")]
     public Vector3Int gridSize = new Vector3Int(64, 32, 64);
     public float cellSize = 1f;

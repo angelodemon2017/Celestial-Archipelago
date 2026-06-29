@@ -1,7 +1,9 @@
 {
     "name": "Common",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:38b146cc0298cf74f986844535027a89"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

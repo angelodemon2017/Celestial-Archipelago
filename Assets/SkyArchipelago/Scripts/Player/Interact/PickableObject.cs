@@ -3,7 +3,7 @@
 public class PickableObject : InteractableBase
 {
     [Header("Pickable Settings")]
-    [SerializeField] private ItemData _itemData;           // ScriptableObject с данными предмета
+    [SerializeField] private ItemConfig _itemData;           // ScriptableObject с данными предмета
     [SerializeField] private int _quantity = 1;
 
     public override bool TryInteract(out InteractionResult result)
@@ -17,6 +17,6 @@ public class PickableObject : InteractableBase
         return CanInteract;
     }
 
-    public ItemData ItemData => _itemData;
+    public ItemConfig ItemData => _itemData;
     public int Quantity => _quantity;
 }

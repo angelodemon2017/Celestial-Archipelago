@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 182eb41faf5a1924cabee28ed90225dc, type: 3}
+  m_Name: Catalog Island Configs
+  m_EditorClassIdentifier: Procedural::CatalogIslandConfigs
+  IslandPrefab: {fileID: 8259172388343034997, guid: 0a9f61933817cca4ab194ef4376c43d7, type: 3}
+  Countering:
+  - {fileID: 11400000, guid: a5437a22c5143ba4db2dd774242c4d5b, type: 2}
+  - {fileID: 11400000, guid: 7975b74edee6dcd4a905848fe9fea01a, type: 2}
+  TestIslands:
+  - {fileID: 11400000, guid: 7975b74edee6dcd4a905848fe9fea01a, type: 2}
+  StartIslandConfig: {fileID: 11400000, guid: a5437a22c5143ba4db2dd774242c4d5b, type: 2}

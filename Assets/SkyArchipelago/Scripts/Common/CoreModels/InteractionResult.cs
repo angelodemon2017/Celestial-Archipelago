@@ -15,10 +15,10 @@ public struct OpenDialogueResult : InteractionResult
 public struct PickupResult : InteractionResult
 {
     public GameObject Go { get; }
-    public ItemData Item { get; }
+    public ItemConfig Item { get; }
     public int Quantity { get; }
 
-    public PickupResult(GameObject go, ItemData item, int quantity = 1)
+    public PickupResult(GameObject go, ItemConfig item, int quantity = 1)
     {
         Go = go;
         Item = item;

@@ -8,13 +8,13 @@ public class MainMenuControllerView : UIWindowBase
     [SerializeField] private Button _settingButton;
     [SerializeField] private Button _extButton;
 
-    private SignalBus _signalBus;
+    private MainMenuModel _mainMenuModel;
 
     [Inject]
     private void Init(
-        SignalBus signalBus)
+        MainMenuModel mainMenuModel)
     {
-        _signalBus = signalBus;
+        _mainMenuModel = mainMenuModel;
     }
 
     private void Awake()
@@ -26,17 +26,17 @@ public class MainMenuControllerView : UIWindowBase
 
     private void OnNewGameButtonClicked()
     {
-        _signalBus.Fire(new LoadSceneSignal(Dicts.Scenes.Island));
+        _mainMenuModel.OnNewGameClick?.Invoke();
     }
 
     private void OnSettingButtonClicked()
     {
-
+        _mainMenuModel.OnSettingClick?.Invoke();
     }
 
     private void OnExitButtonClicked()
     {
-
+        _mainMenuModel.OnExitClick?.Invoke();
     }
 
     private void OnDestroy()

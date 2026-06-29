@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd0acf6b40a55d418e8961484af5a3c, type: 3}
-  m_Name: Demo Item Data
-  m_EditorClassIdentifier: Common::ItemData
-  ItemName: Demo Item 1
+  m_Script: {fileID: 11500000, guid: 20dc2eb907d541a4192fb9c10e49cf48, type: 3}
+  m_Name: Item Config
+  m_EditorClassIdentifier: Common::ItemConfig
+  ItemName: Demo Item
   Icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  Description: Desc item 1
+  Description: Item desc

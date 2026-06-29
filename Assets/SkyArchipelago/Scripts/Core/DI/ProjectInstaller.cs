@@ -9,8 +9,9 @@ public class ProjectInstaller : MonoInstaller
     [SerializeField] private SystemSO _systemSO;
     [SerializeField] private DayNightSO _dayNightSO;
     [SerializeField] private BuildFPSStateConfig _buildFPSState;
+    [SerializeField] private CatalogIslandConfigs _catalogIslandConfigs;
+    [SerializeField] private WorldGeneratorConfig _worldGeneratorConfig;
     
-
     [Header("MonoBehaviours")]
     [SerializeField] private CoroutineRunner _coroutineRunner;
 
@@ -31,6 +32,8 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInstance(_playerConfig).AsSingle();
         Container.BindInstance(_systemSO).AsSingle();
         Container.BindInstance(_dayNightSO).AsSingle();
+        Container.BindInstance(_catalogIslandConfigs).AsSingle();
+        Container.BindInstance(_worldGeneratorConfig).AsSingle();
     }
 
     private void InstallBrefabs()
@@ -41,6 +44,7 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallModels()
     {
+        Container.Bind<MainMenuModel>().AsSingle();
         Container.Bind<FPSCommonModel>().AsSingle();
         Container.Bind<BuildingModel>().AsSingle();
         Container.Bind<DialogModel>().AsSingle();
@@ -52,14 +56,19 @@ public class ProjectInstaller : MonoInstaller
         //Common
         Container.BindInterfacesAndSelfTo<HinterService>().AsSingle();
         Container.BindInterfacesAndSelfTo<PointsRepository>().AsSingle();
-        
+
+        Container.BindInterfacesAndSelfTo<DataService>().AsSingle();
+
         Container.BindInterfacesAndSelfTo<CursorService>().AsSingle();
         Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
         Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
         Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
         Container.BindInterfacesAndSelfTo<PlayerInteractionService>().AsSingle();
         Container.BindInterfacesAndSelfTo<InteractionHandlerService>().AsSingle();
-
+        
+        Container.BindInterfacesAndSelfTo<MachingCubesMeshGenerator>().AsSingle();
+        Container.BindInterfacesAndSelfTo<WorldGeneratorService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<WorldShowerService>().AsSingle();
         Container.BindInterfacesAndSelfTo<GameplayStateService>().AsSingle();
         Container.BindInterfacesAndSelfTo<UIViewCoordinator>().AsSingle();
 
@@ -74,6 +83,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<BattleFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<BuildingFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<DialogMenuState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<LaunchWorldState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainMenuState>().AsSingle();
         Container.BindInterfacesAndSelfTo<ManagerMenuState>().AsSingle();
@@ -97,11 +107,12 @@ public class ProjectInstaller : MonoInstaller
     private void InstallSignals()
     {
         SignalBusInstaller.Install(Container);
-
+        
         Container.DeclareSignal<TimeUpdateSignal>();
         Container.DeclareSignal<TimeSecondSignal>();
         Container.DeclareSignal<LoadSceneSignal>();
         Container.DeclareSignal<SceneLoadedSignal>();
+        Container.DeclareSignal<SceneInstalledSignal>();
         Container.DeclareSignal<SceneLoadingProgressSignal>();
 
         Container.DeclareSignal<LaunchSpawnPointSignal>();

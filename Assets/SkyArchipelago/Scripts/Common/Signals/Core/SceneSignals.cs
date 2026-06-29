@@ -24,6 +24,11 @@ public struct SceneLoadedSignal
     }
 }
 
+public struct SceneInstalledSignal
+{
+
+}
+
 public struct SceneLoadingProgressSignal
 {
     public float Progress { get; }

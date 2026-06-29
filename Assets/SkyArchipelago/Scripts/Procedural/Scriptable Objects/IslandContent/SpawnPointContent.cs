@@ -14,7 +14,6 @@ public class SpawnPointContent : IslandContentItem
 //        float maxY = controller.GetHighestPoint();
 
         Vector3 pos = controller.transform.position + positionOffset;
-  //      pos.y = maxY + 3f;
 
         spawnPointReference.position = pos;
         spawnPointReference.rotation = Quaternion.Euler(rotationOffset);

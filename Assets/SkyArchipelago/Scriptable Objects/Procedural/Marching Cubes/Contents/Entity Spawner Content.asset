@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2228cf182916149862dfab9de63860, type: 3}
   m_Name: Entity Spawner Content
   m_EditorClassIdentifier: Procedural::EntitySpawnerContent
-  name: TestPoint
+  ContentName: New Content
   IsCuttingWeight: 1
   smoothK: 1
   positionOffset: {x: 0, y: 9, z: 0}

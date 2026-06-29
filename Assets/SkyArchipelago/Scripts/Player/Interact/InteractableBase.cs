@@ -6,11 +6,13 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
     [SerializeField] protected string _interactionPrompt = "Взаимодействовать";
     [SerializeField] protected float _maxInteractionDistance = 3f;
 
+    private EntityModel _model;
     protected bool _isFocused = false;
 
     public string InteractionPrompt => _interactionPrompt;
     public float MaxInteractionDistance => _maxInteractionDistance;
     public virtual bool CanInteract => true;
+    public EntityModel GetModel => _model;//or from other component
 
     public virtual void OnFocusEnter()
     {
@@ -28,5 +30,11 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
     public bool IsInRange(Vector3 playerPosition)
     {
         return Vector3.Distance(playerPosition, transform.position) <= _maxInteractionDistance;
+    }
+
+    public bool TryInteract(out EntityModel model)
+    {
+        model = GetModel;
+        return true;
     }
 }

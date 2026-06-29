@@ -2,13 +2,14 @@
     "name": "Core",
     "rootNamespace": "",
     "references": [
-        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
-        "GUID:5d37b4adc7b7b404fb57c2dd3bfdace8",
-        "GUID:7d5c6efe40b599d44917e229db593d19",
+        "GUID:d99d4ba04b506ae45b52636301fcc832",
+        "GUID:38b146cc0298cf74f986844535027a89",
         "GUID:f345bb74b57121947828f2db1869ff43",
         "GUID:4b71c2e79c379f24caf2a0472c2c098d",
-        "GUID:d99d4ba04b506ae45b52636301fcc832",
-        "GUID:7e99792988fb79a4b8ae1227e82b875c"
+        "GUID:5d37b4adc7b7b404fb57c2dd3bfdace8",
+        "GUID:7d5c6efe40b599d44917e229db593d19",
+        "GUID:7e99792988fb79a4b8ae1227e82b875c",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e8c0ebd5fd115479892edf2584cd75, type: 3}
   m_Name: Marching Cubes Config
   m_EditorClassIdentifier: Procedural::MarchingCubesConfig
-  gridSize: {x: 48, y: 32, z: 48}
+  gridSize: {x: 40, y: 32, z: 32}
   cellSize: 1
   globalSeed: 1000000
   shapes:
@@ -37,8 +37,8 @@ MonoBehaviour:
   surfaceLevel: -0.01
   layers:
   - Color: {r: 0, g: 1, b: 0, a: 1}
-    Height: 23
+    Height: 15
   - Color: {r: 0.18490559, g: 0.116688, b: 0, a: 1}
-    Height: 21
+    Height: 13
   - Color: {r: 0.23773581, g: 0.23773581, b: 0.23773581, a: 1}
-    Height: 17
+    Height: 10

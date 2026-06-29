@@ -38,6 +38,9 @@ public class SceneLoadingService : IInitializable, IDisposable
             case Dicts.Scenes.Menu:
                 _gameplayStateService.SetState<MainMenuState>();
                 break;
+            case Dicts.Scenes.Island:
+                _gameplayStateService.SetState<LaunchWorldState>();
+                break;
         }
     }
 
