@@ -1,7 +1,7 @@
 using System;
 using Zenject;
 
-public class GameplayStateService : IInitializable, ITickable, IDisposable
+public class GameplayStateService : IInitializable, ITickable, IFixedTickable, IDisposable
 {   
     private readonly DiContainer _container;
     private readonly SignalBus _signalBus;
@@ -28,17 +28,17 @@ public class GameplayStateService : IInitializable, ITickable, IDisposable
 
     public void Initialize()
     {
-        _signalBus.Subscribe<LaunchSpawnPointSignal>(OnHandle);
-    }
 
-    private void OnHandle(LaunchSpawnPointSignal launchSpawnPoint)
-    {
-//        SetState<MainFPSState>();
     }
 
     public void Tick()
     {
         _currentState?.StateRun();
+    }
+
+    public void FixedTick()
+    {
+        _currentState?.StateFixedRun();
     }
 
     public void SetState<T>() where T : BaseGameplayState
@@ -65,6 +65,6 @@ public class GameplayStateService : IInitializable, ITickable, IDisposable
 
     public void Dispose()
     {
-        _signalBus.Unsubscribe<LaunchSpawnPointSignal>(OnHandle);
+
     }
 }

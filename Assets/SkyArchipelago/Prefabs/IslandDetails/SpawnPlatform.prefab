@@ -640,7 +640,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1002893605012329387}
-  - component: {fileID: 644367851620914922}
   m_Layer: 0
   m_Name: SpawnPlatform
   m_TagString: Untagged
@@ -665,19 +664,6 @@ Transform:
   - {fileID: 7802285469897734715}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &644367851620914922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8493206605328209921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0552982cefe4ead44bdf17f42c9389db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: World::DetailOfIslandMB
-  _spawnPoint: {fileID: 1364212343125439585}
 --- !u!1 &9135690065944031695
 GameObject:
   m_ObjectHideFlags: 0

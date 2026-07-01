@@ -20,6 +20,11 @@ public abstract class BaseGameplayState : ISourceHint, IInputProviderContainer, 
 
     }
 
+    public virtual void StateFixedRun()
+    {
+
+    }
+
     public virtual void StateOff()
     {
 

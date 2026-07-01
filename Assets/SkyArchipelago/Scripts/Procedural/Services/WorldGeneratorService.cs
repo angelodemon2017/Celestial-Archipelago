@@ -164,7 +164,7 @@ public class WorldGeneratorService
     {
         foreach (var newEnt in config.contentItems)
         {
-            var newEntity = EntityMap.CreateData(newEnt.eEntityType);
+            var newEntity = EntityMap.CreateData(newEnt.ModelConfig.eEntityType);
             newEntity.position = island.Position + newEnt.positionOffset;
             newEntity.rotation = Quaternion.Euler(newEnt.rotationOffset);
             island.entities.AddNewData(newEntity);

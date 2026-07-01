@@ -19,21 +19,21 @@ public class BuildingFPSState : BaseFPSState<GameplayControllerView>
         FPSCommonModel fPSCommonModel,
         BuildingModel buildingModel,
         UIViewCoordinator uIViewCoordinator,
-        PointsRepository pointsRepository,
         GameplayStateService gameplayStateService,
         RaycastService raycastService,
         CameraService cameraService,
         EntityRuntimeService entityRuntimeService,
-        PlayerInteractionService playerInteractionService) :
+        PlayerInteractionService playerInteractionService,
+        WorldShowerService worldShowerService) :
         base(
             container,
             playerConfig,
             fPSCommonModel,
-            pointsRepository,
             raycastService,
             cameraService,
             entityRuntimeService,
             playerInteractionService,
+            worldShowerService,
             uIViewCoordinator)
     {
         _buildingModel = buildingModel;

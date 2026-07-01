@@ -43,11 +43,18 @@ public class WorldShowerService
 
         foreach (var model in _entityRuntimeService.AllModels)
         {
-            var view = GameObject.Instantiate(_catalogEntityConfig.entityViewMB, model.Position, model.Rotation);
-            var itemConf = _catalogEntityConfig.GetItemByType(model.EntType);
-            var viewModel = GameObject.Instantiate(itemConf.ViewModelPrefab);
-            view.InitAndUpdate(model, viewModel);
-            _entityViewMBs.Add(view);
+            ShowModel(model);
         }
+    }
+
+    public EntityViewMB ShowModel(EntityModel model)
+    {
+        var view = GameObject.Instantiate(_catalogEntityConfig.entityViewMB, model.Position, model.Rotation);//TODO fabric
+        var itemConf = _catalogEntityConfig.GetModelConfigByType(model.EntType);
+        var viewModel = GameObject.Instantiate(itemConf.ViewModelPrefab);//TODO fabric
+        view.InitAndUpdate(model, viewModel);
+        _entityViewMBs.Add(view);
+
+        return view;
     }
 }

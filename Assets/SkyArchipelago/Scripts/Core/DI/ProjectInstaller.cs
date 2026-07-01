@@ -57,7 +57,6 @@ public class ProjectInstaller : MonoInstaller
     {
         //Common
         Container.BindInterfacesAndSelfTo<HinterService>().AsSingle();
-        Container.BindInterfacesAndSelfTo<PointsRepository>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<DataService>().AsSingle();
         Container.BindInterfacesAndSelfTo<EntityRuntimeService>().AsSingle();
@@ -117,7 +116,5 @@ public class ProjectInstaller : MonoInstaller
         Container.DeclareSignal<SceneLoadedSignal>();
         Container.DeclareSignal<SceneInstalledSignal>();
         Container.DeclareSignal<SceneLoadingProgressSignal>();
-
-        Container.DeclareSignal<LaunchSpawnPointSignal>();
     }
 }

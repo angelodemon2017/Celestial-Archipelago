@@ -5,12 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Catalog Entity Configs")]
 public class CatalogEntityConfig : ScriptableObject
 {
-    public List<IslandContentItem> AllContents;
+    public List<ModelConfig> AllModels;
 
     public EntityViewMB entityViewMB;
 
-    public IslandContentItem GetItemByType(EEntityType eEntityType)
+    public ModelConfig GetModelConfigByType(EEntityType eEntityType)
     {
-        return AllContents.FirstOrDefault(c => c.eEntityType == eEntityType);
+        return AllModels.FirstOrDefault(c => c.eEntityType == eEntityType);
     }
 }

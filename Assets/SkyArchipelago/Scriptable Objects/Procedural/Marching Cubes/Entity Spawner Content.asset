@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc2228cf182916149862dfab9de63860, type: 3}
   m_Name: Entity Spawner Content
   m_EditorClassIdentifier: Procedural::EntitySpawnerContent
-  eEntityType: 1
-  ContentName: SpawnPoint
   IsCuttingWeight: 1
   smoothK: 1
   positionOffset: {x: 0, y: 9, z: 0}
   rotationOffset: {x: 0, y: 0, z: 0}
-  ViewModelPrefab: {fileID: 8493206605328209921, guid: c22c6f583c6a3844b9448d0817309a77, type: 3}
-  spawnItemPrefab: {fileID: 644367851620914922, guid: c22c6f583c6a3844b9448d0817309a77, type: 3}
+  ModelConfig: {fileID: 11400000, guid: f1b7ee15618572c498fc801ce0f58f66, type: 2}
   cutRadius: 1

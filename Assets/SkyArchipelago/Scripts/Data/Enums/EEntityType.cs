@@ -2,7 +2,8 @@
 {
     None = 0,
     SpawnPoint = 1,
-    ResourceEntity = 2,
-    BuildingEntity = 3,
-    NPCEntity = 4,
+    Player = 2,
+    ResourceEntity = 100,
+    BuildingEntity = 101,
+    NPCEntity = 102,
 }

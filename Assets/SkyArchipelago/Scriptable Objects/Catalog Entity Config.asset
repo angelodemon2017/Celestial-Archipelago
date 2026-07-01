@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Procedural::CatalogEntityConfig
   AllContents:
   - {fileID: 11400000, guid: 054a4aedb0e6d1449b60978aed096c50, type: 2}
+  - {fileID: 11400000, guid: 640efc77551b4b248a1c5aa8a4cb963f, type: 2}
+  AllModels:
+  - {fileID: 11400000, guid: e1eae2b1c4a083f418c2cca8884c80b0, type: 2}
+  - {fileID: 11400000, guid: f1b7ee15618572c498fc801ce0f58f66, type: 2}
   entityViewMB: {fileID: 6609702336274072746, guid: 3089bde7b33bd7b4d8fb34ae78ed3c7f, type: 3}
