@@ -10,6 +10,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
     private readonly PointsRepository _pointsRepository;
     private readonly RaycastService _raycastService;
     private readonly CameraService _cameraService;
+    private readonly EntityRuntimeService _entityRuntimeService;
     protected readonly PlayerInteractionService _playerInteractionService;
 
     private FPSCommonModel _fPSCommonModel;
@@ -25,6 +26,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         PointsRepository pointsRepository,
         RaycastService raycastService,
         CameraService cameraService,
+        EntityRuntimeService entityRuntimeService,
         PlayerInteractionService playerInteractionService,
         UIViewCoordinator uIViewCoordinator)
         : base(uIViewCoordinator)
@@ -35,6 +37,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         _pointsRepository = pointsRepository;
         _raycastService = raycastService;
         _cameraService = cameraService;
+        _entityRuntimeService = entityRuntimeService;
         _playerInteractionService = playerInteractionService;
     }
 
@@ -65,7 +68,9 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         if (_fPSCommonModel.LocalPlayerController != null)
             return;
 
-        var spawnPoint = _pointsRepository.GetPoint();
+        var sps = _entityRuntimeService.GetModelsByType<SpawnPointModel>();
+
+        var spawnPoint = sps[0].SpawnPoint;
 
         _fPSCommonModel.LocalPlayerController = GameObject.Instantiate(_playerConfig.PlayerControllerPrefab,
             spawnPoint, Quaternion.identity, null);

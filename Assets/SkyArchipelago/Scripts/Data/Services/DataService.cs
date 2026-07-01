@@ -9,6 +9,7 @@ public class DataService
 
     public int GetSeed => _worldData.Seed;
     public (int, int) GetCurrentChunk => (0, 0);
+    public List<IslandData> GetAllIslands => _worldData.StaticIslands.Datas;
 
     public DataService()
     {

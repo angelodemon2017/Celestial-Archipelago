@@ -33,7 +33,7 @@ public class GameplayStateService : IInitializable, ITickable, IDisposable
 
     private void OnHandle(LaunchSpawnPointSignal launchSpawnPoint)
     {
-        SetState<MainFPSState>();
+//        SetState<MainFPSState>();
     }
 
     public void Tick()

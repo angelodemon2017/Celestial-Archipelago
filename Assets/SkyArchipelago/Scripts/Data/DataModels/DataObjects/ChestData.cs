@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class ChestData : BaseData
+public class ChestData : EntityData
 {
     protected int ContainerId;
 }

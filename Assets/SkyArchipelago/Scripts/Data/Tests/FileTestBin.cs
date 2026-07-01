@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using UnityEngine;
-using System.Collections.Generic;
 
 public class FileTestBin : MonoBehaviour
 {
@@ -27,7 +26,6 @@ public class FileTestBin : MonoBehaviour
         }
 
         IslandData loadedIsland = LoadBinary();
-        PrintLoadedData(loadedIsland);
     }
 
     private void SaveBinary(IslandData island)
@@ -36,13 +34,13 @@ public class FileTestBin : MonoBehaviour
         {
             using (var writer = new BinaryWriter(memoryStream))
             {
-                /*                writer.Write(island.Id);
-                                writer.Write(island.entities.Count);
+                writer.Write(island.Id);
+                writer.Write(island.entities.Datas.Count);
 
-                                foreach (var entity in island.entities)
-                                {
-                                    WriteEntity(writer, entity);
-                                }/**/
+                foreach (var entity in island.entities.Datas)
+                {
+                    entity.SaveToBinary(writer);
+                }
             }
 
             // Сжимаем
@@ -67,120 +65,22 @@ public class FileTestBin : MonoBehaviour
             };
 
             int count = reader.ReadInt32();
-/*            island.entities = new List<EntityData>(count);
 
             for (int i = 0; i < count; i++)
             {
-                EntityData entity = ReadEntity(reader);
+                EEntityType type = (EEntityType)reader.ReadInt32();
+                EntityData entity = EntityMap.CreateData(type);
+                entity.LoadFromBinary(reader);
+                Debug.Log($"Loaded entity:{entity.DebugLog}");
                 if (entity != null)
-                    island.entities.Add(entity);
-            }/**/
+                    island.entities.AddNewData(entity);
+            }
 
             return island;
         }
     }
 
-    // ====================== Сериализация сущностей ======================
-    private void WriteEntity(BinaryWriter writer, EntityData entity)
-    {
-        writer.Write(entity.type ?? "");
-        writer.Write(entity.Id);
-        WriteVector3(writer, entity.position);
-        WriteQuaternion(writer, entity.rotation);
-
-        switch (entity.type)
-        {
-            case "Resource":
-                var res = (ResourceEntityData)entity;
-                writer.Write(res.resourceType ?? "");
-                writer.Write(res.quantity);
-                break;
-
-            case "Building":
-                var build = (BuildingEntityData)entity;
-                writer.Write(build.buildingType ?? "");
-                writer.Write(build.level);
-                break;
-
-            case "NPC":
-                var npc = (NPCEntityData)entity;
-                writer.Write(npc.npcId ?? "");
-                writer.Write(npc.npcName ?? "");
-                writer.Write(npc.dialogueId ?? "");
-                break;
-        }
-    }
-
-    private EntityData ReadEntity(BinaryReader reader)
-    {
-        string type = reader.ReadString();
-        int id = reader.ReadInt32();
-        Vector3 pos = ReadVector3(reader);
-        Quaternion rot = ReadQuaternion(reader);
-
-        EntityData entity = type switch
-        {
-            "Resource" => new ResourceEntityData(),
-            "Building" => new BuildingEntityData(),
-            "NPC" => new NPCEntityData(),
-            _ => new EntityData()
-        };
-
-        entity.Id = id;
-        entity.type = type;
-        entity.position = pos;
-        entity.rotation = rot;
-
-        switch (type)
-        {
-            case "Resource":
-                var res = (ResourceEntityData)entity;
-                res.resourceType = reader.ReadString();
-                res.quantity = reader.ReadInt32();
-                break;
-
-            case "Building":
-                var build = (BuildingEntityData)entity;
-                build.buildingType = reader.ReadString();
-                build.level = reader.ReadInt32();
-                break;
-
-            case "NPC":
-                var npc = (NPCEntityData)entity;
-                npc.npcId = reader.ReadString();
-                npc.npcName = reader.ReadString();
-                npc.dialogueId = reader.ReadString();
-                break;
-        }
-
-        return entity;
-    }
-
     // ====================== Вспомогательные методы ======================
-    private void WriteVector3(BinaryWriter writer, Vector3 v)
-    {
-        writer.Write(v.x);
-        writer.Write(v.y);
-        writer.Write(v.z);
-    }
-
-    private Vector3 ReadVector3(BinaryReader reader)
-    {
-        return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
-    }
-
-    private void WriteQuaternion(BinaryWriter writer, Quaternion q)
-    {
-        writer.Write(q.x);
-        writer.Write(q.y);
-        writer.Write(q.z);
-        writer.Write(q.w);
-    }
-
-    private Quaternion ReadQuaternion(BinaryReader reader)
-    {
-        return new Quaternion(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
-    }
 
     private byte[] Compress(byte[] data)
     {
@@ -201,49 +101,25 @@ public class FileTestBin : MonoBehaviour
         return result.ToArray();
     }
 
-    private void PrintLoadedData(IslandData island)
-    {
-//        Debug.Log($"✅ Загружено {island.entities.Count} сущностей:");
-
-/*        foreach (var entity in island.entities)
-        {
-            switch (entity.type)
-            {
-                case "Resource":
-                    var r = (ResourceEntityData)entity;
-                    Debug.Log($"   • [Resource] {r.resourceType} x{r.quantity} | pos: {r.position}");
-                    break;
-                case "Building":
-                    var b = (BuildingEntityData)entity;
-                    Debug.Log($"   • [Building] {b.buildingType} (lvl {b.level}) | pos: {b.position}");
-                    break;
-                case "NPC":
-                    var n = (NPCEntityData)entity;
-                    Debug.Log($"   • [NPC] {n.npcName} ({n.npcId}) | pos: {n.position}");
-                    break;
-            }
-        }/**/
-    }
-
     private IslandData CreateTestIslandData()
     {
         var island = new IslandData();
 
-/*        island.entities.Add(new ResourceEntityData
+        island.entities.AddNewData(new ResourceEntityData
         {
             resourceType = "Wood",
             quantity = 250,
             position = new Vector3(10, 0, 15)
         });
 
-        island.entities.Add(new ResourceEntityData
+        island.entities.AddNewData(new ResourceEntityData
         {
             resourceType = "Stone",
             quantity = 360,
             position = new Vector3(1, 0, 5)
         });
 
-        island.entities.Add(new BuildingEntityData
+        island.entities.AddNewData(new BuildingEntityData
         {
             buildingType = "House",
             level = 2,
@@ -251,7 +127,7 @@ public class FileTestBin : MonoBehaviour
             rotation = Quaternion.Euler(0, 45, 0)
         });
 
-        island.entities.Add(new NPCEntityData
+        island.entities.AddNewData(new NPCEntityData
         {
             npcId = "merchant_01",
             npcName = "Торговец Карл",

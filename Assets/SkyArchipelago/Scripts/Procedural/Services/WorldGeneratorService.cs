@@ -29,29 +29,31 @@ public class WorldGeneratorService
 
         if (x == 0 && y == 0)
         {
-            cashIslands.Add(GenStartIsland(_catalogConfig.StartIslandConfig, new Vector3(0f, 0f, 0f)));
+            cashIslands.Add(GenIsland(_catalogConfig.StartIslandConfig, new Vector3(0f, 0f, 0f)));
         }
 
+        //===============TEST ISLAND RING==========================================
         var radians = 360 / _worldGeneratorConfig.CountTestIslands * Mathf.Deg2Rad;
         var radius = _worldGeneratorConfig.RadiusTestIslands;
         for (int i = 0; i < _worldGeneratorConfig.CountTestIslands; i++)
         {
             var radPos = new Vector3(radius * Mathf.Cos(radians * i), 0f, radius * Mathf.Sin(radians * i));
-            var island = GenStartIsland(_catalogConfig.TestIslands[0], radPos);
+            var island = GenIsland(_catalogConfig.TestIslands[0], radPos);
             cashIslands.Add(island);
         }
+        //=========================================================================
 
         _dataService.SetChunk(x, y, cashIslands);
     }
 
-    private IslandData GenStartIsland(MarchingCubesConfigSO _config, Vector3 position)
+    private IslandData GenIsland(MarchingCubesConfigSO config, Vector3 position)
     {
         IslandData resultIsland = new IslandData();
-
         int seed = _dataService.GetSeed + (int)position.x - (int)position.z;
-        resultIsland.ConfigId = _config.IdConfig;
+
+        resultIsland.ConfigId = config.IdConfig;
         resultIsland.Position = position;
-        var gs = _config.gridSize;
+        var gs = config.gridSize;
         var tempdensity = new float[gs.x, gs.y, gs.z];
 
         for (int x = 0; x < gs.x; x++)
@@ -61,14 +63,14 @@ public class WorldGeneratorService
                     Vector3 pos = new Vector3(x, y, z);
                     float value = -1000f;
 
-                    foreach (var instance in _config.shapes)
+                    foreach (var instance in config.shapes)
                     {
                         float shapeValue = instance.shape.GetShape.Evaluate(pos + instance.shapeOffset, gs, seed);
 
                         value = ApplyOperation(value, shapeValue, instance.operation, instance.smoothK);
                     }
 
-                    foreach (var cont in _config.contentItems)
+                    foreach (var cont in config.contentItems)
                     {
                         if (!cont.IsCuttingWeight)
                             continue;
@@ -85,7 +87,9 @@ public class WorldGeneratorService
         resultIsland.density = ClampEmptyBorder(tempdensity,
             out Vector3Int offset, out resultIsland.IslandSize);
 
-        resultIsland.Center = -(_config.gridSize / 2 - offset);
+        resultIsland.Center = -(config.gridSize / 2 - offset);
+
+        GenEntities(ref resultIsland, config, seed);
 
         return resultIsland;
     }
@@ -154,6 +158,17 @@ public class WorldGeneratorService
         size.z = nd;
 
         return result;
+    }
+
+    private void GenEntities(ref IslandData island, MarchingCubesConfigSO config, int seed)
+    {
+        foreach (var newEnt in config.contentItems)
+        {
+            var newEntity = EntityMap.CreateData(newEnt.eEntityType);
+            newEntity.position = island.Position + newEnt.positionOffset;
+            newEntity.rotation = Quaternion.Euler(newEnt.rotationOffset);
+            island.entities.AddNewData(newEntity);
+        }
     }
 
     private float ApplyOperation(float a, float b, ShapeOperation op, float k)

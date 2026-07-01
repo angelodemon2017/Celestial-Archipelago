@@ -3,6 +3,7 @@ using Zenject;
 
 public abstract class IslandContentItem : ScriptableObject
 {
+    public EEntityType eEntityType;
     public string ContentName = "New Content";
     public bool IsCuttingWeight = false;
     [Tooltip("Насколько сильно сглаживать края вырезания")]
@@ -11,6 +12,7 @@ public abstract class IslandContentItem : ScriptableObject
     [Header("Common Settings")]
     public Vector3Int positionOffset = Vector3Int.zero;
     public Vector3 rotationOffset = Vector3.zero;
+    public GameObject ViewModelPrefab;
 
     public abstract void Process(MarchingCubesGeneratorController controller, DiContainer diContainer);
 

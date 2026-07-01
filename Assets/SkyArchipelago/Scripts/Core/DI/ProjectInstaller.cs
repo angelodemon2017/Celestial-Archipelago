@@ -10,6 +10,7 @@ public class ProjectInstaller : MonoInstaller
     [SerializeField] private DayNightSO _dayNightSO;
     [SerializeField] private BuildFPSStateConfig _buildFPSState;
     [SerializeField] private CatalogIslandConfigs _catalogIslandConfigs;
+    [SerializeField] private CatalogEntityConfig _catalogEntityConfig;
     [SerializeField] private WorldGeneratorConfig _worldGeneratorConfig;
     
     [Header("MonoBehaviours")]
@@ -33,6 +34,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInstance(_systemSO).AsSingle();
         Container.BindInstance(_dayNightSO).AsSingle();
         Container.BindInstance(_catalogIslandConfigs).AsSingle();
+        Container.BindInstance(_catalogEntityConfig).AsSingle();
         Container.BindInstance(_worldGeneratorConfig).AsSingle();
     }
 
@@ -58,6 +60,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<PointsRepository>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<DataService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<EntityRuntimeService>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<CursorService>().AsSingle();
         Container.BindInterfacesAndSelfTo<InputService>().AsSingle();

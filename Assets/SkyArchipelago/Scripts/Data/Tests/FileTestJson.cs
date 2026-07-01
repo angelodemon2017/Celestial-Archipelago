@@ -18,7 +18,7 @@ public class FileTestJson : MonoBehaviour
         var saveWrapper = new IslandSaveWrapper
         {
             id = $"{island.Id}",
-            type = island.type,
+            type = (int)island.EntityType,
             entitiesJson = new List<string>()
         };
 
@@ -53,9 +53,9 @@ public class FileTestJson : MonoBehaviour
             // Сначала десериализуем как базовый, чтобы узнать тип
             EntityData baseEntity = JsonUtility.FromJson<EntityData>(entityJson);
 
-            EntityData entity = DeserializeByType(baseEntity.type, entityJson);
+            EntityData entity = DeserializeByType(baseEntity.EntityType, entityJson);
 
-            switch (entity.type)
+/*            switch (entity.type)
             {
                 case "Resource":
                     var resource = (ResourceEntityData)entity;
@@ -75,7 +75,7 @@ public class FileTestJson : MonoBehaviour
                 default:
                     Debug.Log($"   • [Unknown] type: {entity.type} | id: {entity.Id}");
                     break;
-            }
+            }/**/
         }
     }
 
@@ -113,17 +113,17 @@ public class FileTestJson : MonoBehaviour
     private class IslandSaveWrapper
     {
         public string id;
-        public string type;
+        public int type;
         public List<string> entitiesJson = new List<string>();
     }
 
-    private EntityData DeserializeByType(string type, string json)
+    private EntityData DeserializeByType(EEntityType type, string json)
     {
         switch (type)
         {
-            case "Resource": return JsonUtility.FromJson<ResourceEntityData>(json);
-            case "Building": return JsonUtility.FromJson<BuildingEntityData>(json);
-            case "NPC": return JsonUtility.FromJson<NPCEntityData>(json);
+            case EEntityType.ResourceEntity: return JsonUtility.FromJson<ResourceEntityData>(json);
+            case EEntityType.BuildingEntity: return JsonUtility.FromJson<BuildingEntityData>(json);
+            case EEntityType.NPCEntity: return JsonUtility.FromJson<NPCEntityData>(json);
             default: return JsonUtility.FromJson<EntityData>(json);
         }
     }

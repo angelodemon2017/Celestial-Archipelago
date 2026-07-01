@@ -81,6 +81,7 @@ MonoBehaviour:
   _dayNightSO: {fileID: 11400000, guid: 0df5db97dcde56c4d8ecd56e809b5143, type: 2}
   _buildFPSState: {fileID: 11400000, guid: c7907478cac3b104e878a985a4213dda, type: 2}
   _catalogIslandConfigs: {fileID: 11400000, guid: b6c4dd83930c6854c97ae03b0d2f4bdf, type: 2}
+  _catalogEntityConfig: {fileID: 11400000, guid: 1563b1993c356b74c8ef3dd8526cc802, type: 2}
   _worldGeneratorConfig: {fileID: 11400000, guid: 331415035ed64f54ab8aa14b6bfbfe99, type: 2}
   _coroutineRunner: {fileID: 4963991494058231926}
 --- !u!114 &4963991494058231926

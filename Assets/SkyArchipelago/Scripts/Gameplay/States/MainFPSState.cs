@@ -19,6 +19,7 @@ public class MainFPSState : BaseFPSState<GameplayControllerView>
         GameplayStateService gameplayStateService,
         RaycastService raycastService,
         CameraService cameraService,
+        EntityRuntimeService entityRuntimeService,
         PlayerInteractionService playerInteractionService) :
         base (
             container,
@@ -27,6 +28,7 @@ public class MainFPSState : BaseFPSState<GameplayControllerView>
             pointsRepository,
             raycastService,
             cameraService,
+            entityRuntimeService,
             playerInteractionService,
             uIViewCoordinator)
     {
