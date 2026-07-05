@@ -79,15 +79,15 @@ public class MarchingCubesGeneratorController : MonoBehaviour
                         value = ApplyOperation(value, shapeValue, instance.operation, instance.smoothK);
                     }
 
-                    foreach (var cont in config.contentItems)
+                    foreach (var cont in config.contentInstances)
                     {
-                        if (!cont.IsCuttingWeight)
+                        if (!cont.Entity.IsCuttingWeight)
                             continue;
 
-                        if (cont.TryGetDensityInfluence(pos, gs, GetRndSeed(), out float contValue))
+                        if (cont.Entity.TryGetDensityInfluence(pos, gs, cont.positionOffset, GetRndSeed(), out float contValue))
                         {
 //                            Debug.Log($"Try appl Density {contValue} in {pos}");
-                            value = SmoothSubtraction(value, -contValue, cont.smoothK);
+                            value = SmoothSubtraction(value, -contValue, cont.Entity.smoothK);
                         }
                     }
 
@@ -330,10 +330,9 @@ public class MarchingCubesGeneratorController : MonoBehaviour
 
     private void ProcessContentItems()
     {
-        foreach (var item in config.contentItems)
+        foreach (var item in config.contentInstances)
         {
-            if (item != null)
-                item.Process(this, _diContainer);
+            //show debug content
         }
     }
 
@@ -363,10 +362,10 @@ public class MarchingCubesGeneratorController : MonoBehaviour
         gizCol.a = transparent;
         Gizmos.color = gizCol;
 
-        foreach (var cont in config.contentItems)
+        foreach (var cont in config.contentInstances)
         {
-            var centr = cont.GetOffsetBound() + transform.position;
-            Gizmos.DrawCube(centr, cont.GetSizeBound());
+            var centr = cont.positionOffset + transform.position;
+            Gizmos.DrawCube(centr, cont.Entity.GetSizeBound());
         }
     }
 }

@@ -17,6 +17,7 @@ public class MarchingCubesConfigSO : ScriptableObject
 
     [Header("Content")]
     public List<IslandContentItem> contentItems;
+    public List<ContentInstance> contentInstances = new();
 
     [Header("Marching Cubes")]
     public float surfaceLevel = 0f;

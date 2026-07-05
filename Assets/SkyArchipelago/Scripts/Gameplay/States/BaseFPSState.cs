@@ -13,6 +13,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
     private readonly WorldShowerService _worldShowerService;
     protected readonly PlayerInteractionService _playerInteractionService;
 
+    private EntityViewMB LocalPlayerView;
     private FPSCommonModel _fPSCommonModel;
 
     public override string GetHint => _playerInteractionService.GetHint;
@@ -58,13 +59,13 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
 
     private void SetPlayerController()
     {
-        _cameraService.AttachTo(_fPSCommonModel.LocalPlayerView.transform, Vector3.up);
+        _cameraService.AttachTo(LocalPlayerView.transform, Vector3.up);
         InputProviderUpdated?.Invoke();
     }
 
     private void CheckPlayerController()
     {
-        if (_fPSCommonModel.LocalPlayerView != null)
+        if (LocalPlayerView != null)
             return;
 
         var players = _entityRuntimeService.GetModelsByType<PlayerModel>();
@@ -72,7 +73,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         {
             if (p.PlayerId == _fPSCommonModel.PlayerName)
             {
-                _fPSCommonModel.LocalPlayerModel = p;
+                _fPSCommonModel.SetPlModel(p);
                 return;
             }
         }
@@ -82,10 +83,10 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         var playerData = new PlayerData(_fPSCommonModel.PlayerName);
         playerData.position = spawnPoint;
         playerData.rotation = sps[0].Rotation;
-        _fPSCommonModel.LocalPlayerModel = (PlayerModel)playerData.CreateModel();
+        _fPSCommonModel.SetPlModel((PlayerModel)playerData.CreateModel());
         _entityRuntimeService.AddModel(_fPSCommonModel.LocalPlayerModel);
 
-        _fPSCommonModel.LocalPlayerView = _worldShowerService.ShowModel(_fPSCommonModel.LocalPlayerModel);
+        LocalPlayerView = _worldShowerService.ShowModel(_fPSCommonModel.LocalPlayerModel);
     }
 
     public override void StateOff()
@@ -102,17 +103,17 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
 
     public override void StateFixedRun()
     {
-        Vector3 moveDirection = _fPSCommonModel.LocalPlayerView.transform.right * _fPSCommonModel.CurrentMoveInput.x +
-            _fPSCommonModel.LocalPlayerView.transform.forward * _fPSCommonModel.CurrentMoveInput.y;
+        Vector3 moveDirection = LocalPlayerView.transform.right * _fPSCommonModel.CurrentMoveInput.x +
+            LocalPlayerView.transform.forward * _fPSCommonModel.CurrentMoveInput.y;
         Vector3 targetVelocity = moveDirection.normalized * _fPSCommonModel.LocalPlayerModel.MoveSpeed;
-        targetVelocity.y = _fPSCommonModel.LocalPlayerView.RB.linearVelocity.y;
+        targetVelocity.y = LocalPlayerView.RB.linearVelocity.y;
 
-        _fPSCommonModel.LocalPlayerView.RB.linearVelocity = targetVelocity;
+        LocalPlayerView.RB.linearVelocity = targetVelocity;
     }
 
     public override void ProcessLook(Vector2 lookInput)
     {
-        if (!_fPSCommonModel.LocalPlayerView)
+        if (!LocalPlayerView)
             return;
 
         float mouseX = lookInput.x * _playerConfig.mouseSensitivity * Time.deltaTime;
@@ -123,7 +124,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
 
         _cameraService.ProcessLookVertical(mouseY);
 
-        _fPSCommonModel.LocalPlayerView.transform.Rotate(Vector3.up * mouseX);
+        LocalPlayerView.transform.Rotate(Vector3.up * mouseX);
     }
 
     public override void ProcessJump(bool jumpPressed)
@@ -132,7 +133,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         {
             if (_fPSCommonModel.LocalPlayerModel.IsGrounded)
             {
-                _fPSCommonModel.LocalPlayerView.RB.AddForce(Vector3.up * _fPSCommonModel.JumpForce, ForceMode.Impulse);
+                LocalPlayerView.RB.AddForce(Vector3.up * _fPSCommonModel.JumpForce, ForceMode.Impulse);
 //                _fPSCommonModel.LocalPlayerController.ProcessJump();
             }
         }

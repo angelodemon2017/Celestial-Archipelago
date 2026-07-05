@@ -9,4 +9,5 @@ public enum CtxFlag : uint
     Fueling = 1 << 2,
     Weapon = 1 << 3,
     Item = 1 << 4,
+    All = uint.MaxValue
 }

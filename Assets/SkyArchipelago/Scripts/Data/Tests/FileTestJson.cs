@@ -123,7 +123,6 @@ public class FileTestJson : MonoBehaviour
         {
             case EEntityType.ResourceEntity: return JsonUtility.FromJson<ResourceEntityData>(json);
             case EEntityType.BuildingEntity: return JsonUtility.FromJson<BuildingEntityData>(json);
-            case EEntityType.NPCEntity: return JsonUtility.FromJson<NPCEntityData>(json);
             default: return JsonUtility.FromJson<EntityData>(json);
         }
     }

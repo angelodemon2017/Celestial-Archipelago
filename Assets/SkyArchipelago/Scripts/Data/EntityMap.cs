@@ -14,10 +14,12 @@ public static class EntityMap
     static void InitTypes()
     {
         Register<SpawnPointData>();
+        Register<DebugLabelData>();
+        //?!        Register<PlayerData>();
+        Register<DemoNPCData>();
         //DEMO:
         Register<ResourceEntityData>();
         Register<BuildingEntityData>();
-        Register<NPCEntityData>();
     }
 
     public static void Register<T>()

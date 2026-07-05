@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Zenject;
 
 [CreateAssetMenu(menuName = "Procedural/Island Content/Entity Spawner")]
 public class EntitySpawnerContent : IslandContentItem
@@ -13,12 +12,7 @@ public class EntitySpawnerContent : IslandContentItem
         return Vector3.one * (cutRadius * 2.2f);
     }
 
-    public override void Process(MarchingCubesGeneratorController controller, DiContainer diContainer)
-    {
-
-    }
-
-    public override bool TryGetDensityInfluence(Vector3 pos, Vector3Int gridSize, int seed, out float densityValue)
+    public override bool TryGetDensityInfluence(Vector3 pos, Vector3Int gridSize, Vector3Int positionOffset, int seed, out float densityValue)
     {
         Vector3Int center = gridSize / 2 + positionOffset;
         Vector3 localPos = pos - center;

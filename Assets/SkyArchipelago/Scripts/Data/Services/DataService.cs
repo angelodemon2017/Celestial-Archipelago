@@ -6,7 +6,6 @@ public class DataService
     private WorldData _worldData;
 
     private int GetNewSeed => Random.Range(1000, 9999);
-
     public int GetSeed => _worldData.Seed;
     public (int, int) GetCurrentChunk => (0, 0);
     public List<IslandData> GetAllIslands => _worldData.StaticIslands.Datas;
@@ -29,6 +28,17 @@ public class DataService
             islands.ForEach(i => _worldData.StaticIslands.AddNewData(i));
             _worldData.LoadedChunks.Add(chunk);
         }
+    }
+
+    public int AddNewContainer(ContainerData newContainerData)
+    {   
+        var newId = _worldData.AddNewContainer(newContainerData);
+        return newId;
+    }
+
+    public ContainerData GetContainer(int id)
+    {
+        return _worldData.GetContainer(id);
     }
 
     public List<IslandData> GetIslandsByChunk(int x, int y)

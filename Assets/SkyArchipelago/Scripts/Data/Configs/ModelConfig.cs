@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Models/Base Config")]
-public class ModelConfig : ScriptableObject
+public class ModelConfig : BaseDataConfig
 {
     public EEntityType eEntityType;
     public string ContentName = "New Content";

@@ -19,6 +19,7 @@ public class DialogMenuUI : UIWindowBase
     {
         base.Show();
         _targetDialog.text = _dialogModel.CurrentNpcId;
+        Debug.Log($"Showed dialog with npcId:{_dialogModel.CurrentNpcId}");
     }
 
     private void OnClickClose()

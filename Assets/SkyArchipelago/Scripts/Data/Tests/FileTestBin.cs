@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FileTestBin : MonoBehaviour
 {
+    public WorldData DebugWorld;
+
     [Header("Save Settings")]
     [SerializeField] private string fileName = "island_save.dat";
 
@@ -127,11 +129,9 @@ public class FileTestBin : MonoBehaviour
             rotation = Quaternion.Euler(0, 45, 0)
         });
 
-        island.entities.AddNewData(new NPCEntityData
+        island.entities.AddNewData(new DemoNPCData
         {
-            npcId = "merchant_01",
-            npcName = "Торговец Карл",
-            dialogueId = "dialogue_start",
+            NpcId = "merchant_01",
             position = new Vector3(12, 0, -8)
         });/**/
 

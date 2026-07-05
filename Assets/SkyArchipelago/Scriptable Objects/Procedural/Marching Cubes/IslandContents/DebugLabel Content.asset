@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc2228cf182916149862dfab9de63860, type: 3}
+  m_Name: DebugLabel Content
+  m_EditorClassIdentifier: Procedural::EntitySpawnerContent
+  IsCuttingWeight: 0
+  smoothK: 1
+  positionOffset: {x: -11, y: 8, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  ModelConfig: {fileID: 11400000, guid: dad8e2d1ee1fab34a8b9c50843de06d7, type: 2}
+  cutRadius: 1

@@ -1,57 +1,82 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
 public class InteractionHandlerService : IInitializable, IDisposable
 {
-    private readonly PlayerInteractionService _playerInteractionService;
-    private readonly GameplayStateService _gameplayStateService;
-    private readonly DialogModel _dialogModel;
+    private readonly DiContainer _container;
+    private readonly SignalBus _signalBus;
+
+    private Dictionary<EModeInteract, List<BaseInteractHandler>> _handlerByModes = new();
 
     [Inject]
     public InteractionHandlerService(
-        PlayerInteractionService playerInteractionService,
-        GameplayStateService gameplayStateService,
-        DialogModel dialogModel)
+        DiContainer container,
+        SignalBus signalBus)
     {
-        _playerInteractionService = playerInteractionService;
-        _gameplayStateService = gameplayStateService;
-        _dialogModel = dialogModel;
+        _container = container;
+        _signalBus = signalBus;
     }
 
     public void Initialize()
     {
-        _playerInteractionService.OnInteracted += Handle;
+        _signalBus.Subscribe<InteractContext>(OnHandle);
+
+        InitHandlers();
     }
 
-    public void Handle(InteractionResult result)
+    private void InitHandlers()
     {
-        switch (result)
+        RegisterHandler(EModeInteract.EKB, _container.Resolve<PickUpHandler>());
+        RegisterHandler(EModeInteract.EKB, _container.Resolve<ShowUIHandler>());
+        RegisterHandler(EModeInteract.EKB, _container.Resolve<DebugLabelHandlers>());
+        RegisterHandler(EModeInteract.EKB, _container.Resolve<HarvestHandler>());
+
+        foreach (var item in _handlerByModes)
         {
-            case PickupResult pickup:
-                Debug.Log($"Pickuped:{pickup.Item.name}, q-{pickup.Quantity}");
-                GameObject.Destroy(pickup.Go);//TODO return to pool
-                break;
-
-            case OpenDialogueResult dialogue:
-                _dialogModel.CurrentNpcId = dialogue.NpcId;
-                _gameplayStateService.SetState<DialogMenuState>();
-                break;
-
-            case OpenUIResult ui:
-                break;
-
-            case OpenNoteResult note:
-                Debug.Log($"Read note {note.Title}:{note.Text}");
-                break;
-
-            default:
-                break;
+            var temp = item.Value.OrderByDescending(h => h.Priority).ToList();
+            item.Value.Clear();
+            item.Value.AddRange(temp);
         }
+    }
+
+    private void RegisterHandler(EModeInteract mode, BaseInteractHandler handler)
+    {
+        if (!_handlerByModes.ContainsKey(mode))
+        {
+            _handlerByModes.Add(mode, new());
+        }
+        _handlerByModes[mode].Add(handler);
+    }
+
+    private void OnHandle(InteractContext ctx)
+    {
+        if (!TryPerform(ctx, _handlerByModes[ctx.ModeInteract]))
+        {
+            Debug.LogWarning($"Not found handlers for: mode-{ctx.ModeInteract}, " +
+                $"source-{ctx.Source?.DebugName ?? "none"}" +
+                $"item-{ctx.Item?.DebugName ?? "none"}, " +
+                $"target-{ctx.Target?.DebugName ?? "none"}");
+        }
+    }
+
+    public bool TryPerform(InteractContext ctx, List<BaseInteractHandler> handlers)
+    {
+        foreach (var handler in handlers)
+        {
+            if (handler.CanHandle(ctx.Item, ctx.Target) &&
+                handler.TryExecute(ctx.Source, ctx.Item, ctx.Target))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Dispose()
     {
-        _playerInteractionService.OnInteracted -= Handle;
+        _signalBus?.Unsubscribe<InteractContext>(OnHandle);
     }
 }

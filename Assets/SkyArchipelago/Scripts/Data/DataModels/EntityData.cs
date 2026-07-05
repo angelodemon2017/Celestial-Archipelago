@@ -2,27 +2,27 @@
 using UnityEngine;
 
 [System.Serializable]
-public class EntityData : BaseData
+public class EntityData : BaseData<ModelConfig>
 {
     public Vector3 position;
     public Quaternion rotation = Quaternion.identity;
 
     public virtual string DebugLog => $"EntityData.{EntityType}.{Id}";
     public virtual EntityModel CreateModel()
-    {
+    {//TODO move to spaawn from pool with typeVariants
         return new EntityModel();
     }
 
-    public virtual void LoadFromBinary(BinaryReader binaryReader)
+    public override void LoadFromBinary(BinaryReader binaryReader)
     {
-        Id = binaryReader.ReadInt32();
+        base.LoadFromBinary(binaryReader);
         position = new Vector3(binaryReader.ReadSingle(), binaryReader.ReadSingle(), binaryReader.ReadSingle());
         rotation = new Quaternion(binaryReader.ReadSingle(), binaryReader.ReadSingle(), binaryReader.ReadSingle(), binaryReader.ReadSingle());
     }
 
-    public virtual void SaveToBinary(BinaryWriter writer)
+    public override void SaveToBinary(BinaryWriter writer)
     {
-        writer.Write((int)EntityType);
+        base.SaveToBinary(writer);
         writer.Write(Id);
         writer.Write(position.x);
         writer.Write(position.y);
@@ -80,31 +80,4 @@ public class BuildingEntityData : EntityData
         writer.Write(level);
     }
     public BuildingEntityData() => EntityType = EEntityType.BuildingEntity;
-}
-
-[System.Serializable]
-public class NPCEntityData : EntityData
-{
-    public string npcId = "";
-    public string npcName = "NPC";
-    public string dialogueId = "";
-
-    public override string DebugLog => base.DebugLog + $".{npcId}.{npcName}.{dialogueId}";
-
-    public override void LoadFromBinary(BinaryReader binaryReader)
-    {
-        base.LoadFromBinary(binaryReader);
-        npcId = binaryReader.ReadString();
-        npcName = binaryReader.ReadString();
-        dialogueId = binaryReader.ReadString();
-    }
-
-    public override void SaveToBinary(BinaryWriter writer)
-    {
-        base.SaveToBinary(writer);
-        writer.Write(npcId ?? "");
-        writer.Write(npcName ?? "");
-        writer.Write(dialogueId ?? "");
-    }
-    public NPCEntityData() => EntityType = EEntityType.NPCEntity;
 }

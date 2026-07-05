@@ -5,6 +5,7 @@ public class EntityViewMB : MonoBehaviour
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform _rootEntity;
 
+    private InteractHandlerMB _interactHandlerMB;
     private EntityModel _entityModel;
 
     public Rigidbody RB => _rb;
@@ -19,6 +20,9 @@ public class EntityViewMB : MonoBehaviour
 
     public void UpdateView(GameObject viewModel)
     {
+        if(viewModel.TryGetComponent(out _interactHandlerMB))
+            _interactHandlerMB.InitHandler(_entityModel);
+
         viewModel.transform.SetParent(_rootEntity);
         viewModel.transform.localPosition = Vector3.zero;
     }

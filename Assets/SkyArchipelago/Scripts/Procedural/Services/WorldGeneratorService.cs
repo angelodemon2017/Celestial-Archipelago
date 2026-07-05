@@ -70,14 +70,14 @@ public class WorldGeneratorService
                         value = ApplyOperation(value, shapeValue, instance.operation, instance.smoothK);
                     }
 
-                    foreach (var cont in config.contentItems)
+                    foreach (var cont in config.contentInstances)
                     {
-                        if (!cont.IsCuttingWeight)
+                        if (!cont.Entity.IsCuttingWeight)
                             continue;
 
-                        if (cont.TryGetDensityInfluence(pos, gs, seed, out float contValue))
+                        if (cont.Entity.TryGetDensityInfluence(pos, gs, cont.positionOffset, seed, out float contValue))
                         {
-                            value = SmoothSubtraction(value, -contValue, cont.smoothK);
+                            value = SmoothSubtraction(value, -contValue, cont.Entity.smoothK);
                         }
                     }
 
@@ -162,11 +162,12 @@ public class WorldGeneratorService
 
     private void GenEntities(ref IslandData island, MarchingCubesConfigSO config, int seed)
     {
-        foreach (var newEnt in config.contentItems)
+        foreach (var newEnt in config.contentInstances)
         {
-            var newEntity = EntityMap.CreateData(newEnt.ModelConfig.eEntityType);
+            var newEntity = EntityMap.CreateData(newEnt.Entity.ModelConfig.eEntityType);
             newEntity.position = island.Position + newEnt.positionOffset;
-            newEntity.rotation = Quaternion.Euler(newEnt.rotationOffset);
+            newEntity.rotation = Quaternion.Euler(newEnt.Entity.rotationOffset);
+            newEntity.InitConfig(newEnt.Entity.ModelConfig);
             island.entities.AddNewData(newEntity);
         }
     }

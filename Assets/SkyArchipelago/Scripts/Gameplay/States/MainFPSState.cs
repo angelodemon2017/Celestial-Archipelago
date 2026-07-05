@@ -38,7 +38,8 @@ public class MainFPSState : BaseFPSState<GameplayControllerView>
     public override void ProcessInteract(bool interacted)
     {
         if (interacted)
-            _playerInteractionService.TryInteract();
+            _playerInteractionService.TryInteractWithHandler();
+                //TryInteract();
     }
 
     public override void ProcessTab(bool interact)

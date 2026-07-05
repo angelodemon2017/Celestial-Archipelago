@@ -1,3 +1,4 @@
+﻿using System;
 using UnityEngine;
 using Zenject;
 
@@ -11,7 +12,13 @@ public class ProjectInstaller : MonoInstaller
     [SerializeField] private BuildFPSStateConfig _buildFPSState;
     [SerializeField] private CatalogIslandConfigs _catalogIslandConfigs;
     [SerializeField] private CatalogEntityConfig _catalogEntityConfig;
+    [SerializeField] private ItemsCatalogConfig _itemsCatalogConfig;
+    [SerializeField] private ContainersCatalogConfig _containersCatalogConfig;
     [SerializeField] private WorldGeneratorConfig _worldGeneratorConfig;
+
+    [Header("Prefabs")]
+    [SerializeField] private IconViewMB _iconViewPrefab;
+    [SerializeField] private ItemsListViewMB _itemsListViewMB;
     
     [Header("MonoBehaviours")]
     [SerializeField] private CoroutineRunner _coroutineRunner;
@@ -20,9 +27,11 @@ public class ProjectInstaller : MonoInstaller
     {
         InstallConfigs();
         InstallBrefabs();
+        InstallPoolsAndFabrics();
         InstallGameStates();
         InstallModels();
         InstallMonoService();
+        InstallHandlers();
         InstallServices();
         InstallUI();
         InstallSignals();
@@ -35,13 +44,29 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInstance(_dayNightSO).AsSingle();
         Container.BindInstance(_catalogIslandConfigs).AsSingle();
         Container.BindInstance(_catalogEntityConfig).AsSingle();
+        Container.BindInstance(_itemsCatalogConfig).AsSingle();
+        Container.BindInstance(_containersCatalogConfig).AsSingle();
         Container.BindInstance(_worldGeneratorConfig).AsSingle();
     }
 
     private void InstallBrefabs()
     {
+        Container.Bind<IconViewMB>().FromComponentInNewPrefab(_iconViewPrefab).AsTransient();
+        Container.Bind<ItemsListViewMB>().FromComponentInNewPrefab(_itemsListViewMB).AsTransient();
         Container.Bind<BuildMarkerMB>().FromComponentInNewPrefab(_buildFPSState.buildMarkerPrefab).AsSingle();
         Container.BindInstance(_uIConfig._canvas).WithId(Dicts.DiPrefabIds.Canvas);
+    }
+
+    private void InstallPoolsAndFabrics()
+    {
+        Container.Bind<SimpleFactory<ItemConfig, ItemData>>().AsSingle();
+        Container.Bind<SimpleFactory<ContainerConfig, ContainerData>>().AsSingle();
+
+        Container.BindInterfacesAndSelfTo<ItemModelFactory>().AsSingle();
+        Container.Bind<SimpleFactory<ContainerData, ContainerModel>>().AsSingle();
+
+        Container.Bind<UIMBFactory<ItemModel, IconViewMB>>().AsSingle();
+        Container.Bind<UIMBFactory<ContainerModel, ItemsListViewMB>>().AsSingle();
     }
 
     private void InstallModels()
@@ -53,12 +78,23 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<DayNightModel>().AsSingle();
     }
 
+    private void InstallHandlers()
+    {
+        
+        Container.BindInterfacesAndSelfTo<PickUpHandler>().AsSingle();
+        Container.BindInterfacesAndSelfTo<HarvestHandler>().AsSingle();
+        Container.BindInterfacesAndSelfTo<DebugLabelHandlers>().AsSingle();
+        Container.BindInterfacesAndSelfTo<ShowUIHandler>().AsSingle();
+    }
+
     private void InstallServices()
     {
         //Common
         Container.BindInterfacesAndSelfTo<HinterService>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<DataService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<InventoryTransactionsService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<ContainersService>().AsSingle();
         Container.BindInterfacesAndSelfTo<EntityRuntimeService>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<CursorService>().AsSingle();
@@ -85,6 +121,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<BattleFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<BuildingFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<DialogMenuState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<InventoryMenuState>().AsSingle();
         Container.BindInterfacesAndSelfTo<LaunchWorldState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainMenuState>().AsSingle();
@@ -101,6 +138,7 @@ public class ProjectInstaller : MonoInstaller
     {
         Container.Bind<MenuOfManagerView>().FromComponentInNewPrefab(_uIConfig.menuOfManagerView).AsSingle();
         Container.Bind<GameplayControllerView>().FromComponentInNewPrefab(_uIConfig.gameplayControllerView).AsSingle();
+        Container.Bind<InventoryView>().FromComponentInNewPrefab(_uIConfig.inventoryView).AsSingle();
         Container.Bind<MainMenuControllerView>().FromComponentInNewPrefab(_uIConfig.mainMenuControllerView).AsSingle();
         Container.Bind<DialogMenuUI>().FromComponentInNewPrefab(_uIConfig.dialogMenuUI).AsSingle();
         Container.Bind<PauseMenuUI>().FromComponentInNewPrefab(_uIConfig.pauseMenuUI).AsSingle();
@@ -110,6 +148,7 @@ public class ProjectInstaller : MonoInstaller
     {
         SignalBusInstaller.Install(Container);
         
+        Container.DeclareSignal<InteractContext>();
         Container.DeclareSignal<TimeUpdateSignal>();
         Container.DeclareSignal<TimeSecondSignal>();
         Container.DeclareSignal<LoadSceneSignal>();
