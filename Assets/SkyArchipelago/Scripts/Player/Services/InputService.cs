@@ -33,11 +33,17 @@ public class InputService : ITickable, IInitializable, IDisposable
 
         Vector2 move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        bool leftMouse = Input.GetMouseButtonDown(0);
+        bool rightMouse = Input.GetMouseButtonDown(1);
+        float scroll = Input.mouseScrollDelta.y;
         bool jumpPressed = Input.GetKeyDown(KeyCode.Space);
         bool tryInteract = Input.GetKeyDown(KeyCode.E);
         bool tab = Input.GetKeyDown(KeyCode.Tab);
         bool closing = Input.GetKeyDown(KeyCode.Q);
 
+        _currentProvider.ProcessLeftMouseButton(leftMouse);
+        _currentProvider.ProcessRightMouseButton(rightMouse);
+        _currentProvider.ProcessScrollMouse(scroll);
         _currentProvider.ProcessMovement(move);
         _currentProvider.ProcessLook(look);
         _currentProvider.ProcessJump(jumpPressed);

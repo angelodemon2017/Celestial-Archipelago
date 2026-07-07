@@ -891,6 +891,7 @@ GameObject:
   - component: {fileID: 4704180149622883251}
   - component: {fileID: 7254264071591912241}
   - component: {fileID: 5731342987263149845}
+  - component: {fileID: 8048919948016675268}
   m_Layer: 5
   m_Name: MainMenuView
   m_TagString: Untagged
@@ -931,6 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3750a76013c4aaa459aded3038aa089e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UI::MainMenuControllerView
+  _canvasGroup: {fileID: 8048919948016675268}
   _newGameButton: {fileID: 7658396242144598199}
   _settingButton: {fileID: 387080996593791900}
   _extButton: {fileID: 6044085450678381080}
@@ -955,7 +957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.078431375}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -972,6 +974,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &8048919948016675268
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7280514515934922343}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7900540579876573502
 GameObject:
   m_ObjectHideFlags: 0

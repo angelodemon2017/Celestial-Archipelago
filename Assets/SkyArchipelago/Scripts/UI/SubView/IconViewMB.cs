@@ -32,11 +32,32 @@ public class IconViewMB : MonoBehaviour, IPoolable<ItemModel>
 
     public void UpdateView()
     {
+        ApplyRarityItem(_itemModel.RarityItem);
         _textTitle.text = _itemModel.FullItemName;
         _textDesc.text = _itemModel.Description;
         _textCounter.text = _itemModel.Count == 0 ?
             string.Empty :
-            $"{_itemModel.Count}";
+            (_itemModel.MaxStack > 1 ?
+            $"{_itemModel.Count}" : string.Empty);
+    }
+
+    private void ApplyRarityItem(ERarityItem rarityItem)
+    {
+        switch (rarityItem)
+        {
+            case ERarityItem.Trash:
+                _iconBackground.color = Color.gray;
+                break;
+            case ERarityItem.Normal:
+                _iconBackground.color = Color.white;
+                break;
+            case ERarityItem.Uncommon:
+                _iconBackground.color = Color.limeGreen;
+                break;
+            default:
+                _iconBackground.color = Color.white;
+                break;
+        }
     }
 
     public void OnSpawned(ItemModel itemModel)

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Player Config
   m_EditorClassIdentifier: Data::ModelConfig
   eEntityType: 2
-  ContentName: Palyer
+  ContentName: Player
   tag: 0
   ViewModelPrefab: {fileID: 1118783047748416552, guid: 64ebcd14e65cb3546be721b596488540, type: 3}

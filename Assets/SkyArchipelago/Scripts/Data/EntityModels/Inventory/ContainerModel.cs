@@ -8,6 +8,7 @@ public class ContainerModel : BaseModel<ContainerData, ContainerConfig>, IPoolab
     private readonly ItemModelFactory _itemModelFactory;
 
     public override string ModelName => string.Empty;
+    public string TitleContainer => _configModel.KeyName;
     public List<ItemModel> itemModels = new();
 
     public ContainerModel(

@@ -1,4 +1,4 @@
-﻿public class DemoNPCModel : EntityModel<DemoNPCData>, IUIshowable
+﻿public class DemoNPCModel : EntityModel<DemoNPCData>, IUIshowable, IHarvestable
 {
     public string NpcId => GetData.NpcId;
     public override bool IsInteractable => true;
@@ -8,5 +8,20 @@
 
     public DemoNPCModel(DemoNPCData data) : base(data)
     {
+    }
+
+    public EItemType GetHarvestableItemType()
+    {
+        return EItemType.Shovel;
+    }
+
+    public int GetHarvestableCount()
+    {
+        return 1;
+    }
+
+    public bool AvailableHarvestBy(ItemModel item)
+    {
+        return true;
     }
 }

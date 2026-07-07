@@ -20,7 +20,7 @@ public class MainFPSState : BaseFPSState<GameplayControllerView>
         CameraService cameraService,
         EntityRuntimeService entityRuntimeService,
         PlayerInteractionService playerInteractionService,
-        WorldShowerService worldShowerService) :
+        EntityViewsFactory entityViewsFactory) :
         base (
             container,
             playerConfig,
@@ -29,17 +29,28 @@ public class MainFPSState : BaseFPSState<GameplayControllerView>
             cameraService,
             entityRuntimeService,
             playerInteractionService,
-            worldShowerService,
+            entityViewsFactory,
             uIViewCoordinator)
     {
         _gameplayStateService = gameplayStateService;
+    }
+
+    public override void ProcessLeftMouseButton(bool lmb)
+    {
+        if (lmb)
+            _playerInteractionService.TryMainAction();
+    }
+
+    public override void ProcessRightMouseButton(bool rmb)
+    {
+        if(rmb)
+            _playerInteractionService.TryAltAction();
     }
 
     public override void ProcessInteract(bool interacted)
     {
         if (interacted)
             _playerInteractionService.TryInteractWithHandler();
-                //TryInteract();
     }
 
     public override void ProcessTab(bool interact)

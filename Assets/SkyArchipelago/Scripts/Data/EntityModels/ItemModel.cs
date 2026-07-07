@@ -4,10 +4,13 @@ public class ItemModel : BaseModel<ItemData, ItemConfig>, IPoolable<ItemData>
 {
     public EItemType TypeItem => _dataModel.TypeItem;
     public virtual CtxFlag GetTag => _dataModel.Config.ctxFlag;
+    public virtual ERarityItem RarityItem => ERarityItem.Normal;
 
-    public string FullItemName => $"{_dataModel.SomePrefix}{_dataModel.Config.KeyName}";
+    public virtual bool IsUsable => false;
+    public virtual string FullItemName => $"{_dataModel.SomePrefix}{_dataModel.Config.KeyName}";
     public string Description => _dataModel.Config.KeyDesc;
     public int Count => _dataModel.Amount;
+    public int MaxStack => _configModel.MaxStack;
     public override string ModelName => $"Some Item";
 
     public void OnSpawned(ItemData itemData)

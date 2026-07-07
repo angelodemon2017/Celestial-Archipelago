@@ -26,8 +26,10 @@ public class HarvestHandler : BaseInteractHandler
 
     public override bool CanHandle(ItemModel item, EntityModel target)
     {
-        //return target.MyTag.HasFlag(CtxFlag.Harvesting);
-        return true;
+        if (!(target is IHarvestable harvestable))
+            return false;
+
+        return harvestable.AvailableHarvestBy(item);
     }
 
     public override bool TryExecute(EntityModel source, ItemModel item, EntityModel target)
@@ -35,10 +37,13 @@ public class HarvestHandler : BaseInteractHandler
         if (!(source is IHaveContainer haveContainer))
             return false;
 
-        EItemType randType = Random.Range(1, 100) > 50 ? EItemType.Wood : EItemType.Rock;
+        if(!(target is IHarvestable harvestable))
+            return false;
+
+        EItemType randType = harvestable.GetHarvestableItemType();
         var itemConfig = _itemsCatalogConfig.GetItemConfig(randType);
         var newDataItem = _itemDataFactory.Create(itemConfig);
-        newDataItem.Amount = Random.Range(1, 10);//TODO replace to config from model
+        newDataItem.Amount = harvestable.GetHarvestableCount();
         var newModelItem = _itemModelFactory.Spawn(newDataItem);
 
         var container = _containersService.GetContainerModel(haveContainer);

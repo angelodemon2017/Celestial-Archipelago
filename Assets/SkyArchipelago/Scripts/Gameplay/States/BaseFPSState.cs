@@ -10,8 +10,8 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
     private readonly RaycastService _raycastService;
     private readonly CameraService _cameraService;
     private readonly EntityRuntimeService _entityRuntimeService;
-    private readonly WorldShowerService _worldShowerService;
     protected readonly PlayerInteractionService _playerInteractionService;
+    private readonly EntityViewsFactory _entityViewsFactory;
 
     private EntityViewMB LocalPlayerView;
     private FPSCommonModel _fPSCommonModel;
@@ -28,7 +28,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         CameraService cameraService,
         EntityRuntimeService entityRuntimeService,
         PlayerInteractionService playerInteractionService,
-        WorldShowerService worldShowerService,
+        EntityViewsFactory entityViewsFactory,
         UIViewCoordinator uIViewCoordinator)
         : base(uIViewCoordinator)
     {
@@ -39,7 +39,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         _cameraService = cameraService;
         _entityRuntimeService = entityRuntimeService;
         _playerInteractionService = playerInteractionService;
-        _worldShowerService = worldShowerService;
+        _entityViewsFactory = entityViewsFactory;
     }
 
     public override void StateOn()
@@ -86,7 +86,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         _fPSCommonModel.SetPlModel((PlayerModel)playerData.CreateModel());
         _entityRuntimeService.AddModel(_fPSCommonModel.LocalPlayerModel);
 
-        LocalPlayerView = _worldShowerService.ShowModel(_fPSCommonModel.LocalPlayerModel);
+        LocalPlayerView = _entityViewsFactory.Spawn(_fPSCommonModel.LocalPlayerModel);
     }
 
     public override void StateOff()
@@ -98,7 +98,6 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
     public override void ProcessMovement(Vector2 moveInput)
     {
         _fPSCommonModel.CurrentMoveInput = moveInput;
-//        _fPSCommonModel.LocalPlayerController.ProcessMovement(moveInput);
     }
 
     public override void StateFixedRun()
@@ -134,7 +133,6 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
             if (_fPSCommonModel.LocalPlayerModel.IsGrounded)
             {
                 LocalPlayerView.RB.AddForce(Vector3.up * _fPSCommonModel.JumpForce, ForceMode.Impulse);
-//                _fPSCommonModel.LocalPlayerController.ProcessJump();
             }
         }
     }

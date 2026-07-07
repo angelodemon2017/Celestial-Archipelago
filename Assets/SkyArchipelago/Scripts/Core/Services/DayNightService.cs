@@ -24,6 +24,7 @@ public class DayNightService : ITimeTickable, IDisposable
         _dayNightModel = dayNightModel;
         _timeService = timeService;
 
+        _dayNightModel.CurrentHours = _dayNightSO.StartHourByCreatedWorld;
         _timeService.Register(this);
     }
 

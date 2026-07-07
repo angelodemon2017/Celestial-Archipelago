@@ -15,5 +15,9 @@ MonoBehaviour:
   UpdateMinutes: 1
   UpdateHours: 0
   UpdateDays: 0
+  StartHourByCreatedWorld: 6
   HoursInDay: 24
   MinutesInHour: 60
+  RealSecondsInGameMinutes: 1
+  HourStartNight: 1
+  HourStartSunny: 12

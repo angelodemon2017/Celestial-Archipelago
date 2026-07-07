@@ -2,11 +2,12 @@
 using UnityEngine;
 using Zenject;
 
-public class PlayerInteractionService : ITickable, IInitializable, IDisposable, ISourceHint
+public class PlayerInteractionService : ITickable, ISourceHint
 {
     private readonly SignalBus _signalBus;
     private readonly IRaycastService _raycastService;
     private readonly FPSCommonModel _fPSCommonModel;
+    private readonly UIMBFactory<HitSourceInitModel, HitSource> _hitSourceFactory;
 
     private InteractHandlerMB _currentHandlerFocus;
 
@@ -18,15 +19,13 @@ public class PlayerInteractionService : ITickable, IInitializable, IDisposable, 
     public PlayerInteractionService(
         SignalBus signalBus,
         FPSCommonModel fPSCommonModel,
-        IRaycastService raycastService)
+        IRaycastService raycastService,
+        UIMBFactory<HitSourceInitModel, HitSource> hitSourceFactory)
     {
         _signalBus = signalBus;
         _fPSCommonModel = fPSCommonModel;
         _raycastService = raycastService;
-    }
-
-    public void Initialize()
-    {
+        _hitSourceFactory = hitSourceFactory;
     }
 
     public void Tick()
@@ -64,6 +63,48 @@ public class PlayerInteractionService : ITickable, IInitializable, IDisposable, 
         }
     }
 
+    public void TryMainAction()
+    {
+        if (_currentHandlerFocus != null)
+        {
+            _signalBus.Fire(
+                new InteractContext(
+                    _fPSCommonModel.LocalPlayerModel,
+                    _fPSCommonModel.LocalPlayerModel.CurrentItem,
+                    EModeInteract.LCM,
+                    _currentHandlerFocus.GetModel));
+        }
+        else if(_fPSCommonModel.LocalPlayerModel.CurrentItem != null &&
+            _fPSCommonModel.LocalPlayerModel.CurrentItem.IsUsable)
+        {//??
+            //TODO use of currentItem
+        }
+        else
+        {
+            var hitSource = _hitSourceFactory.Create(new HitSourceInitModel(
+                _fPSCommonModel.LocalPlayerModel,
+                _fPSCommonModel.LocalPlayerModel.CurrentItem));
+            hitSource.transform.position = LastHit;
+        }
+    }
+
+    public void TryAltAction()
+    {
+        if (_currentHandlerFocus != null)
+        {
+            _signalBus.Fire(
+                new InteractContext(
+                    _fPSCommonModel.LocalPlayerModel,
+                    _fPSCommonModel.LocalPlayerModel.CurrentItem,
+                    EModeInteract.RCM,
+                    _currentHandlerFocus.GetModel));
+        }
+        else
+        {
+            //TODO release alt action/alt use of currentItem
+        }
+    }
+
     public void TryInteractWithHandler()
     {
         if (_currentHandlerFocus != null &&
@@ -76,9 +117,5 @@ public class PlayerInteractionService : ITickable, IInitializable, IDisposable, 
                     EModeInteract.EKB,
                     _currentHandlerFocus.GetModel));
         }
-    }
-
-    public void Dispose()
-    {
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Items/ItemData")]
+[CreateAssetMenu(menuName = "Items/Item Config")]
 public class ItemConfig : BaseDataConfig
 {
     public EItemType TypeItem;

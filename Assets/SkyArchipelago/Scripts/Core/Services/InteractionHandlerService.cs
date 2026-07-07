@@ -29,10 +29,11 @@ public class InteractionHandlerService : IInitializable, IDisposable
 
     private void InitHandlers()
     {
+        RegisterHandler(EModeInteract.LCM, _container.Resolve<DamagableHandler>());
+        RegisterHandler(EModeInteract.RCM, _container.Resolve<HarvestHandler>());
         RegisterHandler(EModeInteract.EKB, _container.Resolve<PickUpHandler>());
         RegisterHandler(EModeInteract.EKB, _container.Resolve<ShowUIHandler>());
         RegisterHandler(EModeInteract.EKB, _container.Resolve<DebugLabelHandlers>());
-        RegisterHandler(EModeInteract.EKB, _container.Resolve<HarvestHandler>());
 
         foreach (var item in _handlerByModes)
         {

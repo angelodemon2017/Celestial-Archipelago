@@ -5,26 +5,26 @@ using UnityEngine;
 public class WorldShowerService
 {
     private readonly CatalogIslandConfigs _catalogConfig;
-    private readonly CatalogEntityConfig _catalogEntityConfig;
     private readonly DataService _dataService;
     private readonly MachingCubesMeshGenerator _machingCubesMeshGenerator;
     private readonly EntityRuntimeService _entityRuntimeService;
+    private readonly EntityViewsFactory _entityViewsFactory;
 
     private List<IslandViewMB> _islandViewMBs = new();
     private List<EntityViewMB> _entityViewMBs = new();
 
     public WorldShowerService(
         CatalogIslandConfigs catalogConfig,
-        CatalogEntityConfig catalogEntityConfig,
         DataService dataService,
         MachingCubesMeshGenerator machingCubesMeshGenerator,
-        EntityRuntimeService entityRuntimeService)
+        EntityRuntimeService entityRuntimeService,
+        EntityViewsFactory entityViewsFactory)
     {
         _catalogConfig = catalogConfig;
-        _catalogEntityConfig = catalogEntityConfig;
         _dataService = dataService;
         _machingCubesMeshGenerator = machingCubesMeshGenerator;
         _entityRuntimeService = entityRuntimeService;
+        _entityViewsFactory = entityViewsFactory;
     }
 
     public void ShowChunk(int x, int y)
@@ -43,18 +43,8 @@ public class WorldShowerService
 
         foreach (var model in _entityRuntimeService.AllModels)
         {
-            ShowModel(model);
+            var view = _entityViewsFactory.Spawn(model);
+            _entityViewMBs.Add(view);
         }
-    }
-
-    public EntityViewMB ShowModel(EntityModel model)
-    {
-        var view = GameObject.Instantiate(_catalogEntityConfig.entityViewMB, model.Position, model.Rotation);//TODO fabric
-        var itemConf = _catalogEntityConfig.GetModelConfigByType(model.EntType);
-        var viewModel = GameObject.Instantiate(itemConf.ViewModelPrefab);//TODO fabric
-        view.InitAndUpdate(model, viewModel);
-        _entityViewMBs.Add(view);
-
-        return view;
     }
 }

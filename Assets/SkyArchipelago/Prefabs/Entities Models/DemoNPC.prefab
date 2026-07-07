@@ -123,8 +123,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1366605188861621548}
+  - component: {fileID: 5042132468525574105}
   - component: {fileID: 7556558186526805533}
-  - component: {fileID: 2828647385119653534}
   m_Layer: 7
   m_Name: DemoNPC
   m_TagString: Untagged
@@ -146,8 +146,23 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2125911918277370665}
+  - {fileID: 6458949666647299034}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5042132468525574105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118783047748416552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a21bf13599f46384cac02b28a29c63f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Gameplay::NewMonoBehaviourScript
+  _hitDetector: {fileID: 4678964118552976906}
+  _interactHandler: {fileID: 7556558186526805533}
 --- !u!114 &7556558186526805533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,13 +175,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f13d434d67287c408dbef9e9624ea3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Gameplay::InteractHandlerMB
---- !u!136 &2828647385119653534
+--- !u!1 &4046997150265571669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6458949666647299034}
+  - component: {fileID: 4678964118552976906}
+  - component: {fileID: 7887574340567647336}
+  m_Layer: 8
+  m_Name: HitDetectorDemoNPC
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6458949666647299034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046997150265571669}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1366605188861621548}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4678964118552976906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046997150265571669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8ddd6ae91c1c341a2a7f1619e641b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Common::HitDetector
+  colliders:
+  - {fileID: 7887574340567647336}
+--- !u!136 &7887574340567647336
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118783047748416552}
+  m_GameObject: {fileID: 4046997150265571669}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -175,7 +237,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2

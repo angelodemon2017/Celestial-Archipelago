@@ -6,6 +6,7 @@ public class DayNightSO : ScriptableObject
     public bool UpdateMinutes;
     public bool UpdateHours;
     public bool UpdateDays;
+    public int StartHourByCreatedWorld;
     public int HoursInDay = 24;
     public int MinutesInHour = 60;
     public float RealSecondsInGameMinutes = 1f;

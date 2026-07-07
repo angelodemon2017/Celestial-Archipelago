@@ -24,7 +24,7 @@ public class BuildingFPSState : BaseFPSState<GameplayControllerView>
         CameraService cameraService,
         EntityRuntimeService entityRuntimeService,
         PlayerInteractionService playerInteractionService,
-        WorldShowerService worldShowerService) :
+        EntityViewsFactory entityViewsFactory) :
         base(
             container,
             playerConfig,
@@ -33,7 +33,7 @@ public class BuildingFPSState : BaseFPSState<GameplayControllerView>
             cameraService,
             entityRuntimeService,
             playerInteractionService,
-            worldShowerService,
+            entityViewsFactory,
             uIViewCoordinator)
     {
         _buildingModel = buildingModel;

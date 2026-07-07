@@ -35,32 +35,23 @@ public abstract class BaseGameplayState : ISourceHint, IInputProviderContainer, 
         HintUpdated?.Invoke();
     }
 
-    public virtual void SetInputActive(bool active)
-    {
-    }
+    public virtual void ProcessLeftMouseButton(bool lmb) { }
 
-    public virtual void ProcessMovement(Vector2 moveInput)
-    {
-    }
+    public virtual void ProcessRightMouseButton(bool rmb) { }
 
-    public virtual void ProcessLook(Vector2 lookInput)
-    {
-    }
+    public virtual void ProcessScrollMouse(float scroll) { }
 
-    public virtual void ProcessJump(bool jumpPressed)
-    {
-    }
+    public virtual void SetInputActive(bool active) { }
 
-    public virtual void ProcessInteract(bool interacted)
-    {
-    }
+    public virtual void ProcessMovement(Vector2 moveInput) { }
 
-    public virtual void ProcessTab(bool interact)
-    {
-    }
+    public virtual void ProcessLook(Vector2 lookInput) { }
 
-    public virtual void ProcessTryClose(bool isClosing)
-    {
+    public virtual void ProcessJump(bool jumpPressed) { }
 
-    }
+    public virtual void ProcessInteract(bool interacted) { }
+
+    public virtual void ProcessTab(bool interact) { }
+
+    public virtual void ProcessTryClose(bool isClosing) { }
 }

@@ -1,4 +1,6 @@
 ﻿public interface IHarvestable
 {
-    bool TryReleaseHarvest(EntityModel source, ItemModel item);
+    bool AvailableHarvestBy(ItemModel item);
+    EItemType GetHarvestableItemType();
+    int GetHarvestableCount();
 }

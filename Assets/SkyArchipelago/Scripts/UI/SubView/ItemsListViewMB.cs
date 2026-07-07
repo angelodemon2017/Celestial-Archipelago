@@ -27,6 +27,7 @@ public class ItemsListViewMB : MonoBehaviour, IPoolable<ContainerModel>
 
     private void UpdateView()
     {
+        _textTitleContainer.text = _containerModel.TitleContainer;
         CleanIcons();
         foreach (var item in _containerModel.itemModels)
         {

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dff8cc2d307d68439a12d1b9282f3ed, type: 3}
   m_Name: SystemSO
   m_EditorClassIdentifier: Core::SystemSO
-  timeScale: 30
+  timeScale: 1

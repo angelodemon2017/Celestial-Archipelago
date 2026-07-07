@@ -82,11 +82,13 @@ MonoBehaviour:
   _buildFPSState: {fileID: 11400000, guid: c7907478cac3b104e878a985a4213dda, type: 2}
   _catalogIslandConfigs: {fileID: 11400000, guid: b6c4dd83930c6854c97ae03b0d2f4bdf, type: 2}
   _catalogEntityConfig: {fileID: 11400000, guid: 1563b1993c356b74c8ef3dd8526cc802, type: 2}
+  _entityViewCatalog: {fileID: 11400000, guid: 2b0ed81e926b6ec4595c14e5cb60a3fb, type: 2}
   _itemsCatalogConfig: {fileID: 11400000, guid: 87eba19ce3e350f4996fbfa8cb75688f, type: 2}
   _containersCatalogConfig: {fileID: 11400000, guid: 94a4fa65dca96cb45acaa47b01bf77d7, type: 2}
   _worldGeneratorConfig: {fileID: 11400000, guid: 331415035ed64f54ab8aa14b6bfbfe99, type: 2}
   _iconViewPrefab: {fileID: 621865102448177399, guid: 6e37d4aa77dcb9d4c80f6ebd6b3eaaff, type: 3}
   _itemsListViewMB: {fileID: 6983435630482097093, guid: a2f5ac1ba09dd814bb86a3c55ca5b4ec, type: 3}
+  _hitSource: {fileID: 2821119007637527163, guid: f9568458ac60c0a4c8a1f0c17939262b, type: 3}
   _coroutineRunner: {fileID: 4963991494058231926}
 --- !u!114 &4963991494058231926
 MonoBehaviour:

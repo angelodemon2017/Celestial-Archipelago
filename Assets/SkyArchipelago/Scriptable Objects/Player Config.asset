@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74373e548d7ce54eb0d1947b4f5c586, type: 3}
   m_Name: Player Config
   m_EditorClassIdentifier: Player::PlayerConfig
-  PlayerControllerPrefab: {fileID: 6022199310381019940, guid: 7666dfbb503ed5542836f15d3d7bb23f, type: 3}
   mouseSensitivity: 300
   FPSLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 448
   FPSBuildingLayer:
     serializedVersion: 2
     m_Bits: 64

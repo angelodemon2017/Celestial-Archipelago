@@ -5,6 +5,9 @@ public interface IInputProvider
     bool CursorIsAvailable { get; }
     void SetInputActive(bool active);           // Включаем/выключаем обработку
 
+    void ProcessLeftMouseButton(bool lmb);
+    void ProcessRightMouseButton(bool rmb);
+    void ProcessScrollMouse(float scroll);
     void ProcessMovement(Vector2 moveInput);
     void ProcessLook(Vector2 lookInput);
     void ProcessJump(bool jumpPressed);

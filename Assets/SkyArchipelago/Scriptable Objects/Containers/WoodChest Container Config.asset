@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af531673a933de42968d4c304985bc0, type: 3}
   m_Name: WoodChest Container Config
   m_EditorClassIdentifier: Data::ContainerConfig
+  KeyName: Chest
   containerType: 2
   BaseSlots: 10
   CustomStackSize: 0
