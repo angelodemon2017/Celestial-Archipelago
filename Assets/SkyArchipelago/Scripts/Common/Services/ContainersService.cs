@@ -3,9 +3,7 @@
 public class ContainersService
 {
     private readonly ContainersCatalogConfig _containersCatalog;
-//    private readonly ContainerDataFactory _containerDataFactory;
     private readonly SimpleFactory<ContainerConfig, ContainerData> _containerDataFactory;
-//    private readonly ContainerModelFactory _containerModelFactory;
     private readonly SimpleFactory<ContainerData, ContainerModel> _containerModelFactory;
     private readonly DataService _dataService;
 
@@ -51,6 +49,11 @@ public class ContainersService
         _mapContainerModels[containerData.Id] = _containerModelFactory.Create(containerData);
 
         return _mapContainerModels[containerData.Id];
+    }
+
+    public ContainerModel GetContainerModelById(int id)
+    {
+        return _mapContainerModels[id];
     }
 
     public void DeleteContainer(int containerId)

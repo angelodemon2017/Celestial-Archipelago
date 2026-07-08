@@ -7,7 +7,7 @@ public enum CtxFlag : uint
     Damaging = 1 << 0,
     Harvesting = 1 << 1,
     Fueling = 1 << 2,
-    Weapon = 1 << 3,
+    UIHave = 1 << 3,
     Item = 1 << 4,
     All = uint.MaxValue
 }

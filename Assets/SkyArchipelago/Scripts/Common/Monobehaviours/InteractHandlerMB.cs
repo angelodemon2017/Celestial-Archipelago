@@ -6,11 +6,10 @@ public class InteractHandlerMB : MonoBehaviour
     protected bool _isFocused = false;
 
     public string InteractionPrompt => _model.InteractionPrompt;
-    public float MaxInteractionDistance => _model.MaxInteractionDistance;
     public virtual bool CanInteract => _model.IsInteractable;
     public EntityModel GetModel => _model;
 
-    public void InitHandler(EntityModel model)
+    public void SetModel(EntityModel model)
     {
         _model = model;
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EmptyConfig
   m_EditorClassIdentifier: Common::ItemConfig
   TypeItem: 0
-  ctxFlag: 16
+  ItemTags: 16
   KeyName: 
   KeyDesc: 
   MaxStack: 1

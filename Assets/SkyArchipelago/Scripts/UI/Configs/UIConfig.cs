@@ -4,8 +4,9 @@
 public class UIConfig : ScriptableObject
 {
     public Canvas _canvas;
-    
+
     [Header("Views")]
+    public MenuOfEntityWithInventoryView menuOfEntityWithInventory;
     public MainMenuControllerView mainMenuControllerView;
     public DialogMenuUI dialogMenuUI;
     public MenuOfManagerView menuOfManagerView;

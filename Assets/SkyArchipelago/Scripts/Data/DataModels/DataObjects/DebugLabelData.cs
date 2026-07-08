@@ -1,9 +1,9 @@
 ﻿[System.Serializable]
-public class SpawnPointData : EntityData
+public class DebugLabelData : EntityData
 {
-    public SpawnPointData() => EntityType = EEntityType.SpawnPoint;
+    public DebugLabelData() => EntityType = EEntityType.DebugLabel;
     public override EntityModel CreateModel()
     {
-        return new SpawnPointModel(this);
+        return new DebugLabelModel(this);
     }
 }

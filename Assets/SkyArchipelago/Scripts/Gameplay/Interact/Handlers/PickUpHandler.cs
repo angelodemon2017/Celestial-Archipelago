@@ -27,9 +27,8 @@
             return false;
 
         var container = _containersService.GetContainerModel(entityWithContainer);
-        if (_inventoryTransactionsService.TryAddItemToContainer(container, droppedItem.CurrentItem))
+        if (_inventoryTransactionsService.TryPickItemToContainer(container, droppedItem.CurrentItem))
         {
-            container?.Changed();
             droppedItem?.Changed();
         }
 

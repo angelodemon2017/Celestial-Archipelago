@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Data::ContainerConfig
   KeyName: Chest
   containerType: 2
-  BaseSlots: 10
-  CustomStackSize: 0
-  Availableitems: 4294967295
+  BaseSlots: 4
+  CustomStackSize: 10
+  AvailableTagItems: 4294967295

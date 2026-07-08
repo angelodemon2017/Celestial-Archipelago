@@ -9,8 +9,13 @@ public abstract class BaseData<T>
     public int Id;
     public T Config;
 
-    [NonSerialized]
-    public Action DataUpdated;
+    public virtual void Copy<T2>(T2 data)
+        where T2 : BaseData<T>
+    {
+        EntityType = data.EntityType;
+        Id = data.Id;
+        Config = data.Config;
+    }
 
     public virtual void InitConfig(T config)
     {

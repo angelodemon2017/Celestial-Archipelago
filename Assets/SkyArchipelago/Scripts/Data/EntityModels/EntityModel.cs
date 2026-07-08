@@ -15,8 +15,8 @@ public class EntityModel<T> : EntityModel
 
 public class EntityModel : BaseModel<EntityData, ModelConfig>
 {
-    public CtxFlag AvailableFlag;
-    public CtxFlag MyTag => _dataModel.Config.tag;
+    public int Uid => _configModel.Uid;
+    public CtxFlag AvailableTags => _dataModel.Config.ModelTag;
 
     public bool IsGrounded;
     public virtual float MoveSpeed => 0f;

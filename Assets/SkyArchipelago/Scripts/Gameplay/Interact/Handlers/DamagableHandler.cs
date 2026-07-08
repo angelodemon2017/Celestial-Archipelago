@@ -9,7 +9,7 @@
         if(item == null || target == null)
             return false;
 
-        return (item.GetTag & target.AvailableFlag)
+        return (item.ItemTags & target.AvailableTags)
             .HasFlag(CtxFlag.Damaging);
     }
 

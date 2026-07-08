@@ -16,7 +16,6 @@ public class MarchingCubesConfigSO : ScriptableObject
     public List<ShapeInstance> shapes = new List<ShapeInstance>();
 
     [Header("Content")]
-    public List<IslandContentItem> contentItems;
     public List<ContentInstance> contentInstances = new();
 
     [Header("Marching Cubes")]

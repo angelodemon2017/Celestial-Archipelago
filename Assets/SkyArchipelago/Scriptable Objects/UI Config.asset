@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: UI Config
   m_EditorClassIdentifier: UI::UIConfig
   _canvas: {fileID: 3587793099978928411, guid: 014003bf5b3079a4199662b22314a150, type: 3}
+  menuOfEntityWithInventory: {fileID: 5177399532197520660, guid: 99fff72eb3ee8944e8e81871613b69cd, type: 3}
   mainMenuControllerView: {fileID: 4704180149622883251, guid: 55c7b7df067c26e4584affe3dc8ecada, type: 3}
   dialogMenuUI: {fileID: 6084435597741535812, guid: 7193b3d593ad6ee47a6b434320f83872, type: 3}
   menuOfManagerView: {fileID: 2259133529460787587, guid: 495b68833e67c124bb252e304528b842, type: 3}

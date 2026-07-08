@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shovel Config
   m_EditorClassIdentifier: Common::ItemConfig
   TypeItem: 4
-  ctxFlag: 16
+  ItemTags: 16
   KeyName: Shovel
   KeyDesc: This tool
   MaxStack: 1

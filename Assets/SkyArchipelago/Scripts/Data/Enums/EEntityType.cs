@@ -7,6 +7,8 @@
     DebugLabel = 4,
     DroppedItem = 5,
     Item = 6,
-    ResourceEntity = 100,
-    BuildingEntity = 101,
+    WoodChest = 100,
+    WorkTable = 101,
+    ResourceEntity = 10000,
+    BuildingEntity = 10001,
 }

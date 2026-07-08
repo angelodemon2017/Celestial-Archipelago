@@ -68,18 +68,19 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         if (LocalPlayerView != null)
             return;
 
-        var players = _entityRuntimeService.GetModelsByType<PlayerModel>();
+        var players = _entityRuntimeService.GetModelsByEType(EEntityType.Player);
         foreach (var p in players)
         {
-            if (p.PlayerId == _fPSCommonModel.PlayerName)
+            if (p is PlayerModel pm &&
+                pm.PlayerId == _fPSCommonModel.PlayerName)
             {
-                _fPSCommonModel.SetPlModel(p);
+                _fPSCommonModel.SetPlModel(pm);
                 return;
             }
         }
 
-        var sps = _entityRuntimeService.GetModelsByType<SpawnPointModel>();
-        var spawnPoint = sps[0].SpawnPoint;
+        var sps = _entityRuntimeService.GetModelsByEType(EEntityType.SpawnPoint);
+        var spawnPoint = (sps[0] is SpawnPointModel spm) ? spm.SpawnPoint : Vector3.zero;
         var playerData = new PlayerData(_fPSCommonModel.PlayerName);
         playerData.position = spawnPoint;
         playerData.rotation = sps[0].Rotation;

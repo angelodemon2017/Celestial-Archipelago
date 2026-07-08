@@ -2,8 +2,9 @@
 
 public class ItemModel : BaseModel<ItemData, ItemConfig>, IPoolable<ItemData>
 {
+    public byte SlotId;
     public EItemType TypeItem => _dataModel.TypeItem;
-    public virtual CtxFlag GetTag => _dataModel.Config.ctxFlag;
+    public CtxFlag ItemTags => _dataModel.Config.ItemTags;
     public virtual ERarityItem RarityItem => ERarityItem.Normal;
 
     public virtual bool IsUsable => false;
@@ -30,6 +31,7 @@ public class ItemModel : BaseModel<ItemData, ItemConfig>, IPoolable<ItemData>
 
     public void OnDespawned()
     {
+        _dataModel = null;
         Changed = null;
     }
 }

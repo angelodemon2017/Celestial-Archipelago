@@ -5,6 +5,9 @@ using Zenject;
 public class ItemModelFactory : IInitializable
 {
     private readonly DiContainer _container;
+    private readonly ItemsCatalogConfig _itemsCatalogConfig;
+    private readonly SimpleFactory<ItemConfig, ItemData> _itemDataFactory;
+
     private readonly Dictionary<EItemType, Queue<ItemModel>> _pools = new();
     private readonly Dictionary<EItemType, Type> _modelTypes = new();
 
@@ -12,20 +15,61 @@ public class ItemModelFactory : IInitializable
     private readonly Queue<SimpleItem> _simpleItemsPool = new();
 
     [Inject]
-    public ItemModelFactory(DiContainer container)
+    public ItemModelFactory(
+        DiContainer container,
+        ItemsCatalogConfig itemsCatalogConfig,
+        SimpleFactory<ItemConfig, ItemData> itemDataFactory)
     {
         _container = container;
+        _itemsCatalogConfig = itemsCatalogConfig;
+        _itemDataFactory = itemDataFactory;
     }
 
     public void Initialize()
     {
         // Маппинг типов
         _modelTypes[EItemType.None] = typeof(EmptyItemModel);
-        _modelTypes[EItemType.Coal] = typeof(CoalModel);
         _modelTypes[EItemType.Shovel] = typeof(ShovelModel);
         _simpleTypes.Add(EItemType.Rock);
         _simpleTypes.Add(EItemType.Wood);
         // Добавляй остальные типы здесь
+    }
+
+    public ItemData SplitItem(ItemData source, int amountToTake)
+    {
+        var newData = _itemDataFactory.Create(source.Config);
+        newData.Copy(source);
+        newData.Amount = amountToTake;
+        source.Amount -= amountToTake;
+        return newData;
+    }
+
+    public ItemModel SplitItem(ItemModel source, int amountToTake)
+    {
+        return Spawn(SplitItem(source._dataModel, amountToTake));
+    }
+
+    public ItemData GetDuplicate(ItemData itemData)
+    {
+        var duplItemData = _itemDataFactory.Create(itemData.Config);
+        duplItemData.Copy(itemData);
+        return duplItemData;
+    }
+
+    public ItemModel GetDuplicate(ItemModel itemModel)
+    {
+        return Spawn(GetDuplicate(itemModel._dataModel));
+    }
+
+    public ItemData GetEmptyItemData()
+    {
+        var empSlot = _itemsCatalogConfig.GetItemConfig(EItemType.None);
+        return _itemDataFactory.Create(empSlot);
+    }
+
+    public ItemModel GetEmptySlotModel()
+    {
+        return Spawn(GetEmptyItemData());
     }
 
     public ItemModel Spawn(ItemData data)
@@ -66,18 +110,18 @@ public class ItemModelFactory : IInitializable
 
         var itemType = model.TypeItem;
 
+//        _itemDataFactory.Despawn(model._dataModel);
+        model.OnDespawned();
+
         if (model is SimpleItem simpleItem &&
             _simpleTypes.Contains(itemType))
         {
-            simpleItem.OnDespawned();
             _simpleItemsPool.Enqueue(simpleItem);
             return;
         }
 
         if (!_pools.ContainsKey(itemType))
             _pools[itemType] = new Queue<ItemModel>();
-
-        model.OnDespawned();
         _pools[itemType].Enqueue(model);
     }
 

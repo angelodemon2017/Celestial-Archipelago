@@ -37,12 +37,13 @@ public class EntityRootHandlerMB : MonoBehaviour, IPoolable<EntityModel>
     public void Init(EntityModel model)
     {
         _entityModel = model;
-        _interactHandler?.InitHandler(model);
+        _interactHandler?.SetModel(model);
     }
 
     public void OnDespawned()
     {
         _entityModel = null;
+        _interactHandler?.SetModel(null);
     }
 
     public void OnDestroy()

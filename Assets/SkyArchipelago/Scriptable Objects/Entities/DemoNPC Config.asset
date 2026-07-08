@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6be48b82fb522464b8bd96337007fc98, type: 3}
   m_Name: DemoNPC Config
   m_EditorClassIdentifier: Data::ModelConfig
+  Uid: 1
   eEntityType: 3
   ContentName: Demomir
-  tag: 0
-  ViewModelPrefab: {fileID: 1118783047748416552, guid: 82cdf45840e8c394c82816968fea51a4, type: 3}
+  ModelTag: 10

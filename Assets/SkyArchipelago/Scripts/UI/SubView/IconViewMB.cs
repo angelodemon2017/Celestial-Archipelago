@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,18 +11,11 @@ public class IconViewMB : MonoBehaviour, IPoolable<ItemModel>
     [SerializeField] private TextMeshProUGUI _textTitle;
     [SerializeField] private TextMeshProUGUI _textDesc;
     [SerializeField] private TextMeshProUGUI _textCounter;
+    [SerializeField] private Button _testButton;
 
     private ItemModel _itemModel;
 
-    public void Clean()
-    {
-        _iconBackground.color = Color.white;
-        _iconImage.sprite = null;
-        _textTitle.color = Color.black;
-        _textTitle.text = string.Empty;
-        _textDesc.text = string.Empty;
-        _textCounter.text = string.Empty;
-    }
+    public Action<byte> OnTestButtonSlotIdAction;
 
     public void Init(ItemModel itemModel)
     {
@@ -33,6 +27,7 @@ public class IconViewMB : MonoBehaviour, IPoolable<ItemModel>
     public void UpdateView()
     {
         ApplyRarityItem(_itemModel.RarityItem);
+        _testButton.gameObject.SetActive(_itemModel.TypeItem != EItemType.None);
         _textTitle.text = _itemModel.FullItemName;
         _textDesc.text = _itemModel.Description;
         _textCounter.text = _itemModel.Count == 0 ?
@@ -60,6 +55,21 @@ public class IconViewMB : MonoBehaviour, IPoolable<ItemModel>
         }
     }
 
+    private void OnEnable()
+    {
+        _testButton.onClick.AddListener(OnClickButton);
+    }
+
+    private void OnClickButton()
+    {
+        OnTestButtonSlotIdAction?.Invoke(_itemModel.SlotId);
+    }
+
+    private void OnDisable()
+    {
+        _testButton.onClick.RemoveAllListeners();
+    }
+
     public void OnSpawned(ItemModel itemModel)
     {
         _itemModel = itemModel;
@@ -75,5 +85,15 @@ public class IconViewMB : MonoBehaviour, IPoolable<ItemModel>
         _itemModel = null;
         Clean();
         gameObject.SetActive(false);
+    }
+
+    public void Clean()
+    {
+        _iconBackground.color = Color.white;
+        _iconImage.sprite = null;
+        _textTitle.color = Color.black;
+        _textTitle.text = string.Empty;
+        _textDesc.text = string.Empty;
+        _textCounter.text = string.Empty;
     }
 }

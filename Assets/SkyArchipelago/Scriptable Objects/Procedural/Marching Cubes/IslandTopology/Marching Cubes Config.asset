@@ -33,10 +33,6 @@ MonoBehaviour:
     shapeOffset: {x: 5, y: 4, z: 0}
     operation: 0
     smoothK: 1
-  contentItems:
-  - {fileID: 11400000, guid: 054a4aedb0e6d1449b60978aed096c50, type: 2}
-  - {fileID: 11400000, guid: adf511d21bac5e946840a7eb461b10c4, type: 2}
-  - {fileID: 11400000, guid: 6087d20da1328b8428f34d418e284c96, type: 2}
   contentInstances:
   - Entity: {fileID: 11400000, guid: 054a4aedb0e6d1449b60978aed096c50, type: 2}
     positionOffset: {x: 0, y: 9, z: 0}
@@ -44,6 +40,10 @@ MonoBehaviour:
     positionOffset: {x: -11, y: 8, z: 0}
   - Entity: {fileID: 11400000, guid: 6087d20da1328b8428f34d418e284c96, type: 2}
     positionOffset: {x: -11, y: 8, z: 2}
+  - Entity: {fileID: 11400000, guid: 0aeec69dd25552e4793f282d2b4872c4, type: 2}
+    positionOffset: {x: -7, y: 8, z: -5}
+  - Entity: {fileID: 11400000, guid: 115603ef4e733414b908efedf2e6d0d5, type: 2}
+    positionOffset: {x: -2, y: 8, z: -4}
   surfaceLevel: -0.01
   layers:
   - Color: {r: 0, g: 1, b: 0, a: 1}

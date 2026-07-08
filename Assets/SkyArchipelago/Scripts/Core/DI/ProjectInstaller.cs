@@ -82,6 +82,7 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<FPSCommonModel>().AsSingle();
         Container.Bind<BuildingModel>().AsSingle();
         Container.Bind<DialogModel>().AsSingle();
+        Container.Bind<MenuEntityWithInventoryModel>().AsSingle();
         Container.Bind<DayNightModel>().AsSingle();
     }
 
@@ -100,6 +101,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<HinterService>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<DataService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<ContainerOperationsService>().AsSingle();        
         Container.BindInterfacesAndSelfTo<InventoryTransactionsService>().AsSingle();
         Container.BindInterfacesAndSelfTo<ContainersService>().AsSingle();
         Container.BindInterfacesAndSelfTo<EntityRuntimeService>().AsSingle();
@@ -134,6 +136,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<MainFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainMenuState>().AsSingle();
         Container.BindInterfacesAndSelfTo<ManagerMenuState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<MenuOfEntityWithInventoryState>().AsSingle();
         Container.BindInterfacesAndSelfTo<PauseMenuState>().AsSingle();
     }
 
@@ -144,6 +147,7 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallUI()
     {
+        Container.Bind<MenuOfEntityWithInventoryView>().FromComponentInNewPrefab(_uIConfig.menuOfEntityWithInventory).AsSingle();
         Container.Bind<MenuOfManagerView>().FromComponentInNewPrefab(_uIConfig.menuOfManagerView).AsSingle();
         Container.Bind<GameplayControllerView>().FromComponentInNewPrefab(_uIConfig.gameplayControllerView).AsSingle();
         Container.Bind<InventoryView>().FromComponentInNewPrefab(_uIConfig.inventoryView).AsSingle();
@@ -159,6 +163,7 @@ public class ProjectInstaller : MonoInstaller
         Container.DeclareSignal<InteractContext>();
         Container.DeclareSignal<TimeUpdateSignal>();
         Container.DeclareSignal<TimeSecondSignal>();
+        Container.DeclareSignal<MoveItemBetweenContainersSignal>();
         Container.DeclareSignal<LoadSceneSignal>();
         Container.DeclareSignal<SceneLoadedSignal>();
         Container.DeclareSignal<SceneInstalledSignal>();

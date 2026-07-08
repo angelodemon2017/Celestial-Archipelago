@@ -20,14 +20,14 @@ public class PlayerData : EntityData
     public override void SaveToBinary(BinaryWriter writer)
     {
         base.SaveToBinary(writer);
-
+        writer.Write(ContainerId);
         writer.Write(PlayerName ?? string.Empty);
     }
 
     public override void LoadFromBinary(BinaryReader binaryReader)
     {
         base.LoadFromBinary(binaryReader);
-
+        ContainerId = binaryReader.ReadInt32();
         PlayerName = binaryReader.ReadString();
     }
 }

@@ -1,4 +1,4 @@
-﻿public enum ERarityItem
+﻿public enum ERarityItem : byte
 {
     Trash = 0,
     Normal = 1,

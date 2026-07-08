@@ -17,6 +17,8 @@ public static class EntityMap
         Register<DebugLabelData>();
         //?!        Register<PlayerData>();
         Register<DemoNPCData>();
+        Register<WoodChestData>();
+        Register<WorkTableData>();
         //DEMO:
         Register<ResourceEntityData>();
         Register<BuildingEntityData>();

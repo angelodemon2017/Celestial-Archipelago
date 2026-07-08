@@ -9,7 +9,7 @@ public class ContainerData : BaseData<ContainerConfig>, IPoolable<ContainerConfi
     private readonly ItemsCatalogConfig _itemsCatalogConfig;
     private readonly SimpleFactory<ItemConfig, ItemData> _itemDataFactory;
 
-    public int Slots;
+    public byte Slots;
     public List<ItemData> itemDatas = new();
 
     public ContainerData(
@@ -81,7 +81,7 @@ public class ContainerData : BaseData<ContainerConfig>, IPoolable<ContainerConfi
     public override void LoadFromBinary(BinaryReader binaryReader)
     {
         base.LoadFromBinary(binaryReader);
-        Slots = binaryReader.ReadInt32();
+        Slots = binaryReader.ReadByte();
         var noneConfig = _itemsCatalogConfig.GetItemConfig(EItemType.None);//??
         for (int i = 0; i < Slots; i++)
         {

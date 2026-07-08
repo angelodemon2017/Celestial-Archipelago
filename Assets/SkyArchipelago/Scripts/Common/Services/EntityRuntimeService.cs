@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 public class EntityRuntimeService : ITimeTickable, IDisposable
 {
@@ -8,7 +7,8 @@ public class EntityRuntimeService : ITimeTickable, IDisposable
     private readonly IGameTimeService _timeService;
 
     private List<EntityModel> _entityModels = new(64);
-    private Dictionary<Type, List<EntityModel>> _cacheByBase = new(64);
+//    private Dictionary<Type, List<EntityModel>> _cacheByBase = new(64);
+    private Dictionary<EEntityType, List<EntityModel>> _cacheEntsByType = new(64);
 
     private float _realTimer;
 
@@ -43,7 +43,8 @@ public class EntityRuntimeService : ITimeTickable, IDisposable
     {
         _realTimer = 0f;
         _entityModels.Clear();
-        _cacheByBase.Clear();
+//        _cacheByBase.Clear();
+        _cacheEntsByType.Clear();
 
         foreach (var isl in _dataService.GetAllIslands)
         {
@@ -58,21 +59,35 @@ public class EntityRuntimeService : ITimeTickable, IDisposable
     public void AddModel(EntityModel model)
     {
         _entityModels.Add(model);
-        var type = model.GetType();
-        if (!_cacheByBase.TryGetValue(type, out var list))
+//        var type = model.GetType();
+/*        if (!_cacheByBase.TryGetValue(type, out var list))
         {
             list = new List<EntityModel>(32);
             _cacheByBase[type] = list;
+        }/**/
+        if (!_cacheEntsByType.TryGetValue(model.EntType, out List<EntityModel> list))
+        {
+            list = new List<EntityModel>(32);
+            _cacheEntsByType[model.EntType] = list;
         }
         list.Add(model);
     }
 
-    public List<T> GetModelsByType<T>() where T : EntityModel
+/*    public List<T> GetModelsByType<T>() where T : EntityModel
     {
         if (_cacheByBase.TryGetValue(typeof(T), out var list))
         {
             return Unsafe.As<List<EntityModel>, List<T>>(ref list!);
         }
         return new List<T>();
+    }/**/
+
+    public List<EntityModel> GetModelsByEType(EEntityType etype)
+    {
+        if (_cacheEntsByType.TryGetValue(etype, out var list))
+        {
+            return list;
+        }
+        return new List<EntityModel>();
     }
 }

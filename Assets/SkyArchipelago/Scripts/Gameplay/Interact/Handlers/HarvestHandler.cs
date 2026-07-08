@@ -26,10 +26,7 @@ public class HarvestHandler : BaseInteractHandler
 
     public override bool CanHandle(ItemModel item, EntityModel target)
     {
-        if (!(target is IHarvestable harvestable))
-            return false;
-
-        return harvestable.AvailableHarvestBy(item);
+        return target.AvailableTags.HasFlag(CtxFlag.Harvesting);
     }
 
     public override bool TryExecute(EntityModel source, ItemModel item, EntityModel target)
@@ -40,16 +37,21 @@ public class HarvestHandler : BaseInteractHandler
         if(!(target is IHarvestable harvestable))
             return false;
 
+//release check availabling items with expand items content
+//        if(!harvestable.AvailableHarvestBy(item))
+//            return false;
+
         EItemType randType = harvestable.GetHarvestableItemType();
         var itemConfig = _itemsCatalogConfig.GetItemConfig(randType);
         var newDataItem = _itemDataFactory.Create(itemConfig);
-        newDataItem.Amount = harvestable.GetHarvestableCount();
+        int totalAmount = harvestable.GetHarvestableCount();
+        newDataItem.Amount = totalAmount;
         var newModelItem = _itemModelFactory.Spawn(newDataItem);
 
         var container = _containersService.GetContainerModel(haveContainer);
-        if (_inventoryTransactionsService.TryAddItemToContainer(container, newModelItem))
+        if (_inventoryTransactionsService.TryPickItemToContainer(container, newModelItem))
         {
-            Debug.Log($"Harvested {itemConfig.KeyName} {newDataItem.Amount}");
+            Debug.Log($"Harvested {itemConfig.KeyName} {totalAmount}");
             container?.Changed?.Invoke();
         }
 

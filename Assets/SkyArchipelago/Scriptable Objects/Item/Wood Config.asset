@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wood Config
   m_EditorClassIdentifier: Common::ItemConfig
   TypeItem: 2
-  ctxFlag: 16
+  ItemTags: 16
   KeyName: Wood
   KeyDesc: Wooding resource
   MaxStack: 64
