@@ -15,4 +15,7 @@ MonoBehaviour:
   Uid: 5
   eEntityType: 101
   ContentName: "\u0412\u0435\u0440\u0441\u0442\u0430\u043A"
-  ModelTag: 8
+  ModelTag: 40
+  ModuleConfigs:
+  - {fileID: 11400000, guid: 9861b3cff1b383c4cbc5fd5439d1bbcc, type: 2}
+  - {fileID: 11400000, guid: d7e118cdf5373c5469750a272ecc28ec, type: 2}

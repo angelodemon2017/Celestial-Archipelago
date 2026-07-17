@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63709944b4567b94994207331ba94c42, type: 3}
+  m_Name: Gravels Recipe
+  m_EditorClassIdentifier: Data::RecipeConfig
+  Uid: 0
+  _inputs:
+  - Config: {fileID: 11400000, guid: 59ef4cee26b6ff74ebf2b319b08f6e3f, type: 2}
+    Amount: 2
+    Chance: 1
+  _outputs:
+  - Config: {fileID: 11400000, guid: 16ee221eeb36bb14fa8fc5652d150e8b, type: 2}
+    Amount: 2
+    Chance: 1
+  ActionUnitsRequired: 300
+  AvailableAUByTick: 1
+  IsCalcingInAutoCraftTicks: 0
+  IsDeleteInputsOnStart: 0
+  IsStaticRecipe: 1
+  IsReturnResourceAfterStopCraft: 1

@@ -9,8 +9,7 @@
         if(item == null || target == null)
             return false;
 
-        return (item.ItemTags & target.AvailableTags)
-            .HasFlag(CtxFlag.Damaging);
+        return (item.ItemTags & target.AvailableTags & CtxFlag.Damaging) == CtxFlag.Damaging;
     }
 
     public override bool TryExecute(EntityModel source, ItemModel item, EntityModel target)

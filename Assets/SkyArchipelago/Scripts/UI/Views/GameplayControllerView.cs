@@ -39,7 +39,7 @@ public class GameplayControllerView : UIWindowBase
 
     private void OnTimeSecond(TimeUpdateSignal signal)
     {
-        _timeText.text = $"D:{_dayNightModel.CurrentDays}. H:{_dayNightModel.CurrentHours}:{_dayNightModel.CurrentMinutes}";
+        _timeText.text = $"D:{_dayNightModel.CurrentDays.ToTxt()}. H:{_dayNightModel.CurrentHours.ToTxt()}:{_dayNightModel.CurrentMinutes.ToTxt()}";
     }
 
     private void UpdateHint()

@@ -1,5 +1,7 @@
 ﻿public interface IHaveContainer
 {
-    int ContainerId { get; set; }
-    EContainerType GetContainerType { get; }
+    int Id { get; }
+    EContainerType MainContainer { get; }
+    int GetIdContainerByEType(EContainerType eType);
+    bool SetIdContainerByEType(EContainerType eType, int newId);
 }

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12086fcc824507a41930040c8d5d509e, type: 3}
   m_Name: '!Items Catalog Config'
   m_EditorClassIdentifier: Data::ItemsCatalogConfig
-  items:
+  _elements:
   - {fileID: 11400000, guid: 8e831eeabc94ea24e8d25c67a9f583c3, type: 2}
+  - {fileID: 11400000, guid: 16ee221eeb36bb14fa8fc5652d150e8b, type: 2}
   - {fileID: 11400000, guid: 59ef4cee26b6ff74ebf2b319b08f6e3f, type: 2}
-  - {fileID: 11400000, guid: 8e8ef66444cdd1d449552591ec379edf, type: 2}
   - {fileID: 11400000, guid: 61e03ab7c59851c4a9fc3975c0177e95, type: 2}
+  - {fileID: 11400000, guid: 5c91e0993c77f354bb43fa967a5ec2c2, type: 2}
+  - {fileID: 11400000, guid: 8e8ef66444cdd1d449552591ec379edf, type: 2}
+  - {fileID: 11400000, guid: 15dff31027d8bae45ba3d94a022f71bb, type: 2}

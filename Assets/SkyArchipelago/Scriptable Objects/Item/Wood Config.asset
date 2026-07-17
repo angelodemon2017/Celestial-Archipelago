@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Wood Config
   m_EditorClassIdentifier: Common::ItemConfig
   TypeItem: 2
-  ItemTags: 16
+  ItemTags: 20
   KeyName: Wood
   KeyDesc: Wooding resource
   MaxStack: 64
-  Weight: 0
+  FuelStorage: 100

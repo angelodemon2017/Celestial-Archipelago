@@ -172,7 +172,6 @@ MonoBehaviour:
       Datas:
       - EntityType: 0
         Id: 0
-        Config: {fileID: 11400000, guid: dad8e2d1ee1fab34a8b9c50843de06d7, type: 2}
         ConfigId: 0
         Position: {x: 0, y: 0, z: 0}
         Center: {x: 0, y: 0, z: 0}
@@ -183,17 +182,14 @@ MonoBehaviour:
           Datas:
           - EntityType: 1
             Id: 0
-            Config: {fileID: 11400000, guid: e1eae2b1c4a083f418c2cca8884c80b0, type: 2}
             position: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
           - EntityType: 3
             Id: 0
-            Config: {fileID: 11400000, guid: 0836b613e48946e4d83b9be02057c293, type: 2}
             position: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
           - EntityType: 4
             Id: 0
-            Config: {fileID: 11400000, guid: dad8e2d1ee1fab34a8b9c50843de06d7, type: 2}
             position: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
     ContainerDatas:
@@ -202,18 +198,15 @@ MonoBehaviour:
       Datas:
       - EntityType: 0
         Id: 0
-        Config: {fileID: 11400000, guid: 1072dca6090f49d428232dacd5685a7a, type: 2}
         Slots: 10
         itemDatas:
         - EntityType: 5
           Id: 0
-          Config: {fileID: 11400000, guid: 59ef4cee26b6ff74ebf2b319b08f6e3f, type: 2}
           TypeItem: 1
           Amount: 5
           SomePrefix: 
         - EntityType: 5
           Id: 0
-          Config: {fileID: 11400000, guid: 8e8ef66444cdd1d449552591ec379edf, type: 2}
           TypeItem: 2
           Amount: 2
           SomePrefix: 

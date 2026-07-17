@@ -1,37 +1,28 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EntityViewCatalog", menuName = "Entity/EntityViewCatalog")]
-public class EntityViewCatalog : ScriptableObject
+public class EntityViewCatalog : BaseCatalogConfig<RootViewHandler, EEntityType>
 {
     public EntityViewMB entityViewPrefab;
-    public List<RootViewHandler> rootViewHandlers;
 
-    private Dictionary<EEntityType, RootViewHandler> _cacheItems = new();
-
-    private void OnValidate()
+    protected override void OnValidate()
     {
-        for (int i = 0; i < rootViewHandlers.Count; i++)
+        for (int i = 0; i < _elements.Count; i++)
         {
-            rootViewHandlers[i].modelConfig.Uid = i;
+            _elements[i].modelConfig.Uid = i;
         }
-    }
-
-    public RootViewHandler GetModelConfigByType(EEntityType eEntityType)
-    {
-        if (!_cacheItems.ContainsKey(eEntityType))
-        {
-            _cacheItems.Clear();
-            rootViewHandlers.ForEach(c => _cacheItems.Add(c.modelConfig.eEntityType, c));
-        }
-
-        return _cacheItems[eEntityType];
     }
 }
 
 [System.Serializable]
-public struct RootViewHandler
+public struct RootViewHandler : BaseCatalogElementConfig<EEntityType>
 {
     public EntityRootHandlerMB entityRootHandlerPrefab;
     public ModelConfig modelConfig;
+
+    public EEntityType KeyOfCatalog
+    {
+        get => modelConfig.eEntityType;
+        set => modelConfig.eEntityType = value;
+    }
 }

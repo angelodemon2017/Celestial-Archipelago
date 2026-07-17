@@ -32,6 +32,10 @@ public class MainFPSState : BaseFPSState<GameplayControllerView>
             entityViewsFactory,
             uIViewCoordinator)
     {
+        KeyHints.Add("E - Interact");
+        KeyHints.Add("LMB - MainAction");
+        KeyHints.Add("RMB - Harvesting");
+        KeyHints.Add("Tab - Manager menu");
         _gameplayStateService = gameplayStateService;
     }
 

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using UnityEngine;
+using Zenject;
 
 public class FileTestBin : MonoBehaviour
 {
@@ -10,6 +11,12 @@ public class FileTestBin : MonoBehaviour
     [SerializeField] private string fileName = "island_save.dat";
 
     private string FilePath => Path.Combine(Application.persistentDataPath, fileName);
+
+    [Inject]
+    public void Construct(DataService dataService)
+    {
+        DebugWorld = dataService.worldData;
+    }
 
     [ContextMenu("Save")]
     public void Save()

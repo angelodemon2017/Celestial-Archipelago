@@ -13,7 +13,7 @@ public class SimpleFactory<InitModel, ModelOfFabric>
         _container = container;
     }
 
-    public ModelOfFabric Create(InitModel initModel)
+    public ModelOfFabric Spawn(InitModel initModel)
     {
         ModelOfFabric instance;
 

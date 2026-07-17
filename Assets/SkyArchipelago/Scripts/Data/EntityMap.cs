@@ -19,6 +19,7 @@ public static class EntityMap
         Register<DemoNPCData>();
         Register<WoodChestData>();
         Register<WorkTableData>();
+        Register<FurnaceData>();
         //DEMO:
         Register<ResourceEntityData>();
         Register<BuildingEntityData>();

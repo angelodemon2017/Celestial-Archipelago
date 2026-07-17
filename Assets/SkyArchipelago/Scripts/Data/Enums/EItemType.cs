@@ -1,8 +1,10 @@
-﻿public enum EItemType : byte
+﻿public enum EItemType
 {
     None = 0,
     Rock = 1,
     Wood = 2,
-    SomeThing = 3,
-    Shovel = 4,
+    Stick = 3,
+    Gravel = 4,
+    WoodingCoal = 5,
+    Shovel = 100,
 }

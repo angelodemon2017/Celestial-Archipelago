@@ -6,27 +6,30 @@ public class HarvestHandler : BaseInteractHandler
     private readonly ContainersService _containersService;
     private readonly ItemModelFactory _itemModelFactory;
     private readonly SimpleFactory<ItemConfig, ItemData> _itemDataFactory;
-    private readonly ItemsCatalogConfig _itemsCatalogConfig;
+    private readonly ItemsCatalogManager _itemsCatalogManager;
+    private readonly EntitiesCatalogManager _entitiesCatalogManager;
 
     public HarvestHandler(
-        ItemsCatalogConfig itemsCatalogConfig,
         ContainersService containersService,
+        ItemsCatalogManager itemsCatalogManager,
         ItemModelFactory itemModelFactory,
         SimpleFactory<ItemConfig, ItemData> itemDataFactory,
-        InventoryTransactionsService inventoryTransactionsService)
+        InventoryTransactionsService inventoryTransactionsService,
+        EntitiesCatalogManager entitiesCatalogManager)
     {
-        _itemsCatalogConfig = itemsCatalogConfig;
         _containersService = containersService;
+        _itemsCatalogManager = itemsCatalogManager;
         _itemModelFactory = itemModelFactory;
         _itemDataFactory = itemDataFactory;
         _inventoryTransactionsService = inventoryTransactionsService;
+        _entitiesCatalogManager = entitiesCatalogManager;
     }
 
     public override int Priority => 25;
 
     public override bool CanHandle(ItemModel item, EntityModel target)
     {
-        return target.AvailableTags.HasFlag(CtxFlag.Harvesting);
+        return (target.AvailableTags & CtxFlag.Harvesting) == CtxFlag.Harvesting;
     }
 
     public override bool TryExecute(EntityModel source, ItemModel item, EntityModel target)
@@ -34,16 +37,21 @@ public class HarvestHandler : BaseInteractHandler
         if (!(source is IHaveContainer haveContainer))
             return false;
 
-        if(!(target is IHarvestable harvestable))
+        if (!(_entitiesCatalogManager.TryGetModule(target.EntType, CtxFlag.Harvesting, out var module) &&
+            module is HarvestConfig harvestConfig))
             return false;
 
-//release check availabling items with expand items content
-//        if(!harvestable.AvailableHarvestBy(item))
-//            return false;
+        if (!(target is IHarvestable harvestable))
+            return false;
+
+        //release check availabling items with expand items content
+        //        if(!harvestable.AvailableHarvestBy(item))
+        //            return false;
 
         EItemType randType = harvestable.GetHarvestableItemType();
-        var itemConfig = _itemsCatalogConfig.GetItemConfig(randType);
-        var newDataItem = _itemDataFactory.Create(itemConfig);
+        if (!_itemsCatalogManager.TryGetConfigByKey(randType, out var itemConfig))
+            return false;
+        var newDataItem = _itemDataFactory.Spawn(itemConfig);
         int totalAmount = harvestable.GetHarvestableCount();
         newDataItem.Amount = totalAmount;
         var newModelItem = _itemModelFactory.Spawn(newDataItem);
@@ -52,8 +60,9 @@ public class HarvestHandler : BaseInteractHandler
         if (_inventoryTransactionsService.TryPickItemToContainer(container, newModelItem))
         {
             Debug.Log($"Harvested {itemConfig.KeyName} {totalAmount}");
-            container?.Changed?.Invoke();
         }
+        _itemDataFactory.Despawn(newModelItem._dataModel);
+        _itemModelFactory.Despawn(newModelItem);
 
         return true;
     }

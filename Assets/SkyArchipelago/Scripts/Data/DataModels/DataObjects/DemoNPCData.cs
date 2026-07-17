@@ -27,7 +27,7 @@ public class DemoNPCData : EntityData
     public override void InitConfig(ModelConfig config)
     {
         base.InitConfig(config);
-
+        AvailableFlags |= CtxFlag.UIHave;
         NpcId = config.ContentName;
     }
 }

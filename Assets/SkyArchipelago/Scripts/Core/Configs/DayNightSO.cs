@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DayNightSO", menuName = "Scriptable Objects/DayNightSO")]
+[CreateAssetMenu(fileName = "DayNightSO", menuName = "Core/DayNightSO")]
 public class DayNightSO : ScriptableObject
 {
     public bool UpdateMinutes;

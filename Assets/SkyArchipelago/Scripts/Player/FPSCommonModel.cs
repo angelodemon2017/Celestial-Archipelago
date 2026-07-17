@@ -10,6 +10,7 @@ public class FPSCommonModel
 
     public PlayerModel LocalPlayerModel;
     public ContainerModel ContainerModel;
+    public ContainerModel ContainerDragUIOfPlayer;
 
     public float XRotation = 0f;
     public Vector2 CurrentMoveInput;
@@ -23,6 +24,7 @@ public class FPSCommonModel
     public void SetPlModel(PlayerModel playerModel)
     {
         LocalPlayerModel = playerModel;
-        ContainerModel = _containersService.GetContainerModel(LocalPlayerModel);
+        ContainerModel = _containersService.GetContainerModel(LocalPlayerModel, EContainerType.BasePlayer);
+        ContainerDragUIOfPlayer = _containersService.GetContainerModel(LocalPlayerModel, EContainerType.PlayerDragByUI);
     }
 }

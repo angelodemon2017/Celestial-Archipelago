@@ -1,117 +1,109 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 
+[Serializable]
 public class ContainerModel : BaseModel<ContainerData, ContainerConfig>, IPoolable<ContainerData>
 {
-    private readonly SimpleFactory<ContainerConfig, ContainerData> _containerDataFactory;
     private readonly ItemModelFactory _itemModelFactory;
-    private readonly ContainerOperationsService _containerOperationsService;
 
+    public int IdEntityOwner => _dataModel.IdEntityOwner;
     public override string ModelName => string.Empty;
-    public byte Slots => _dataModel.Slots;
-    public string TitleContainer => _configModel.KeyName;
+    public string TitleContainer => ConfigModel.KeyName;
     public List<ItemModel> itemModels = new();
-    private Dictionary<byte, ItemModel> _itemsBySlots = new();
+    private Dictionary<int, ItemModel> _itemsBySlots = new();
 
-    public Action<int, byte> TestActionBySlot;
-    public Action<byte> ChangedSlotId;
+    public bool IsEmpty => _dataModel.EmptySlots == _dataModel.Slots;
+    public ContainerAvailabilityFlag Availabilities => _dataModel.CurrentAvailabilitys;
+    public Action<int> ChangedSlotId;
 
     public ContainerModel(
-        SimpleFactory<ContainerConfig, ContainerData> containerDataFactory,
-        ContainerOperationsService containerOperationsService,
         ItemModelFactory itemModelFactory)
     {
-        _containerDataFactory = containerDataFactory;
-        _containerOperationsService = containerOperationsService;
         _itemModelFactory = itemModelFactory;
     }
 
     public void OnSpawned(ContainerData containerData)
     {
-        InitContainer(containerData);
-    }
-
-    public void InitContainer(ContainerData data)
-    {
-        _dataModel = data;
+        _dataModel = containerData;
         CleanList();
-        for (byte i = 0; i < _dataModel.Slots; i++)
+        for (int i = 0; i < _dataModel.Slots; i++)
         {
             var newIM = _itemModelFactory.Spawn(_dataModel.itemDatas[i]);
-            newIM.SlotId = i;
             itemModels.Add(newIM);
             _itemsBySlots.Add(newIM.SlotId, newIM);
         }
     }
 
-    public bool TryAddItemModel(ItemModel incomingItem)
+    public bool RefreshModelsAfterDataChange(List<int> changedSlotIndices)
     {
-        if (incomingItem == null || incomingItem.TypeItem == EItemType.None)
-            return false;
-
-        var changes = _containerOperationsService.TryAddToContainer(_dataModel, incomingItem._dataModel);
-
-        if (changes.Count > 0)
+        if (changedSlotIndices.Count > 0)
         {
-            RefreshModelsAfterDataChange(changes);
-//            Changed?.Invoke();
+            int count = changedSlotIndices.Count;
+            for (int i = 0; i < count; i++)
+                RefreshModelBySlot(changedSlotIndices[i]);
             return true;
         }
         else
             return false;
     }
 
-    public void ClearSlot(byte slotId)
+    public void ClearSlot(int slotId)
     {
         var emptData = _itemModelFactory.GetEmptyItemData();
-        _dataModel.SwapItem(slotId, emptData);     
+        _dataModel.ReplaceItem(slotId, emptData);
         RefreshModelBySlot(slotId);
     }
 
-    private void RefreshModelsAfterDataChange(List<byte> changedSlotIndices)
-    {
-        foreach (var slot in changedSlotIndices)
-        {
-            RefreshModelBySlot(slot);
-        }
-    }
-
-    private void RefreshModelBySlot(byte slot)
+    public void RefreshModelBySlot(int slot)
     {
         var dataInSlot = _dataModel.itemDatas[slot];
         var modelItem = _itemModelFactory.Spawn(dataInSlot);
-        modelItem.SlotId = slot;
-        SwapItemModel(slot, modelItem);
-        ChangedSlotId?.Invoke(slot);
+        ReplaceItemModel(slot, modelItem);
     }
 
-    public void SwapItemModel(byte slotId, ItemModel newModel)
-    {
+    public void ReplaceItemModel(int slotId, ItemModel newModel)
+    {//TODO return previous model?
         var oldModel = itemModels[slotId];
-        if (oldModel != newModel)
-            _itemModelFactory.Despawn(oldModel);
+        if (oldModel == newModel)
+            return;
 
-        newModel.SlotId = slotId;
+        _itemModelFactory.Despawn(oldModel);
+        newModel._dataModel.SlotId = slotId;
         itemModels[slotId] = newModel;
         _itemsBySlots[slotId] = newModel;
+        ChangedSlotId?.Invoke(slotId);
     }
 
-    public ItemModel GetItemModel(byte slotId)
+    public ItemModel ExchangeItemModel(int slotId, ItemModel newModel)
+    {//Problem method - itemModel return to fabric or not?
+        var oldModel = itemModels[slotId];
+        _dataModel.ReplaceItem(slotId, newModel._dataModel, false);
+        _dataModel.UpdateCountsByType(newModel.TypeItem);
+        _dataModel.UpdateCountsByType(oldModel.TypeItem);
+        itemModels[slotId] = newModel;
+        _itemsBySlots[slotId] = newModel;
+        ChangedSlotId?.Invoke(slotId);
+        return oldModel;
+    }
+
+    public ItemModel GetItemBySlot(int slotId)
     {
         return _itemsBySlots[slotId];
     }
 
     private void CleanList()
     {
-        itemModels.ForEach(i => _itemModelFactory.Despawn(i));
+        var count = itemModels.Count;
+        for (int i = 0; i < count; i++)
+            _itemModelFactory.Despawn(itemModels[i]);
         itemModels.Clear();
         _itemsBySlots.Clear();
     }
 
     public void OnDespawned()
     {
-        _containerDataFactory.Despawn(_dataModel);
         CleanList();
         Changed = null;
     }

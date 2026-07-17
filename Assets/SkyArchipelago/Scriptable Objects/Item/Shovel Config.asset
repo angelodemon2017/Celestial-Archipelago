@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20dc2eb907d541a4192fb9c10e49cf48, type: 3}
   m_Name: Shovel Config
   m_EditorClassIdentifier: Common::ItemConfig
-  TypeItem: 4
+  TypeItem: 100
   ItemTags: 16
   KeyName: Shovel
   KeyDesc: This tool

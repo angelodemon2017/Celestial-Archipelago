@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63709944b4567b94994207331ba94c42, type: 3}
+  m_Name: Sticks Recipe
+  m_EditorClassIdentifier: Data::RecipeConfig
+  Uid: 1
+  _inputs:
+  - Config: {fileID: 11400000, guid: 8e8ef66444cdd1d449552591ec379edf, type: 2}
+    Amount: 2
+    Chance: 1
+  _outputs:
+  - Config: {fileID: 11400000, guid: 5c91e0993c77f354bb43fa967a5ec2c2, type: 2}
+    Amount: 5
+    Chance: 1
+  ActionUnitsRequired: 200
+  AvailableAUByTick: 1
+  IsCalcingInAutoCraftTicks: 0
+  IsDeleteInputsOnStart: 0
+  IsStaticRecipe: 1
+  IsReturnResourceAfterStopCraft: 1

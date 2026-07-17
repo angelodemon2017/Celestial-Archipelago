@@ -9,6 +9,7 @@
         UIViewCoordinator uIViewCoordinator) :
         base(uIViewCoordinator)
     {
+        KeyHints.Add("Q - Close this menu");
         _gameplayStateService = gameplayStateService;
         _dialogModel = dialogModel;
     }

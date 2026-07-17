@@ -16,3 +16,5 @@ MonoBehaviour:
   eEntityType: 100
   ContentName: "\u0421\u0443\u043D\u0434\u0443\u043A"
   ModelTag: 8
+  ModuleConfigs:
+  - {fileID: 11400000, guid: 7c4531e133d30f842a38b427d1529706, type: 2}

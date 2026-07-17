@@ -2,23 +2,26 @@
 {
     private readonly DialogModel _dialogModel;
     private readonly GameplayStateService _gameplayStateService;
-    private readonly MenuEntityWithInventoryModel _menuEntityWithInventoryModel;
+    private readonly MenuOfEntityModel _menuOfEntityModel;
+    private readonly RecipesGlossaryService _recipesGlossaryService;
 
     public ShowUIHandler(
         DialogModel dialogModel,
         GameplayStateService gameplayStateService,
-        MenuEntityWithInventoryModel menuEntityWithInventoryModel)
+        MenuOfEntityModel menuOfEntityModel,
+        RecipesGlossaryService recipesGlossaryService)
     {
         _dialogModel = dialogModel;
         _gameplayStateService = gameplayStateService;
-        _menuEntityWithInventoryModel = menuEntityWithInventoryModel;
+        _menuOfEntityModel = menuOfEntityModel;
+        _recipesGlossaryService = recipesGlossaryService;
     }
 
     public override int Priority => 1;
 
     public override bool CanHandle(ItemModel item, EntityModel target)
     {
-        return target.AvailableTags.HasFlag(CtxFlag.UIHave);
+        return (target.AvailableTags & CtxFlag.UIHave) == CtxFlag.UIHave;
     }
 
     public override bool TryExecute(EntityModel source, ItemModel item, EntityModel target)
@@ -27,15 +30,25 @@
         {
             _dialogModel.CurrentNpcId = nPC.NpcId;
             _gameplayStateService.SetState<DialogMenuState>();
+            return true;
         }
+        //TODO Обобщить target!
 
-        if (target is IHaveContainer wcm &&
-            source is IHaveContainer sourceCont)
+        if (target is IUIshowable)
         {
-            _menuEntityWithInventoryModel.SetTargetEntity(wcm, sourceCont);
-            _gameplayStateService.SetState<MenuOfEntityWithInventoryState>();
+            if ((target.AvailableTags & CtxFlag.HaveRecipe) == CtxFlag.HaveRecipe)
+            {
+                if(target is IHaveContainer haveContainer)
+                    _recipesGlossaryService.SetFocusContainer(target, haveContainer);
+                else if(source is IHaveContainer sourceContainer)
+                    _recipesGlossaryService.SetFocusContainer(target, sourceContainer);
+            }
+            _menuOfEntityModel.SetEM(target);
+
+            _gameplayStateService.SetState<MenuOfEntityState>();
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

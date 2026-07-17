@@ -15,7 +15,8 @@
 
     public override bool CanHandle(ItemModel item, EntityModel target)
     {
-        return target is DroppedItemModel;
+        //TODO add tag for frop entity
+        return false;//target is DroppedItemModel;
     }
 
     public override bool TryExecute(EntityModel source, ItemModel item, EntityModel target)
@@ -29,7 +30,7 @@
         var container = _containersService.GetContainerModel(entityWithContainer);
         if (_inventoryTransactionsService.TryPickItemToContainer(container, droppedItem.CurrentItem))
         {
-            droppedItem?.Changed();
+            droppedItem?.Changed?.Invoke();
         }
 
         return true;

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 public class ProjectInstaller : MonoInstaller
@@ -14,11 +13,11 @@ public class ProjectInstaller : MonoInstaller
     [SerializeField] private EntityViewCatalog _entityViewCatalog;
     [SerializeField] private ItemsCatalogConfig _itemsCatalogConfig;
     [SerializeField] private ContainersCatalogConfig _containersCatalogConfig;
+    [SerializeField] private RecipesCatalogConfig _recipesCatalogConfig;
+    
     [SerializeField] private WorldGeneratorConfig _worldGeneratorConfig;
 
     [Header("Prefabs")]
-    [SerializeField] private IconViewMB _iconViewPrefab;
-    [SerializeField] private ItemsListViewMB _itemsListViewMB;
     [SerializeField] private HitSource _hitSource;
 
     [Header("MonoBehaviours")]
@@ -27,6 +26,7 @@ public class ProjectInstaller : MonoInstaller
     public override void InstallBindings()
     {
         InstallConfigs();
+        InstallManagersOfCatalogs();
         InstallBrefabs();
         InstallPoolsAndFabrics();
         InstallGameStates();
@@ -39,7 +39,7 @@ public class ProjectInstaller : MonoInstaller
     }
 
     private void InstallConfigs()
-    {        
+    {
         Container.BindInstance(_playerConfig).AsSingle();
         Container.BindInstance(_systemSO).AsSingle();
         Container.BindInstance(_dayNightSO).AsSingle();
@@ -47,14 +47,21 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInstance(_entityViewCatalog).AsSingle();
         Container.BindInstance(_itemsCatalogConfig).AsSingle();
         Container.BindInstance(_containersCatalogConfig).AsSingle();
+        Container.BindInstance(_recipesCatalogConfig).AsSingle();
         Container.BindInstance(_worldGeneratorConfig).AsSingle();
+    }
+
+    private void InstallManagersOfCatalogs()
+    {
+        Container.Bind<RecipeCatalogManager>().AsSingle();
+        Container.Bind<ItemsCatalogManager>().AsSingle();
+        Container.Bind<ContainersCatalogManager>().AsSingle();
+        Container.Bind<EntitiesCatalogManager>().AsSingle();
     }
 
     private void InstallBrefabs()
     {
         Container.Bind<EntityViewMB>().FromComponentInNewPrefab(_entityViewCatalog.entityViewPrefab).AsTransient();
-        Container.Bind<IconViewMB>().FromComponentInNewPrefab(_iconViewPrefab).AsTransient();
-        Container.Bind<ItemsListViewMB>().FromComponentInNewPrefab(_itemsListViewMB).AsTransient();
         Container.Bind<HitSource>().FromComponentInNewPrefab(_hitSource).AsTransient();
         Container.Bind<BuildMarkerMB>().FromComponentInNewPrefab(_buildFPSState.buildMarkerPrefab).AsSingle();
         Container.BindInstance(_uIConfig._canvas).WithId(Dicts.DiPrefabIds.Canvas);
@@ -68,8 +75,9 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<ItemModelFactory>().AsSingle();
         Container.Bind<SimpleFactory<ContainerData, ContainerModel>>().AsSingle();
 
-        Container.Bind<UIMBFactory<ItemModel, IconViewMB>>().AsSingle();
-        Container.Bind<UIMBFactory<ContainerModel, ItemsListViewMB>>().AsSingle();
+        Container.Bind<SimpleFactory<ItemConfig, BurningFuelData>>().AsSingle();
+        Container.Bind<SimpleFactory<RecipeConfig, CraftProcessData>>().AsSingle();
+        Container.Bind<SimpleFactory<CraftProcessData, CraftProcessModel>>().AsSingle();
 
         Container.Bind<UIMBFactory<HitSourceInitModel, HitSource>>().AsSingle();
         Container.Bind<UIMBFactory<EntityRootHandlerMB, EntityViewMB>>().AsSingle();
@@ -78,11 +86,13 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallModels()
     {
+        Container.Bind<RecipeGlossaryRepository>().AsSingle();
+
         Container.Bind<MainMenuModel>().AsSingle();
         Container.Bind<FPSCommonModel>().AsSingle();
         Container.Bind<BuildingModel>().AsSingle();
         Container.Bind<DialogModel>().AsSingle();
-        Container.Bind<MenuEntityWithInventoryModel>().AsSingle();
+        Container.Bind<MenuOfEntityModel>().AsSingle();
         Container.Bind<DayNightModel>().AsSingle();
     }
 
@@ -94,17 +104,27 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<DebugLabelHandlers>().AsSingle();
         Container.BindInterfacesAndSelfTo<ShowUIHandler>().AsSingle();
     }
-
+    
     private void InstallServices()
     {
+        Container.Bind<EntityUIviewFactory>().AsSingle();
         //Common
         Container.BindInterfacesAndSelfTo<HinterService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<UIDragAndDropItemsService>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<DataService>().AsSingle();
-        Container.BindInterfacesAndSelfTo<ContainerOperationsService>().AsSingle();        
-        Container.BindInterfacesAndSelfTo<InventoryTransactionsService>().AsSingle();
         Container.BindInterfacesAndSelfTo<ContainersService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<ContainerOperationsService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<InventoryTransactionsService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<SelectingCraftService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<CraftingOperationService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<CraftProcessRepository>().AsSingle();
+        Container.BindInterfacesAndSelfTo<RuntimeCraftHandlerService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<RecipesGlossaryService>().AsSingle();
         Container.BindInterfacesAndSelfTo<EntityRuntimeService>().AsSingle();
+
+        Container.BindInterfacesAndSelfTo<BurningFuelsRepository>().AsSingle();
+        Container.BindInterfacesAndSelfTo<RuntimeBurningsHandlerService>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<CursorService>().AsSingle();
         Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
@@ -136,7 +156,7 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<MainFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainMenuState>().AsSingle();
         Container.BindInterfacesAndSelfTo<ManagerMenuState>().AsSingle();
-        Container.BindInterfacesAndSelfTo<MenuOfEntityWithInventoryState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<MenuOfEntityState>().AsSingle();
         Container.BindInterfacesAndSelfTo<PauseMenuState>().AsSingle();
     }
 
@@ -147,23 +167,24 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallUI()
     {
-        Container.Bind<MenuOfEntityWithInventoryView>().FromComponentInNewPrefab(_uIConfig.menuOfEntityWithInventory).AsSingle();
-        Container.Bind<MenuOfManagerView>().FromComponentInNewPrefab(_uIConfig.menuOfManagerView).AsSingle();
-        Container.Bind<GameplayControllerView>().FromComponentInNewPrefab(_uIConfig.gameplayControllerView).AsSingle();
-        Container.Bind<InventoryView>().FromComponentInNewPrefab(_uIConfig.inventoryView).AsSingle();
-        Container.Bind<MainMenuControllerView>().FromComponentInNewPrefab(_uIConfig.mainMenuControllerView).AsSingle();
-        Container.Bind<DialogMenuUI>().FromComponentInNewPrefab(_uIConfig.dialogMenuUI).AsSingle();
-        Container.Bind<PauseMenuUI>().FromComponentInNewPrefab(_uIConfig.pauseMenuUI).AsSingle();
+        _uIConfig.InstallPrefabs(Container);
     }
-
+    
     private void InstallSignals()
     {
         SignalBusInstaller.Install(Container);
         
+        Container.DeclareSignal<SelectRecipe>();
+        Container.DeclareSignal<HandleCraft>();
+        Container.DeclareSignal<ExchangeItemContainersSignal>();
+        Container.DeclareSignal<MoveItemBetweenContainersSignal>();
+        Container.DeclareSignal<MoveAmountBetweenSlotsSignal>();
+        Container.DeclareSignal<ContainerOfEntityRequest>();
+        Container.DeclareSignal<ContainerUpdatedSignal>();
+        Container.DeclareSignal<EntitiesUpdatedSignal>();
         Container.DeclareSignal<InteractContext>();
         Container.DeclareSignal<TimeUpdateSignal>();
         Container.DeclareSignal<TimeSecondSignal>();
-        Container.DeclareSignal<MoveItemBetweenContainersSignal>();
         Container.DeclareSignal<LoadSceneSignal>();
         Container.DeclareSignal<SceneLoadedSignal>();
         Container.DeclareSignal<SceneInstalledSignal>();

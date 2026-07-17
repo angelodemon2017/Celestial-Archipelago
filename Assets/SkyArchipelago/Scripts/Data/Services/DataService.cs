@@ -10,6 +10,8 @@ public class DataService
     public (int, int) GetCurrentChunk => (0, 0);
     public List<IslandData> GetAllIslands => _worldData.StaticIslands.Datas;
 
+    public WorldData worldData => _worldData;
+
     public DataService()
     {
 
@@ -32,13 +34,42 @@ public class DataService
 
     public int AddNewContainer(ContainerData newContainerData)
     {   
-        var newId = _worldData.AddNewContainer(newContainerData);
-        return newId;
+        return _worldData.ContainerDatas.AddNewData(newContainerData);
     }
 
     public ContainerData GetContainer(int id)
     {
-        return _worldData.GetContainer(id);
+        return _worldData.ContainerDatas.GetElement(id);
+    }
+
+    public int AddNewCraft(CraftProcessData newCraftProcessData)
+    {
+        return _worldData.CraftProcesses.AddNewData(newCraftProcessData);
+    }
+
+    public bool TryGetCraft(int id, out CraftProcessData craftProcess)
+    {
+        return _worldData.CraftProcesses.TryGetElement(id, out craftProcess);
+    }
+
+    public void RemoveCraft(int craftId)
+    {
+        _worldData.CraftProcesses.RemoveData(craftId);
+    }
+
+    public int AddNewBurn(BurningFuelData newBurn)
+    {
+        return _worldData.Burnings.AddNewData(newBurn);
+    }
+
+    public bool TryGetBurn(int id, out BurningFuelData burnProcess)
+    {
+        return _worldData.Burnings.TryGetElement(id, out burnProcess);
+    }
+
+    public void RemoveBurn(int burnId)
+    {
+        _worldData.Burnings.RemoveData(burnId);
     }
 
     public List<IslandData> GetIslandsByChunk(int x, int y)

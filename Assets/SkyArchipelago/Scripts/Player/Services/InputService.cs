@@ -33,6 +33,7 @@ public class InputService : ITickable, IInitializable, IDisposable
 
         Vector2 move = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        bool helpF1 = Input.GetKeyDown(KeyCode.F1);
         bool leftMouse = Input.GetMouseButtonDown(0);
         bool rightMouse = Input.GetMouseButtonDown(1);
         float scroll = Input.mouseScrollDelta.y;
@@ -41,6 +42,7 @@ public class InputService : ITickable, IInitializable, IDisposable
         bool tab = Input.GetKeyDown(KeyCode.Tab);
         bool closing = Input.GetKeyDown(KeyCode.Q);
 
+        _currentProvider.ProcessToggleKeyHints(helpF1);
         _currentProvider.ProcessLeftMouseButton(leftMouse);
         _currentProvider.ProcessRightMouseButton(rightMouse);
         _currentProvider.ProcessScrollMouse(scroll);

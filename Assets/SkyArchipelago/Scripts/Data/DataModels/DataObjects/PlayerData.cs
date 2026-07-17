@@ -4,7 +4,8 @@
 public class PlayerData : EntityData
 {
     public string PlayerName = "Player";
-    public int ContainerId = -1;
+    public int ContainerIdInventory = -1;
+    public int ContainerIdOfDrag = -1;
 
     public PlayerData(string playerName)
     {
@@ -20,14 +21,14 @@ public class PlayerData : EntityData
     public override void SaveToBinary(BinaryWriter writer)
     {
         base.SaveToBinary(writer);
-        writer.Write(ContainerId);
+        writer.Write(ContainerIdInventory);
         writer.Write(PlayerName ?? string.Empty);
     }
 
     public override void LoadFromBinary(BinaryReader binaryReader)
     {
         base.LoadFromBinary(binaryReader);
-        ContainerId = binaryReader.ReadInt32();
+        ContainerIdInventory = binaryReader.ReadInt32();
         PlayerName = binaryReader.ReadString();
     }
 }

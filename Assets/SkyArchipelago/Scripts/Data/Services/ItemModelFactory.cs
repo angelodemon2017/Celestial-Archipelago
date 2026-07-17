@@ -6,6 +6,7 @@ public class ItemModelFactory : IInitializable
 {
     private readonly DiContainer _container;
     private readonly ItemsCatalogConfig _itemsCatalogConfig;
+    private readonly ItemsCatalogManager _itemsCatalogManager;
     private readonly SimpleFactory<ItemConfig, ItemData> _itemDataFactory;
 
     private readonly Dictionary<EItemType, Queue<ItemModel>> _pools = new();
@@ -18,10 +19,12 @@ public class ItemModelFactory : IInitializable
     public ItemModelFactory(
         DiContainer container,
         ItemsCatalogConfig itemsCatalogConfig,
+        ItemsCatalogManager itemsCatalogManager,
         SimpleFactory<ItemConfig, ItemData> itemDataFactory)
     {
         _container = container;
         _itemsCatalogConfig = itemsCatalogConfig;
+        _itemsCatalogManager = itemsCatalogManager;
         _itemDataFactory = itemDataFactory;
     }
 
@@ -29,15 +32,20 @@ public class ItemModelFactory : IInitializable
     {
         // Маппинг типов
         _modelTypes[EItemType.None] = typeof(EmptyItemModel);
-        _modelTypes[EItemType.Shovel] = typeof(ShovelModel);
-        _simpleTypes.Add(EItemType.Rock);
-        _simpleTypes.Add(EItemType.Wood);
-        // Добавляй остальные типы здесь
+        _modelTypes[EItemType.Shovel] = typeof(ShovelModel);//for example
+        var items = _itemsCatalogConfig.Elements;
+        var count = items.Count;
+        for (int i = 0; i < count; i++)
+        {
+            var item = items[i];
+            if (!_modelTypes.ContainsKey(item.TypeItem))
+                _simpleTypes.Add(item.TypeItem);
+        }
     }
 
     public ItemData SplitItem(ItemData source, int amountToTake)
     {
-        var newData = _itemDataFactory.Create(source.Config);
+        var newData = _itemDataFactory.Spawn(source.Config);
         newData.Copy(source);
         newData.Amount = amountToTake;
         source.Amount -= amountToTake;
@@ -51,7 +59,7 @@ public class ItemModelFactory : IInitializable
 
     public ItemData GetDuplicate(ItemData itemData)
     {
-        var duplItemData = _itemDataFactory.Create(itemData.Config);
+        var duplItemData = _itemDataFactory.Spawn(itemData.Config);
         duplItemData.Copy(itemData);
         return duplItemData;
     }
@@ -63,8 +71,8 @@ public class ItemModelFactory : IInitializable
 
     public ItemData GetEmptyItemData()
     {
-        var empSlot = _itemsCatalogConfig.GetItemConfig(EItemType.None);
-        return _itemDataFactory.Create(empSlot);
+        _itemsCatalogManager.TryGetConfigByKey(EItemType.None, out var empSlot);
+        return _itemDataFactory.Spawn(empSlot);
     }
 
     public ItemModel GetEmptySlotModel()
@@ -110,7 +118,6 @@ public class ItemModelFactory : IInitializable
 
         var itemType = model.TypeItem;
 
-//        _itemDataFactory.Despawn(model._dataModel);
         model.OnDespawned();
 
         if (model is SimpleItem simpleItem &&

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Zenject;
 
 [System.Serializable]
@@ -7,6 +8,9 @@ public class ItemData : BaseData<ItemConfig>, IPoolable<ItemConfig>
     public EItemType TypeItem;
     public int Amount;
     public string SomePrefix = string.Empty;//enchant
+
+    [NonSerialized]
+    public int SlotId;
 
     public override void Copy<T2>(T2 data)
     {
@@ -41,7 +45,6 @@ public class ItemData : BaseData<ItemConfig>, IPoolable<ItemConfig>
     public override void LoadFromBinary(BinaryReader binaryReader)
     {
         base.LoadFromBinary(binaryReader);
-        TypeItem = (EItemType)binaryReader.ReadByte();
         Amount = binaryReader.ReadInt32();
     }
 

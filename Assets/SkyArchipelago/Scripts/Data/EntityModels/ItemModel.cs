@@ -2,7 +2,7 @@
 
 public class ItemModel : BaseModel<ItemData, ItemConfig>, IPoolable<ItemData>
 {
-    public byte SlotId;
+    public int SlotId => _dataModel.SlotId;
     public EItemType TypeItem => _dataModel.TypeItem;
     public CtxFlag ItemTags => _dataModel.Config.ItemTags;
     public virtual ERarityItem RarityItem => ERarityItem.Normal;
@@ -11,7 +11,7 @@ public class ItemModel : BaseModel<ItemData, ItemConfig>, IPoolable<ItemData>
     public virtual string FullItemName => $"{_dataModel.SomePrefix}{_dataModel.Config.KeyName}";
     public string Description => _dataModel.Config.KeyDesc;
     public int Count => _dataModel.Amount;
-    public int MaxStack => _configModel.MaxStack;
+    public int MaxStack => ConfigModel.MaxStack;
     public override string ModelName => $"Some Item";
 
     public void OnSpawned(ItemData itemData)

@@ -46,8 +46,9 @@ public class UIMBFactory<InitModel, MonoBehObj>
 
     public void Despawn(MonoBehObj view)
     {
-        view.gameObject.SetActive(false);
         view.OnDespawned();
+        view.gameObject.SetActive(false);
+        view.transform.SetParent(null);
         _pool.Enqueue(view);
     }
 }

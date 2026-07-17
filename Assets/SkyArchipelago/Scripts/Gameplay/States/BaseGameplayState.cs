@@ -35,6 +35,8 @@ public abstract class BaseGameplayState : ISourceHint, IInputProviderContainer, 
         HintUpdated?.Invoke();
     }
 
+    public virtual void ProcessToggleKeyHints(bool lmb) { }
+
     public virtual void ProcessLeftMouseButton(bool lmb) { }
 
     public virtual void ProcessRightMouseButton(bool rmb) { }

@@ -9,6 +9,7 @@
     Item = 6,
     WoodChest = 100,
     WorkTable = 101,
+    Furnace = 102,
     ResourceEntity = 10000,
     BuildingEntity = 10001,
 }

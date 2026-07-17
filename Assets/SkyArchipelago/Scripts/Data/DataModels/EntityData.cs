@@ -6,11 +6,20 @@ public class EntityData : BaseData<ModelConfig>
 {
     public Vector3 position;
     public Quaternion rotation = Quaternion.identity;
+    public CtxFlag AvailableFlags;
 
     public virtual string DebugLog => $"EntityData.{EntityType}.{Id}";
     public virtual EntityModel CreateModel()
     {//TODO move to spaawn from pool with typeVariants
         return new EntityModel();
+    }
+
+    public override void InitConfig(ModelConfig config)
+    {
+        base.InitConfig(config);
+        AvailableFlags = CtxFlag.None;
+        for (int i = 0; i < config.ModuleConfigs.Count; i++)
+            AvailableFlags |= config.ModuleConfigs[i].KeyFlag;
     }
 
     public override void LoadFromBinary(BinaryReader binaryReader)

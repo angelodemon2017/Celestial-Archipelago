@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e635a4db69b374f9f81e8b850a9003, type: 3}
   m_Name: '!Containers Catalog Config'
   m_EditorClassIdentifier: Data::ContainersCatalogConfig
-  containers:
+  _elements:
+  - {fileID: 11400000, guid: f22be3cf8e1e38e48b099124d124ff11, type: 2}
+  - {fileID: 11400000, guid: 8df883ef5a238704d93310ae30082726, type: 2}
+  - {fileID: 11400000, guid: 4dcdc4b476c27bf469db8b3687fada29, type: 2}
   - {fileID: 11400000, guid: 1072dca6090f49d428232dacd5685a7a, type: 2}
   - {fileID: 11400000, guid: de56c0b4bc6b7774f8d0b49ee5f72101, type: 2}
+  - {fileID: 11400000, guid: c618493a0c69b7148b0cf382ebb435c6, type: 2}
+  containers:
+  - {fileID: 11400000, guid: f22be3cf8e1e38e48b099124d124ff11, type: 2}
+  - {fileID: 11400000, guid: 8df883ef5a238704d93310ae30082726, type: 2}
+  - {fileID: 11400000, guid: 4dcdc4b476c27bf469db8b3687fada29, type: 2}
+  - {fileID: 11400000, guid: 1072dca6090f49d428232dacd5685a7a, type: 2}
+  - {fileID: 11400000, guid: de56c0b4bc6b7774f8d0b49ee5f72101, type: 2}
+  - {fileID: 11400000, guid: c618493a0c69b7148b0cf382ebb435c6, type: 2}

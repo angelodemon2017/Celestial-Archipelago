@@ -2,7 +2,7 @@
 
 public class ContainersService
 {
-    private readonly ContainersCatalogConfig _containersCatalog;
+    private readonly ContainersCatalogManager _containersCatalogManager;
     private readonly SimpleFactory<ContainerConfig, ContainerData> _containerDataFactory;
     private readonly SimpleFactory<ContainerData, ContainerModel> _containerModelFactory;
     private readonly DataService _dataService;
@@ -10,35 +10,48 @@ public class ContainersService
     private Dictionary<int, ContainerModel> _mapContainerModels = new();
 
     public ContainersService(
-        ContainersCatalogConfig containersCatalog,
+        ContainersCatalogManager containersCatalogManager,
         SimpleFactory<ContainerConfig, ContainerData> containerDataFactory,
         SimpleFactory<ContainerData, ContainerModel> containerModelFactory,
         DataService dataService)
     {
-        _containersCatalog = containersCatalog;
+        _containersCatalogManager = containersCatalogManager;
         _containerDataFactory = containerDataFactory;
         _containerModelFactory = containerModelFactory;
         _dataService = dataService;
     }
 
-    public ContainerModel GetContainerModel(IHaveContainer entityWithContainer)
+    public ContainerModel GetContainerModel<T>(T entityWithContainer, EContainerType contType)
+        where T : IHaveContainer
     {
-        var data = GetContainerData(entityWithContainer);
+        var data = GetContainerData(entityWithContainer, contType);
         return GetContainerModel(data);
     }
 
-    private ContainerData GetContainerData(IHaveContainer entityWithContainer)
+    public ContainerModel GetContainerModel<T>(T entityWithContainer)
+        where T : IHaveContainer
     {
-        if (entityWithContainer.ContainerId == -1)
+        var data = GetContainerData(entityWithContainer, entityWithContainer.MainContainer);
+        return GetContainerModel(data);
+    }
+
+    private ContainerData GetContainerData<T>(T entityWithContainer, EContainerType contType)
+        where T : IHaveContainer
+    {
+        var contId = entityWithContainer.GetIdContainerByEType(contType);
+        if (contId == -1)
         {
-            var containerConfig = _containersCatalog.GetContainerConfig(entityWithContainer.GetContainerType);
-            var newDataContainer =
-                _containerDataFactory.Create(containerConfig);
-            var newContainerId = _dataService.AddNewContainer(newDataContainer);
-            entityWithContainer.ContainerId = newContainerId;
+            _containersCatalogManager.TryGetConfigByKey(contType, out var containerConfig);
+            var newDataContainer = _containerDataFactory.Spawn(containerConfig);
+            newDataContainer.IdEntityOwner = entityWithContainer.Id;
+            contId = _dataService.AddNewContainer(newDataContainer);
+            if (!entityWithContainer.SetIdContainerByEType(contType, contId))
+            {
+                //pool for bed containers?
+            }
         }
 
-        return _dataService.GetContainer(entityWithContainer.ContainerId);
+        return _dataService.GetContainer(contId);
     }
 
     private ContainerModel GetContainerModel(ContainerData containerData)
@@ -46,7 +59,7 @@ public class ContainersService
         if (_mapContainerModels.TryGetValue(containerData.Id, out ContainerModel container))
             return container;
 
-        _mapContainerModels[containerData.Id] = _containerModelFactory.Create(containerData);
+        _mapContainerModels[containerData.Id] = _containerModelFactory.Spawn(containerData);
 
         return _mapContainerModels[containerData.Id];
     }
@@ -60,6 +73,7 @@ public class ContainersService
     {
         if (_mapContainerModels.TryGetValue(containerId, out ContainerModel container))
         {
+            _containerDataFactory.Despawn(container._dataModel);
             _mapContainerModels.Remove(containerId);
             _containerModelFactory.Despawn(container);
         }

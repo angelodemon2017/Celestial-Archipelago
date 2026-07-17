@@ -4,18 +4,18 @@ using Zenject;
 public class EntityViewsFactory
 {
     private readonly DiContainer _container;
-    private readonly EntityViewCatalog _entityViewCatalog;
+    private readonly EntitiesCatalogManager _entitiesCatalogManager;
     private readonly UIMBFactory<EntityRootHandlerMB, EntityViewMB> _entityViewFactory;
 
     private Dictionary<int, Queue<EntityRootHandlerMB>> _poolEntityViews = new();
 
     public EntityViewsFactory(
         DiContainer container,
-        EntityViewCatalog entityViewCatalog,
+        EntitiesCatalogManager entitiesCatalogManager,
         UIMBFactory<EntityRootHandlerMB, EntityViewMB> entityViewFactory)
     {
         _container = container;
-        _entityViewCatalog = entityViewCatalog;
+        _entitiesCatalogManager = entitiesCatalogManager;
         _entityViewFactory = entityViewFactory;
     }
 
@@ -23,7 +23,7 @@ public class EntityViewsFactory
     {
         if (model == null) return null;
 
-        var confHand = _entityViewCatalog.GetModelConfigByType(model.EntType);
+        _entitiesCatalogManager.TryGetConfigByKey(model.EntType, out var confHand);
         var idObj = confHand.modelConfig.Uid;
 
         EntityRootHandlerMB erh;
@@ -48,7 +48,8 @@ public class EntityViewsFactory
     {
         if (entityView == null) return;
 
-        var idObj = _entityViewCatalog.GetModelConfigByType(entityView.EntType).modelConfig.Uid;
+        _entitiesCatalogManager.TryGetConfigByKey(entityView.EntType, out var entityCon);
+        var idObj = entityCon.modelConfig.Uid;
 
         if (!_poolEntityViews.ContainsKey(idObj))
             _poolEntityViews[idObj] = new Queue<EntityRootHandlerMB>();

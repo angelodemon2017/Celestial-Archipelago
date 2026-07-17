@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74373e548d7ce54eb0d1947b4f5c586, type: 3}
   m_Name: Player Config
   m_EditorClassIdentifier: Player::PlayerConfig
-  mouseSensitivity: 300
+  PlayerEntityConfig: {fileID: 11400000, guid: e1eae2b1c4a083f418c2cca8884c80b0, type: 2}
+  mouseSensitivity: 200
   FPSLayer:
     serializedVersion: 2
     m_Bits: 448

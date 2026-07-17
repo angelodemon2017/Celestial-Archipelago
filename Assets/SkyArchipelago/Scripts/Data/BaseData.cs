@@ -7,6 +7,7 @@ public abstract class BaseData<T>
 {
     public EEntityType EntityType;
     public int Id;
+    [NonSerialized]
     public T Config;
 
     public virtual void Copy<T2>(T2 data)

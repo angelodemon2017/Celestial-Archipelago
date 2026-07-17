@@ -2,20 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Containers/ItemsCatalog Config")]
-public class ItemsCatalogConfig : BaseDataConfig
+public class ItemsCatalogConfig : BaseCatalogConfig<ItemConfig, EItemType>
 {
-    [SerializeField] private List<ItemConfig> items = new ();
 
-    private Dictionary<EItemType, ItemConfig> _cacheItems = new();
-
-    public ItemConfig GetItemConfig(EItemType containerType)
-    {
-        if (!_cacheItems.ContainsKey(containerType))
-        {
-            _cacheItems.Clear();
-            items.ForEach(c => _cacheItems.Add(c.TypeItem, c));
-        }
-
-        return _cacheItems[containerType];
-    }
 }
