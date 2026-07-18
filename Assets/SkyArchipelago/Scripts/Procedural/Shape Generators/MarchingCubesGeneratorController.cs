@@ -81,13 +81,12 @@ public class MarchingCubesGeneratorController : MonoBehaviour
 
                     foreach (var cont in config.contentInstances)
                     {
-                        if (!cont.Entity.IsCuttingWeight)
+                        if (!cont.CutterConfig)
                             continue;
 
-                        if (cont.Entity.TryGetDensityInfluence(pos, gs, cont.positionOffset, GetRndSeed(), out float contValue))
+                        if (cont.CutterConfig.TryGetDensityInfluence(pos, gs, cont.positionOffset, GetRndSeed(), out float contValue))
                         {
-//                            Debug.Log($"Try appl Density {contValue} in {pos}");
-                            value = SmoothSubtraction(value, -contValue, cont.Entity.smoothK);
+                            value = SmoothSubtraction(value, -contValue, cont.smoothK);
                         }
                     }
 
@@ -365,7 +364,7 @@ public class MarchingCubesGeneratorController : MonoBehaviour
         foreach (var cont in config.contentInstances)
         {
             var centr = cont.positionOffset + transform.position;
-            Gizmos.DrawCube(centr, cont.Entity.GetSizeBound());
+            Gizmos.DrawCube(centr, cont.GetSizeBound());
         }
     }
 }

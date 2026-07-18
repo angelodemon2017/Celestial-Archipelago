@@ -18,3 +18,4 @@ MonoBehaviour:
   KeyDesc: Wooding resource
   MaxStack: 64
   FuelStorage: 100
+  PrefabOfItem: {fileID: 1118783047748416552, guid: 73f1824e41acba9409835355f6e65826, type: 3}

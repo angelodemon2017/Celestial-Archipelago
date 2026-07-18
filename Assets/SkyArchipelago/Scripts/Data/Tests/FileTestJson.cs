@@ -121,7 +121,6 @@ public class FileTestJson : MonoBehaviour
     {
         switch (type)
         {
-            case EEntityType.ResourceEntity: return JsonUtility.FromJson<ResourceEntityData>(json);
             case EEntityType.BuildingEntity: return JsonUtility.FromJson<BuildingEntityData>(json);
             default: return JsonUtility.FromJson<EntityData>(json);
         }

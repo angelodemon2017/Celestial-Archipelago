@@ -81,7 +81,7 @@ public class ProjectInstaller : MonoInstaller
 
         Container.Bind<UIMBFactory<HitSourceInitModel, HitSource>>().AsSingle();
         Container.Bind<UIMBFactory<EntityRootHandlerMB, EntityViewMB>>().AsSingle();
-        Container.Bind<EntityViewsFactory>().AsSingle();
+        Container.BindInterfacesAndSelfTo<EntityViewsFactory>().AsSingle();
     }
 
     private void InstallModels()
@@ -122,7 +122,9 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<RuntimeCraftHandlerService>().AsSingle();
         Container.BindInterfacesAndSelfTo<RecipesGlossaryService>().AsSingle();
         Container.BindInterfacesAndSelfTo<EntityRuntimeService>().AsSingle();
-
+        
+        Container.BindInterfacesAndSelfTo<SpawnerDropItemsService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<PeriodicSpawningSystem>().AsSingle();
         Container.BindInterfacesAndSelfTo<BurningFuelsRepository>().AsSingle();
         Container.BindInterfacesAndSelfTo<RuntimeBurningsHandlerService>().AsSingle();
 
@@ -182,6 +184,7 @@ public class ProjectInstaller : MonoInstaller
         Container.DeclareSignal<ContainerOfEntityRequest>();
         Container.DeclareSignal<ContainerUpdatedSignal>();
         Container.DeclareSignal<EntitiesUpdatedSignal>();
+        Container.DeclareSignal<EntityDeleteRequestSignal>();
         Container.DeclareSignal<InteractContext>();
         Container.DeclareSignal<TimeUpdateSignal>();
         Container.DeclareSignal<TimeSecondSignal>();

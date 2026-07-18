@@ -16,4 +16,5 @@ MonoBehaviour:
   containerType: 1
   BaseSlots: 5
   CustomStackSize: 0
-  Availableitems: 4294967295
+  AvailableTagItems: 4294967295
+  AvailabilityFlag: 3

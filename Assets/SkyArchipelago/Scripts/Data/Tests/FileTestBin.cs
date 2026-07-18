@@ -78,7 +78,7 @@ public class FileTestBin : MonoBehaviour
             for (int i = 0; i < count; i++)
             {
                 EEntityType type = (EEntityType)reader.ReadInt32();
-                EntityData entity = EntityMap.CreateData(type);
+                EntityData entity = EntityDataMap.CreateData(type);
                 entity.LoadFromBinary(reader);
                 Debug.Log($"Loaded entity:{entity.DebugLog}");
                 if (entity != null)
@@ -113,20 +113,6 @@ public class FileTestBin : MonoBehaviour
     private IslandData CreateTestIslandData()
     {
         var island = new IslandData();
-
-        island.entities.AddNewData(new ResourceEntityData
-        {
-            resourceType = "Wood",
-            quantity = 250,
-            position = new Vector3(10, 0, 15)
-        });
-
-        island.entities.AddNewData(new ResourceEntityData
-        {
-            resourceType = "Stone",
-            quantity = 360,
-            position = new Vector3(1, 0, 5)
-        });
 
         island.entities.AddNewData(new BuildingEntityData
         {

@@ -17,3 +17,4 @@ MonoBehaviour:
   BaseSlots: 4
   CustomStackSize: 10
   AvailableTagItems: 4294967295
+  AvailabilityFlag: -1

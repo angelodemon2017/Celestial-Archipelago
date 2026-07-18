@@ -27,19 +27,8 @@ MonoBehaviour:
     modelConfig: {fileID: 11400000, guid: a3fe016d63327bb4682640095a8c9908, type: 2}
   - entityRootHandlerPrefab: {fileID: 6001794222883221542, guid: 0a0323422d579a4438af8d47102c66d4, type: 3}
     modelConfig: {fileID: 11400000, guid: 51eba9f5d19a2804bb9735dd67ae1339, type: 2}
+  - entityRootHandlerPrefab: {fileID: 6001794222883221542, guid: a2bdce4bfbda4e74fb52722353f80d9c, type: 3}
+    modelConfig: {fileID: 11400000, guid: 785c4c55eb5cff54fb2778207987f171, type: 2}
+  - entityRootHandlerPrefab: {fileID: 7072241815993428350, guid: 707fbe501e5b3bb4a82784dc56ee470c, type: 3}
+    modelConfig: {fileID: 11400000, guid: 0ff2fc1e3f34a7d438ae0f51339f8099, type: 2}
   entityViewPrefab: {fileID: 6609702336274072746, guid: 3089bde7b33bd7b4d8fb34ae78ed3c7f, type: 3}
-  rootViewHandlers:
-  - entityRootHandlerPrefab: {fileID: 6001794222883221542, guid: d94c05da01fc44e46b9b2067c17a07a7, type: 3}
-    modelConfig: {fileID: 11400000, guid: dad8e2d1ee1fab34a8b9c50843de06d7, type: 2}
-  - entityRootHandlerPrefab: {fileID: 5042132468525574105, guid: 82cdf45840e8c394c82816968fea51a4, type: 3}
-    modelConfig: {fileID: 11400000, guid: 0836b613e48946e4d83b9be02057c293, type: 2}
-  - entityRootHandlerPrefab: {fileID: 9030051387919824236, guid: 64ebcd14e65cb3546be721b596488540, type: 3}
-    modelConfig: {fileID: 11400000, guid: e1eae2b1c4a083f418c2cca8884c80b0, type: 2}
-  - entityRootHandlerPrefab: {fileID: 7228376986504245527, guid: c22c6f583c6a3844b9448d0817309a77, type: 3}
-    modelConfig: {fileID: 11400000, guid: f1b7ee15618572c498fc801ce0f58f66, type: 2}
-  - entityRootHandlerPrefab: {fileID: 6001794222883221542, guid: 9e2fe316aad855449a5fb9eee02d9200, type: 3}
-    modelConfig: {fileID: 11400000, guid: 74724797dc2a7194abed881f07cd152f, type: 2}
-  - entityRootHandlerPrefab: {fileID: 6001794222883221542, guid: 2be818eee358e4b4fb620033b8ec2960, type: 3}
-    modelConfig: {fileID: 11400000, guid: a3fe016d63327bb4682640095a8c9908, type: 2}
-  - entityRootHandlerPrefab: {fileID: 6001794222883221542, guid: 0a0323422d579a4438af8d47102c66d4, type: 3}
-    modelConfig: {fileID: 11400000, guid: 51eba9f5d19a2804bb9735dd67ae1339, type: 2}

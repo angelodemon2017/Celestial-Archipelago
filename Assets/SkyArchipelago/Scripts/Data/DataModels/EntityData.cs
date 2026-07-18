@@ -44,30 +44,6 @@ public class EntityData : BaseData<ModelConfig>
 }
 
 [System.Serializable]
-public class ResourceEntityData : EntityData
-{
-    public string resourceType = "Wood";
-    public int quantity = 1;
-
-    public override string DebugLog => base.DebugLog + $".{resourceType}.{quantity}";
-
-    public override void LoadFromBinary(BinaryReader binaryReader)
-    {
-        base.LoadFromBinary(binaryReader);
-        resourceType = binaryReader.ReadString();
-        quantity = binaryReader.ReadInt32();
-    }
-
-    public override void SaveToBinary(BinaryWriter writer)
-    {
-        base.SaveToBinary(writer);
-        writer.Write(resourceType ?? "");
-        writer.Write(quantity);
-    }
-    public ResourceEntityData() => EntityType = EEntityType.ResourceEntity;
-}
-
-[System.Serializable]
 public class BuildingEntityData : EntityData
 {
     public string buildingType = "House";

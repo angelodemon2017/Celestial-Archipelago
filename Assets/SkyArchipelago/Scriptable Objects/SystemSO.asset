@@ -13,3 +13,10 @@ MonoBehaviour:
   m_Name: SystemSO
   m_EditorClassIdentifier: Core::SystemSO
   timeScale: 1
+  gameTick: 0.1
+  globalAutoCraftAction: 0.1
+  globalBurnPeriod: 0.1
+  globalSpawnTimer: 2
+  SpawnRaycastMask:
+    serializedVersion: 2
+    m_Bits: 64

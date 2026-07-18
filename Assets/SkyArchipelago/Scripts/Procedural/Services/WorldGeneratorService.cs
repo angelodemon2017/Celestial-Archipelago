@@ -72,12 +72,12 @@ public class WorldGeneratorService
 
                     foreach (var cont in config.contentInstances)
                     {
-                        if (!cont.Entity.IsCuttingWeight)
+                        if (!cont.CutterConfig)
                             continue;
 
-                        if (cont.Entity.TryGetDensityInfluence(pos, gs, cont.positionOffset, seed, out float contValue))
+                        if (cont.CutterConfig.TryGetDensityInfluence(pos, gs, cont.positionOffset, seed, out float contValue))
                         {
-                            value = SmoothSubtraction(value, -contValue, cont.Entity.smoothK);
+                            value = SmoothSubtraction(value, -contValue, cont.smoothK);
                         }
                     }
 
@@ -164,10 +164,10 @@ public class WorldGeneratorService
     {
         foreach (var newEnt in config.contentInstances)
         {
-            var newEntity = EntityMap.CreateData(newEnt.Entity.ModelConfig.eEntityType);
+            var newEntity = EntityDataMap.CreateData(newEnt.ModelConfig.eEntityType);
             newEntity.position = island.Position + newEnt.positionOffset;
-            newEntity.rotation = Quaternion.Euler(newEnt.Entity.rotationOffset);
-            newEntity.InitConfig(newEnt.Entity.ModelConfig);
+            newEntity.rotation = Quaternion.Euler(newEnt.rotationOffset);
+            newEntity.InitConfig(newEnt.ModelConfig);
             island.entities.AddNewData(newEntity);
         }
     }

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b3bd7b0537f0b4ba01ab8d15babb96, type: 3}
+  m_Name: Spawner Of Simple Basic Resources
+  m_EditorClassIdentifier: Data::SpawnerDropsModuleConfig
+  BaseChance: 0.2
+  IncChanceByFall: 0.1
+  MaxDrops: 5
+  Radius: 8
+  ItemVariants:
+  - ItemConfig: {fileID: 11400000, guid: 59ef4cee26b6ff74ebf2b319b08f6e3f, type: 2}
+    WeightRnd: 6
+    Min: 2
+    Max: 5
+  - ItemConfig: {fileID: 11400000, guid: 8e8ef66444cdd1d449552591ec379edf, type: 2}
+    WeightRnd: 6
+    Min: 2
+    Max: 5
+  - ItemConfig: {fileID: 11400000, guid: 5c91e0993c77f354bb43fa967a5ec2c2, type: 2}
+    WeightRnd: 2
+    Min: 1
+    Max: 3
+  - ItemConfig: {fileID: 11400000, guid: 16ee221eeb36bb14fa8fc5652d150e8b, type: 2}
+    WeightRnd: 2
+    Min: 1
+    Max: 3

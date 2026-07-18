@@ -15,6 +15,7 @@ MonoBehaviour:
   TypeItem: 5
   ItemTags: 20
   KeyName: Wooding Coal
-  KeyDesc: Small wood
+  KeyDesc: Blackl wood
   MaxStack: 64
   FuelStorage: 1000
+  PrefabOfItem: {fileID: 1118783047748416552, guid: 1252534c15f8f8b43866bbf90117921e, type: 3}

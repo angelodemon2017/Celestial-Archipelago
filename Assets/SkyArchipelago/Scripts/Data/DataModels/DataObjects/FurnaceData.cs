@@ -16,6 +16,12 @@ public class FurnaceData : EntityData
         return new FurnaceModel(this);
     }
 
+    public override void InitConfig(ModelConfig config)
+    {
+        base.InitConfig(config);
+        AvailableFlags |= CtxFlag.HaveContainers;
+    }
+
     public override void SaveToBinary(BinaryWriter writer)
     {
         base.SaveToBinary(writer);

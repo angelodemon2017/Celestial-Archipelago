@@ -7,4 +7,7 @@ public class SystemSO : ScriptableObject
     public float gameTick = 0.1f;
     public float globalAutoCraftAction = 0.1f;
     public float globalBurnPeriod = 0.1f;
+    public float globalSpawnTimer = 2f;
+
+    public LayerMask SpawnRaycastMask;
 }

@@ -3,16 +3,13 @@
 public class EntityModel<T> : EntityModel
     where T : EntityData
 {
-    private CtxFlag testFlag;
     protected T GetData => (T)_dataModel;
     public override Vector3 Position => GetData.position;
     public override Quaternion Rotation => GetData.rotation;
 
     public EntityModel(T data)
     {
-        _dataModel = data;
-        testFlag = CtxFlag.None;
-        ConfigModel?.ModuleConfigs.ForEach(m => testFlag |= m.KeyFlag);
+        OnSpawned(data);
     }
 }
 
@@ -33,4 +30,15 @@ public class EntityModel : BaseModel<EntityData, ModelConfig>, IEntity
     public virtual Vector3 Position => Vector3.zero;
     public virtual Quaternion Rotation => Quaternion.identity;
     public override string ModelName => "Model name";
+
+    public virtual void OnSpawned(EntityData entityData)
+    {
+        _dataModel = entityData;
+    }
+
+    public virtual void OnDespawned()
+    {
+        EntityDataMap.ReturnData(_dataModel);
+        _dataModel = null;
+    }
 }

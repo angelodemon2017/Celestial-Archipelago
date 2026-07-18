@@ -9,6 +9,7 @@ public class EntityViewMB : MonoBehaviour, IPoolable<EntityRootHandlerMB>
     private EntityRootHandlerMB _entityRootHandler;
     private EntityModel _entityModel;
 
+    public int GetId => _entityModel.Id;
     public EntityRootHandlerMB EntityRootHandler => _entityRootHandler;
     public EEntityType EntType => _entityModel.EntType;
     public Rigidbody RB => _rb;

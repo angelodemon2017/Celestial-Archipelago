@@ -7,9 +7,9 @@
     DebugLabel = 4,
     DroppedItem = 5,
     Item = 6,
+    SpawnerDrops = 7,
     WoodChest = 100,
     WorkTable = 101,
     Furnace = 102,
-    ResourceEntity = 10000,
     BuildingEntity = 10001,
 }

@@ -18,3 +18,4 @@ MonoBehaviour:
   KeyDesc: Small wood
   MaxStack: 64
   FuelStorage: 20
+  PrefabOfItem: {fileID: 1118783047748416552, guid: 89bac7934d5356b4f897058c0d5376d3, type: 3}

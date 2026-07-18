@@ -17,4 +17,5 @@ MonoBehaviour:
   KeyName: Rock
   KeyDesc: Hard resource
   MaxStack: 64
-  Weight: 0
+  FuelStorage: 0
+  PrefabOfItem: {fileID: 1118783047748416552, guid: 37276617f04dbb54b818e0c9b4d73bb1, type: 3}

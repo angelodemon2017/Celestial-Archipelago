@@ -17,4 +17,5 @@ MonoBehaviour:
   KeyName: Shovel
   KeyDesc: This tool
   MaxStack: 1
-  Weight: 0
+  FuelStorage: 0
+  PrefabOfItem: {fileID: 1118783047748416552, guid: 731c3df7bc2e668409c73da25717d18f, type: 3}

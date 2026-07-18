@@ -5,8 +5,7 @@
     public override float MaxInteractionDistance => 4f;
     public override string InteractionPrompt => $"Печка {base.InteractionPrompt}";
     public bool UIAvailable => true;//or false from state
-    public bool IsNeedBurn => true;
-        //CraftIdProcess >= 0;//circle 
+    public bool IsNeedBurn => CraftIdProcess >= 0;//circle 
     public bool IsActive => CraftIdProcess >= 0 && BurnIdProcess >= 0;
     public EContainerType MainContainer => EContainerType.SourceInput;
     public int CraftIdProcess
