@@ -14,19 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: UI::UIConfig
   _canvas: {fileID: 3587793099978928411, guid: 014003bf5b3079a4199662b22314a150, type: 3}
   _menuOfEntityView: {fileID: 943966954987885581, guid: 37af4ec2b1ab33f4fa0ef8d21a665473, type: 3}
-  menuOfEntityWithInventory: {fileID: 5177399532197520660, guid: 99fff72eb3ee8944e8e81871613b69cd, type: 3}
   mainMenuControllerView: {fileID: 4704180149622883251, guid: 55c7b7df067c26e4584affe3dc8ecada, type: 3}
   dialogMenuUI: {fileID: 6084435597741535812, guid: 7193b3d593ad6ee47a6b434320f83872, type: 3}
   menuOfManagerView: {fileID: 2259133529460787587, guid: 495b68833e67c124bb252e304528b842, type: 3}
   gameplayControllerView: {fileID: 8489291901790520604, guid: 3f1cfd5baecdc1a48ad9ab73c9019417, type: 3}
-  inventoryView: {fileID: 8470035804042868227, guid: 34629389ecf49374082088d51b0324f5, type: 3}
   pauseMenuUI: {fileID: 5688047045259493434, guid: 8dacd445ee00f8c4d82f38d32aa0f957, type: 3}
+  _simpleChestView: {fileID: 5415810702353697808, guid: d7cdd0764e082d2459847ef356348a36, type: 3}
+  _furnaceView: {fileID: 5097561863882779631, guid: a5c7f2a7f17a56243b282e03621f3657, type: 3}
+  _simpleWorkbenchView: {fileID: -8026485963720747012, guid: 25e343c52f8d41246819da6f0535f6ae, type: 3}
   _listOfKeyHints: {fileID: 4056661785762114575, guid: 646b1cea2c9d4264c933e7fd3aaed41f, type: 3}
   _itemsListViewMB: {fileID: 6983435630482097093, guid: a850b3d73900f6b42ab2dd07ce882546, type: 3}
-  _simpleWorkbanch: {fileID: 4443277702404232062, guid: 25e343c52f8d41246819da6f0535f6ae, type: 3}
-  _furnaceView: {fileID: 5097561863882779631, guid: a5c7f2a7f17a56243b282e03621f3657, type: 3}
-  _simpleChestView: {fileID: 5415810702353697808, guid: d7cdd0764e082d2459847ef356348a36, type: 3}
-  _simpleWorkbenchView: {fileID: -8026485963720747012, guid: 25e343c52f8d41246819da6f0535f6ae, type: 3}
+  _recipesListView: {fileID: 8704572861415272806, guid: 21e7b60ca1956fc4188dd0668f291615, type: 3}
+  _menuOfSelectBuild: {fileID: 1999377782620363404, guid: 1e8612ce6a7f534439fae3a32a5555ae, type: 3}
   _textLabelOfVerticalbar: {fileID: 2491506375617238470, guid: 22a27fc386c7b2348b27e8b18f76f3dc, type: 3}
   _iconRecipeView: {fileID: 238690350141708347, guid: b2dba09089e0d2b45b5c7f7c2a377c18, type: 3}
   _costElement: {fileID: 9144852464741114798, guid: 7f7d377565edad4439e8b7b2405daa91, type: 3}

@@ -18,10 +18,10 @@ public class SpawnerDropItemsService
         _dataService = dataService;
         _entityRuntimeService = entityRuntimeService;
         _catalogManager = catalogManager;
+        _worldShowerService = worldShowerService;
 
         if (_catalogManager.TryGetConfigByKey(EEntityType.DroppedItem, out var pare))
             _configDropItem = pare.modelConfig;
-        _worldShowerService = worldShowerService;
     }
 
     public int SpawnDropItem(Vector3 worldPos, EItemType itemType, int count, int idOwner)

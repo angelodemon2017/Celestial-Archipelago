@@ -46,10 +46,10 @@ public class SimpleWorkbenchViewMB : BaseViewOfModelEntity<WorkTableModel>
     private void UpdateRecipesList(int idSelectRecipe)
     {
         CleanRecipesList();
-        _recipeCounts = _recipeGlossaryRepository.CurrentRecipes.Count;
+        _recipeCounts = _recipeGlossaryRepository.CurrentModelRecipes.Count;
         for (int i = 0; i < _recipeCounts; i++)
         {
-            var rsw = _recipeGlossaryRepository.CurrentRecipes[i];
+            var rsw = _recipeGlossaryRepository.CurrentModelRecipes[i];
             var isSelectedRecipe = idSelectRecipe == rsw.RecipeId;
             var newIcon = _iconViewFactory.Create(rsw, _contentRecipesParent);
             newIcon.OnSelfButton += ClickedOnSlot;
@@ -60,7 +60,7 @@ public class SimpleWorkbenchViewMB : BaseViewOfModelEntity<WorkTableModel>
         }
     }
 
-    private void UpdateSelectRecipe(RecipeStateOfWorld rsw)
+    private void UpdateSelectRecipe(IModelOfRecipeElement rsw)
     {
         _textRecipeName.text = rsw.Title;
         //_iconRecipe.sprite = icon;
@@ -79,7 +79,7 @@ public class SimpleWorkbenchViewMB : BaseViewOfModelEntity<WorkTableModel>
 
     private void ClickedOnSlot(int id)
     {//method for model of subState
-        _signalBus.Fire(new SelectRecipe(PLM.Id, _model.Id, id));
+        _signalBus.Fire(new SelectRecipe(ERecipeType.Item, PLM.Id, _model.Id, id));
     }
 
     private void OnClickActionUnit()
@@ -103,13 +103,11 @@ public class SimpleWorkbenchViewMB : BaseViewOfModelEntity<WorkTableModel>
     private void OnEnable()
     {
         _actionUnitButton.onClick.AddListener(OnClickActionUnit);
-        _recipeGlossaryRepository.ChangedSelectRecipe += UpdateRecipesList;
     }
 
     private void OnDisable()
     {
         _actionUnitButton.onClick.RemoveAllListeners();
-        _recipeGlossaryRepository.ChangedSelectRecipe -= UpdateRecipesList;
     }
 
     private void CleanRecipesList()

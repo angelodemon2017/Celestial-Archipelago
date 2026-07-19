@@ -29,6 +29,8 @@ public class InteractionHandlerService : IInitializable, IDisposable
 
     private void InitHandlers()
     {
+        RegisterHandler(EModeInteract.EKB, _container.Resolve<FullingMaquetteHandler>());
+        RegisterHandler(EModeInteract.RCM, _container.Resolve<CancellingMaquetteHandler>());
         RegisterHandler(EModeInteract.LCM, _container.Resolve<DamagableHandler>());
         RegisterHandler(EModeInteract.RCM, _container.Resolve<HarvestHandler>());
         RegisterHandler(EModeInteract.EKB, _container.Resolve<PickUpHandler>());

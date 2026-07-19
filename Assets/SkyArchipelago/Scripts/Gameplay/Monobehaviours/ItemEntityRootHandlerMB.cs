@@ -8,7 +8,7 @@ public class ItemEntityRootHandlerMB : EntityRootHandlerMB
     [Inject] private ItemsCatalogManager _itemsCatalogManager;
 
     private EItemType _itemType;
-    private GameObject _itemView;
+    private CollidersContainerMB _collidersContainerItemView;
 
     public override void Init(EntityModel model)
     {
@@ -22,13 +22,20 @@ public class ItemEntityRootHandlerMB : EntityRootHandlerMB
     private void ShowModelOfItem(EItemType itemType)
     {
         _itemType = itemType;
-        _itemView = _itemsCatalogManager.SpawnAndSet(itemType, _root);
+        _collidersContainerItemView = _itemsCatalogManager.SpawnAndSet(itemType, _root);
+        for (int i = 0; i < _collidersContainerItemView.GOsOfColliders.Count; i++)
+            _interactableCoordinatorService.Register(_collidersContainerItemView.GOsOfColliders[i], _interactHandler);
     }
 
     public override void OnDespawned()
     {
         base.OnDespawned();
-        _itemsCatalogManager.Despawn(_itemType, _itemView);
-        _itemView = null;
+        if (_collidersContainerItemView)
+        {
+            for (int i = 0; i < _collidersContainerItemView.GOsOfColliders.Count; i++)
+                _interactableCoordinatorService.Unregister(_collidersContainerItemView.GOsOfColliders[i]);
+            _itemsCatalogManager.Despawn(_itemType, _collidersContainerItemView);
+            _collidersContainerItemView = null;
+        }
     }
 }

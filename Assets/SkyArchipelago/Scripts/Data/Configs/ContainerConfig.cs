@@ -10,7 +10,7 @@ public class ContainerConfig : BaseDataConfig, BaseCatalogElementConfig<EContain
     public CtxFlag AvailableTagItems = CtxFlag.All;
     public ContainerAvailabilityFlag AvailabilityFlag = ContainerAvailabilityFlag.FullAvailability;
 
-    public EContainerType KeyOfCatalog
+    public EContainerType UidKeyOfCatalog
     {
         get => containerType;
         set => containerType = value;

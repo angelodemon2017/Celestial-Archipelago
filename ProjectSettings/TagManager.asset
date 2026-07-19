@@ -15,7 +15,7 @@ TagManager:
   - MeshGround
   - Interactable
   - HitLayer
-  - 
+  - ValidatePlacement
   - 
   - 
   - 

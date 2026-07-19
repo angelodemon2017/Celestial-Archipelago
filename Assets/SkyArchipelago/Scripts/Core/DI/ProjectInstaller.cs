@@ -14,7 +14,8 @@ public class ProjectInstaller : MonoInstaller
     [SerializeField] private ItemsCatalogConfig _itemsCatalogConfig;
     [SerializeField] private ContainersCatalogConfig _containersCatalogConfig;
     [SerializeField] private RecipesCatalogConfig _recipesCatalogConfig;
-    
+    [SerializeField] private EntitiesRecipesCatalogConfig _entitiesRecipesCatalogConfig;
+
     [SerializeField] private WorldGeneratorConfig _worldGeneratorConfig;
 
     [Header("Prefabs")]
@@ -43,17 +44,20 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInstance(_playerConfig).AsSingle();
         Container.BindInstance(_systemSO).AsSingle();
         Container.BindInstance(_dayNightSO).AsSingle();
+        Container.BindInstance(_buildFPSState).AsSingle();
         Container.BindInstance(_catalogIslandConfigs).AsSingle();
         Container.BindInstance(_entityViewCatalog).AsSingle();
         Container.BindInstance(_itemsCatalogConfig).AsSingle();
         Container.BindInstance(_containersCatalogConfig).AsSingle();
         Container.BindInstance(_recipesCatalogConfig).AsSingle();
+        Container.BindInstance(_entitiesRecipesCatalogConfig).AsSingle();
         Container.BindInstance(_worldGeneratorConfig).AsSingle();
     }
 
     private void InstallManagersOfCatalogs()
     {
         Container.Bind<RecipeCatalogManager>().AsSingle();
+        Container.Bind<EntityRecipeCatalogManager>().AsSingle();
         Container.Bind<ItemsCatalogManager>().AsSingle();
         Container.Bind<ContainersCatalogManager>().AsSingle();
         Container.Bind<EntitiesCatalogManager>().AsSingle();
@@ -87,10 +91,10 @@ public class ProjectInstaller : MonoInstaller
     private void InstallModels()
     {
         Container.Bind<RecipeGlossaryRepository>().AsSingle();
-
+        Container.Bind<GameplayLocalFPSModel>().AsSingle();
         Container.Bind<MainMenuModel>().AsSingle();
         Container.Bind<FPSCommonModel>().AsSingle();
-        Container.Bind<BuildingModel>().AsSingle();
+        Container.BindInterfacesAndSelfTo<BuildingModel>().AsSingle();
         Container.Bind<DialogModel>().AsSingle();
         Container.Bind<MenuOfEntityModel>().AsSingle();
         Container.Bind<DayNightModel>().AsSingle();
@@ -98,6 +102,8 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallHandlers()
     {
+        Container.BindInterfacesAndSelfTo<CancellingMaquetteHandler>().AsSingle();
+        Container.BindInterfacesAndSelfTo<FullingMaquetteHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<DamagableHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<PickUpHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<HarvestHandler>().AsSingle();
@@ -133,8 +139,11 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
         Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
         Container.BindInterfacesAndSelfTo<HitsCoordinatorService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<InteractableCoordinatorService>().AsSingle();
         Container.BindInterfacesAndSelfTo<PlayerInteractionService>().AsSingle();
         Container.BindInterfacesAndSelfTo<InteractionHandlerService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<MaquettePlacementService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<MaquetteReleaseService>().AsSingle();
         
         Container.BindInterfacesAndSelfTo<MachingCubesMeshGenerator>().AsSingle();
         Container.BindInterfacesAndSelfTo<WorldGeneratorService>().AsSingle();
@@ -153,7 +162,6 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<BattleFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<BuildingFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<DialogMenuState>().AsSingle();
-        Container.BindInterfacesAndSelfTo<InventoryMenuState>().AsSingle();
         Container.BindInterfacesAndSelfTo<LaunchWorldState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainFPSState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MainMenuState>().AsSingle();
@@ -176,6 +184,9 @@ public class ProjectInstaller : MonoInstaller
     {
         SignalBusInstaller.Install(Container);
         
+        Container.DeclareSignal<StartPlaceEntity>();
+        Container.DeclareSignal<SelectRecipeEntity>();
+        Container.DeclareSignal<SelectEntityCategory>();
         Container.DeclareSignal<SelectRecipe>();
         Container.DeclareSignal<HandleCraft>();
         Container.DeclareSignal<ExchangeItemContainersSignal>();

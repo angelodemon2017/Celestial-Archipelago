@@ -4,7 +4,7 @@ using UnityEngine;
 public class ItemsCatalogManager :
     BaseCatalogManager<ItemsCatalogConfig, ItemConfig, EItemType>
 {
-    private Dictionary<EItemType, Queue<GameObject>> _poolItems = new();
+    private Dictionary<EItemType, Queue<CollidersContainerMB>> _poolItems = new();
 
     public ItemsCatalogManager(
         ItemsCatalogConfig catalog) :
@@ -12,14 +12,14 @@ public class ItemsCatalogManager :
     {
     }
 
-    public GameObject SpawnAndSet(EItemType itemType, Transform parent)
+    public CollidersContainerMB SpawnAndSet(EItemType itemType, Transform parent)
     {
-        GameObject itemView = null;
+        CollidersContainerMB itemView = null;
         var pool = GetPool(itemType);
         if (pool.Count > 0)
         {
             itemView = pool.Dequeue();
-            itemView.SetActive(true);
+            itemView.gameObject.SetActive(true);
             itemView.transform.SetParent(parent);
         }
         else if (TryGetConfigByKey(itemType, out var config))
@@ -32,15 +32,15 @@ public class ItemsCatalogManager :
         return itemView;
     }
 
-    public void Despawn(EItemType itemType, GameObject view)
+    public void Despawn(EItemType itemType, CollidersContainerMB view)
     {
-        view.SetActive(false);
+        view.gameObject.SetActive(false);
         view.transform.SetParent(null);
         var pool = GetPool(itemType);
         pool.Enqueue(view);
     }
 
-    private Queue<GameObject> GetPool(EItemType itemType)
+    private Queue<CollidersContainerMB> GetPool(EItemType itemType)
     {
         if (!_poolItems.ContainsKey(itemType))
         {

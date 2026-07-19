@@ -52,21 +52,6 @@ MonoBehaviour:
   - CutterConfig: {fileID: 0}
     smoothK: 1
     rotationOffset: {x: 0, y: 0, z: 0}
-    positionOffset: {x: -7, y: 8, z: -5}
-    ModelConfig: {fileID: 11400000, guid: 74724797dc2a7194abed881f07cd152f, type: 2}
-  - CutterConfig: {fileID: 0}
-    smoothK: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
-    positionOffset: {x: -2, y: 8, z: -4}
-    ModelConfig: {fileID: 11400000, guid: a3fe016d63327bb4682640095a8c9908, type: 2}
-  - CutterConfig: {fileID: 0}
-    smoothK: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
-    positionOffset: {x: -5, y: 8, z: -4}
-    ModelConfig: {fileID: 11400000, guid: 51eba9f5d19a2804bb9735dd67ae1339, type: 2}
-  - CutterConfig: {fileID: 0}
-    smoothK: 1
-    rotationOffset: {x: 0, y: 0, z: 0}
     positionOffset: {x: -6, y: 8, z: 0}
     ModelConfig: {fileID: 11400000, guid: 785c4c55eb5cff54fb2778207987f171, type: 2}
   surfaceLevel: -0.01

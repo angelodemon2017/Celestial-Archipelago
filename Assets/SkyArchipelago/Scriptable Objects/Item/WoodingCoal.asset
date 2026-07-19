@@ -18,4 +18,4 @@ MonoBehaviour:
   KeyDesc: Blackl wood
   MaxStack: 64
   FuelStorage: 1000
-  PrefabOfItem: {fileID: 1118783047748416552, guid: 1252534c15f8f8b43866bbf90117921e, type: 3}
+  PrefabOfItem: {fileID: 8255990034904587655, guid: 1252534c15f8f8b43866bbf90117921e, type: 3}

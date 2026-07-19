@@ -8,6 +8,7 @@ public class PlayerInteractionService : ITickable, ISourceHint
     private readonly IRaycastService _raycastService;
     private readonly FPSCommonModel _fPSCommonModel;
     private readonly UIMBFactory<HitSourceInitModel, HitSource> _hitSourceFactory;
+    private readonly InteractableCoordinatorService _interactableCoordinatorService;
 
     private InteractHandlerMB _currentHandlerFocus;
 
@@ -20,12 +21,14 @@ public class PlayerInteractionService : ITickable, ISourceHint
         SignalBus signalBus,
         FPSCommonModel fPSCommonModel,
         IRaycastService raycastService,
-        UIMBFactory<HitSourceInitModel, HitSource> hitSourceFactory)
+        UIMBFactory<HitSourceInitModel, HitSource> hitSourceFactory,
+        InteractableCoordinatorService interactableCoordinatorService)
     {
         _signalBus = signalBus;
         _fPSCommonModel = fPSCommonModel;
         _raycastService = raycastService;
         _hitSourceFactory = hitSourceFactory;
+        _interactableCoordinatorService = interactableCoordinatorService;
     }
 
     public void Tick()
@@ -45,7 +48,8 @@ public class PlayerInteractionService : ITickable, ISourceHint
 
         if (hitSomething)
         {
-            newFocus = hit.collider.GetComponentInParent<InteractHandlerMB>();
+            newFocus = _interactableCoordinatorService.GetInteractHandlerMBOrNull(hit.collider.gameObject);
+//                hit.collider.GetComponentInParent<InteractHandlerMB>();
 
             if (newFocus != null &&
                 !newFocus.IsInRange(_raycastService.CurrentCamera.transform.position)) // или позиции игрока

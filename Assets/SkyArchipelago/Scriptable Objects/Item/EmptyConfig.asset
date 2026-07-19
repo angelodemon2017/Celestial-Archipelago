@@ -18,4 +18,4 @@ MonoBehaviour:
   KeyDesc: 
   MaxStack: 1
   FuelStorage: 0
-  PrefabOfItem: {fileID: 1118783047748416552, guid: a2bdce4bfbda4e74fb52722353f80d9c, type: 3}
+  PrefabOfItem: {fileID: 0}

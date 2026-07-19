@@ -1,5 +1,5 @@
 ﻿public interface BaseCatalogElementConfig<T>
     where T : struct
 {
-    public T KeyOfCatalog { get; set; }
+    public T UidKeyOfCatalog { get; set; }
 }

@@ -4,6 +4,7 @@ using Zenject;
 public class BuildingFPSState : BaseFPSState<GameplayControllerView>
 {
     private readonly GameplayStateService _gameplayStateService;
+    private readonly MaquettePlacementService _maquettePlacementService;
     private readonly BuildingModel _buildingModel;
 
     private BuildMarkerMB _buildMarker;
@@ -17,6 +18,7 @@ public class BuildingFPSState : BaseFPSState<GameplayControllerView>
         SignalBus signalBus,
         PlayerConfig playerConfig,
         FPSCommonModel fPSCommonModel,
+        GameplayLocalFPSModel gameplayLocalFPSModel,
         BuildingModel buildingModel,
         UIViewCoordinator uIViewCoordinator,
         GameplayStateService gameplayStateService,
@@ -24,11 +26,13 @@ public class BuildingFPSState : BaseFPSState<GameplayControllerView>
         CameraService cameraService,
         EntityRuntimeService entityRuntimeService,
         PlayerInteractionService playerInteractionService,
+        MaquettePlacementService maquettePlacementService,
         EntityViewsFactory entityViewsFactory) :
         base(
             container,
             playerConfig,
             fPSCommonModel,
+            gameplayLocalFPSModel,
             raycastService,
             cameraService,
             entityRuntimeService,
@@ -38,19 +42,20 @@ public class BuildingFPSState : BaseFPSState<GameplayControllerView>
     {
         _buildingModel = buildingModel;
         _gameplayStateService = gameplayStateService;
+        _maquettePlacementService = maquettePlacementService;
     }
 
     public override void StateOn()
     {
         base.StateOn();
-
+        _maquettePlacementService.StartPlacement();
         CheckBuildMarker();
     }
 
     public override void StateRun()
     {
         base.StateRun();
-
+        _maquettePlacementService.UpdatePositionMaquette(_playerInteractionService.LastHit);
         UpdateMarker();
     }
 
@@ -80,11 +85,30 @@ public class BuildingFPSState : BaseFPSState<GameplayControllerView>
             _gameplayStateService.SetState<MainFPSState>();
     }
 
+    public override void ProcessTab(bool interact)
+    {
+        if(interact)
+            _gameplayStateService.SetState<MainFPSState>();
+    }
+
+    public override void ProcessScrollMouse(float scroll)
+    {
+        if (scroll != 0)
+            _maquettePlacementService.UpdateYSwift(scroll);
+    }
+
+    public override void ProcessLeftMouseButton(bool lmb)
+    {
+        if (lmb)
+        {
+            if(_maquettePlacementService.TrySetPosition())
+                _gameplayStateService.SetState<MainFPSState>();
+        }
+    }
+
     public override void StateOff()
     {
         base.StateOff();
-
-//        if(_buildMarker)
-//            _buildMarker.gameObject.SetActive(false);
+        _maquettePlacementService.CancelPlacement();
     }
 }

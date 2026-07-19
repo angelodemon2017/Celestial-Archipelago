@@ -24,8 +24,7 @@ public static class EntityDataMap
         Register<FurnaceData>();
         Register<DroppedItemData>();
         Register<SpawnerDropsData>();
-        //DEMO:
-        Register<BuildingEntityData>();
+        Register<MaquetteOfEntityData>();
     }
 
     public static void Register<T>()

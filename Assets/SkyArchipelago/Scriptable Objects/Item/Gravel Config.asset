@@ -18,4 +18,4 @@ MonoBehaviour:
   KeyDesc: Hard small resource
   MaxStack: 64
   FuelStorage: 0
-  PrefabOfItem: {fileID: 1118783047748416552, guid: 00fa68b817e521b4baea9c35ea2bc010, type: 3}
+  PrefabOfItem: {fileID: 7986126904704179110, guid: 00fa68b817e521b4baea9c35ea2bc010, type: 3}

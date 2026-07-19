@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class InteractHandlerMB : MonoBehaviour
 {
+    public List<GameObject> GOsOfColliders;
+
     private EntityModel _model;
     protected bool _isFocused = false;
+    private float _powOfInteractDist;
 
     public string InteractionPrompt => _model.InteractionPrompt;
     public virtual bool CanInteract => _model.IsInteractable;
@@ -12,6 +16,8 @@ public class InteractHandlerMB : MonoBehaviour
     public void SetModel(EntityModel model)
     {
         _model = model;
+        if(_model != null)
+            _powOfInteractDist = _model.MaxInteractionDistance * _model.MaxInteractionDistance;        
     }
 
     public virtual void OnFocusEnter()
@@ -27,6 +33,7 @@ public class InteractHandlerMB : MonoBehaviour
 
     public bool IsInRange(Vector3 playerPosition)
     {
-        return Vector3.Distance(playerPosition, transform.position) <= _model.MaxInteractionDistance;
+        var sqr = (playerPosition - transform.position).sqrMagnitude;
+        return sqr <= _powOfInteractDist;
     }
 }

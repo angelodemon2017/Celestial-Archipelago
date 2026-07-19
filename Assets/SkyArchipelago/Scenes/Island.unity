@@ -167,63 +167,75 @@ MonoBehaviour:
     Seed: 0
     LoadedChunks: []
     StaticIslands:
+      IdOwner: -1
       EntityType: 0
       Id: 0
       AvailableIds: 
       Datas:
-      - EntityType: 0
+      - IdOwner: -1
+        EntityType: 0
         Id: 0
         ConfigId: 0
         Position: {x: 0, y: 0, z: 0}
         Center: {x: 0, y: 0, z: 0}
         IslandSize: {x: 0, y: 0, z: 0}
         entities:
+          IdOwner: -1
           EntityType: 0
           Id: 0
           AvailableIds: 
           Datas:
-          - EntityType: 1
+          - IdOwner: -1
+            EntityType: 1
             Id: 0
             position: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
             AvailableFlags: 0
-          - EntityType: 3
+          - IdOwner: -1
+            EntityType: 3
             Id: 0
             position: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
             AvailableFlags: 0
-          - EntityType: 4
+          - IdOwner: -1
+            EntityType: 4
             Id: 0
             position: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
             AvailableFlags: 0
     ContainerDatas:
+      IdOwner: -1
       EntityType: 0
       Id: 0
       AvailableIds: 
       Datas:
-      - EntityType: 0
+      - IdOwner: 0
+        EntityType: 0
         Id: 0
         IdEntityOwner: 0
         Slots: 10
         itemDatas:
-        - EntityType: 5
+        - IdOwner: -1
+          EntityType: 5
           Id: 0
           TypeItem: 1
           Amount: 5
           SomePrefix: 
-        - EntityType: 5
+        - IdOwner: -1
+          EntityType: 5
           Id: 0
           TypeItem: 2
           Amount: 2
           SomePrefix: 
         CurrentAvailabilitys: 0
     CraftProcesses:
+      IdOwner: -1
       EntityType: 0
       Id: 0
       AvailableIds: 
       Datas: []
     Burnings:
+      IdOwner: -1
       EntityType: 0
       Id: 0
       AvailableIds: 

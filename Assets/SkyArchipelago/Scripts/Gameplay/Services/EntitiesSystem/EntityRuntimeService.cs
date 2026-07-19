@@ -56,7 +56,7 @@ public class EntityRuntimeService : IInitializable, ITimeTickable, IDisposable
     private void OnHandle(ContainerOfEntityRequest containerOfEntityRequest)
     {
         if (_recipesGlossaryService.CurrentIdContainer == containerOfEntityRequest.IdContainer)
-            _recipesGlossaryService.UpdateCurrentRecipes();
+            _recipesGlossaryService.UpdateCurrentItemRecipes();
     }
 
     private void OnHandle(EntityDeleteRequestSignal entityDeleteRequest)

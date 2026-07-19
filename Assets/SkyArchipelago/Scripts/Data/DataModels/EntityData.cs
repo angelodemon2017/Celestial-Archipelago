@@ -10,7 +10,7 @@ public class EntityData : BaseData<ModelConfig>
 
     public virtual string DebugLog => $"EntityData.{EntityType}.{Id}";
     public virtual EntityModel CreateModel()
-    {//TODO move to spaawn from pool with typeVariants
+    {
         return new EntityModel();
     }
 
@@ -41,28 +41,4 @@ public class EntityData : BaseData<ModelConfig>
         writer.Write(rotation.z);
         writer.Write(rotation.w);
     }
-}
-
-[System.Serializable]
-public class BuildingEntityData : EntityData
-{
-    public string buildingType = "House";
-    public int level = 1;
-
-    public override string DebugLog => base.DebugLog + $".{buildingType}.{level}";
-
-    public override void LoadFromBinary(BinaryReader binaryReader)
-    {
-        base.LoadFromBinary(binaryReader);
-        buildingType = binaryReader.ReadString();
-        level = binaryReader.ReadInt32();
-    }
-
-    public override void SaveToBinary(BinaryWriter writer)
-    {
-        base.SaveToBinary(writer);
-        writer.Write(buildingType ?? "");
-        writer.Write(level);
-    }
-    public BuildingEntityData() => EntityType = EEntityType.BuildingEntity;
 }

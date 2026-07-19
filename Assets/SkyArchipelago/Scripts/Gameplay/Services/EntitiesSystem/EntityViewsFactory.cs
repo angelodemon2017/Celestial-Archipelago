@@ -34,15 +34,7 @@ public class EntityViewsFactory : IInitializable, IDisposable
 
         var idObj = confHand.modelConfig.Uid;
 
-        EntityRootHandlerMB erh;
-        if (_poolEntityViews.TryGetValue(idObj, out var pool) && pool.Count > 0)
-        {
-            erh = pool.Dequeue();
-        }
-        else
-        {
-            erh = _container.InstantiatePrefabForComponent<EntityRootHandlerMB>(confHand.entityRootHandlerPrefab);
-        }
+        EntityRootHandlerMB erh = SpawnEntityRootHandler(confHand);
         erh.OnSpawned(model);
 
         var view = _entityViewFactory.Create(erh);
@@ -53,6 +45,18 @@ public class EntityViewsFactory : IInitializable, IDisposable
         return view;
     }
 
+    public EntityRootHandlerMB SpawnEntityRootHandler(RootViewHandler pare)
+    {
+        if (_poolEntityViews.TryGetValue(pare.modelConfig.Uid, out var pool) && pool.Count > 0)
+        {
+            var erh = pool.Dequeue();
+            erh.gameObject.SetActive(true);
+            return erh;
+        }
+        else
+            return _container.InstantiatePrefabForComponent<EntityRootHandlerMB>(pare.entityRootHandlerPrefab);
+    }
+
     public void Despawn(EntityViewMB entityView)
     {
         if (entityView == null) return;
@@ -60,11 +64,17 @@ public class EntityViewsFactory : IInitializable, IDisposable
         _entitiesCatalogManager.TryGetConfigByKey(entityView.EntType, out var entityCon);
         var idObj = entityCon.modelConfig.Uid;
 
-        if (!_poolEntityViews.ContainsKey(idObj))
-            _poolEntityViews[idObj] = new Queue<EntityRootHandlerMB>();
-
-        _poolEntityViews[idObj].Enqueue(entityView.EntityRootHandler);
+        Despawn(idObj, entityView.EntityRootHandler);
         _entityViewFactory.Despawn(entityView);
+    }
+
+    public void Despawn(int uid, EntityRootHandlerMB entityRootHandler)
+    {
+        entityRootHandler.transform.SetParent(null);
+        entityRootHandler.gameObject.SetActive(false);
+        if (!_poolEntityViews.ContainsKey(uid))
+            _poolEntityViews[uid] = new Queue<EntityRootHandlerMB>();
+        _poolEntityViews[uid].Enqueue(entityRootHandler);
     }
 
     private void OnHandle(EntityDeleteRequestSignal entityDeleteRequest)

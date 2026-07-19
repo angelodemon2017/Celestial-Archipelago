@@ -15,11 +15,8 @@ public class HitsCoordinatorService
         _mapColliderByEntity.Remove(objectOfCollider);
     }
 
-    public EntityModel GetEntityByGOOfTrigger(GameObject goOfTrigger)
+    public bool TryGetEntityByGOOfTrigger(GameObject goOfTrigger, out EntityModel entityModel)
     {
-        if (_mapColliderByEntity.TryGetValue(goOfTrigger, out EntityModel entityModel))
-            return entityModel;
-
-        return null;
+        return _mapColliderByEntity.TryGetValue(goOfTrigger, out entityModel);
     }
 }

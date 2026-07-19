@@ -1,26 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 public class RecipeGlossaryRepository
 {
-    public List<RecipeStateOfWorld> CurrentRecipes = new();
+    public List<IModelOfRecipeElement> CurrentModelRecipes = new();
     public List<ItemAvailable> CurrentStateItems = new();
 
-    public Action<int> ChangedSelectRecipe;
+    public IModelOfRecipeElement SelectedRecipe;
+    public EEntityCategory SelectedEntityCategory;
 }
 
 public class RecipeStateOfWorld : IModelOfRecipeElement
 {
-    public RecipeConfig RecipeConfig;
+    public BaseRecipeConfig CurrentRecipe;
     public int CountAvailable;
 
-    public int RecipeId => RecipeConfig.KeyOfCatalog;
-    public string Title => RecipeConfig._outputs[0].Config.KeyName;
+    public int RecipeId => CurrentRecipe.UidKeyOfCatalog;
+    public string Title => CurrentRecipe.GetTitle;
     int IModelOfRecipeElement.CountAvailable => CountAvailable;
+    public ERecipeType RecipeType => ERecipeType.Item;
 
-    public RecipeStateOfWorld(RecipeConfig recipeConfig)
+    public RecipeStateOfWorld(BaseRecipeConfig recipeConfig)
     {
-        RecipeConfig = recipeConfig;
+        CurrentRecipe = recipeConfig;
     }
 }
 

@@ -20,7 +20,7 @@ public class CraftingOperationService
         _inventoryTransactionsService = inventoryTransactionsService;
     }
 
-    public int GetAvailableProductionByRecipe(RecipeConfig recipeConfig, ContainerData container)
+    public int GetAvailableProductionByRecipe(BaseRecipeConfig recipeConfig, ContainerData container)
     {
         int haveItemsForRecipe = int.MaxValue;
 
@@ -87,7 +87,7 @@ public class CraftingOperationService
         return needEmptySlots <= emptySlots;
     }
 
-    private void DeleteInputItems(ContainerModel sourceContainer, RecipeConfig recipe)
+    public void DeleteInputItems(ContainerModel sourceContainer, BaseRecipeConfig recipe)
     {
         var countInputs = recipe._inputs.Count;
         for (int i = 0; i < countInputs; i++)

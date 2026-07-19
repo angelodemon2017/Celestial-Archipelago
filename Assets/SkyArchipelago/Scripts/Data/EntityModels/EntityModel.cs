@@ -27,8 +27,16 @@ public class EntityModel : BaseModel<EntityData, ModelConfig>, IEntity
     public virtual string InteractionPrompt => "Interact";
     public virtual float MaxInteractionDistance => 1f;
 
-    public virtual Vector3 Position => Vector3.zero;
-    public virtual Quaternion Rotation => Quaternion.identity;
+    public virtual Vector3 Position
+    {
+        get => _dataModel.position;
+        set => _dataModel.position = value;
+    }
+    public virtual Quaternion Rotation
+    {
+        get => _dataModel.rotation;
+        set => _dataModel.rotation = value;
+    }
     public override string ModelName => "Model name";
 
     public virtual void OnSpawned(EntityData entityData)

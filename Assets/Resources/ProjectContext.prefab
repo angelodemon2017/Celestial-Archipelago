@@ -85,11 +85,8 @@ MonoBehaviour:
   _itemsCatalogConfig: {fileID: 11400000, guid: 87eba19ce3e350f4996fbfa8cb75688f, type: 2}
   _containersCatalogConfig: {fileID: 11400000, guid: 94a4fa65dca96cb45acaa47b01bf77d7, type: 2}
   _recipesCatalogConfig: {fileID: 11400000, guid: d99f587815a07ce4b920aa4d87b58f07, type: 2}
+  _entitiesRecipesCatalogConfig: {fileID: 11400000, guid: 6508dfbe22d05f04ebca37b809404dfd, type: 2}
   _worldGeneratorConfig: {fileID: 11400000, guid: 331415035ed64f54ab8aa14b6bfbfe99, type: 2}
-  _costElement: {fileID: 9144852464741114798, guid: 7f7d377565edad4439e8b7b2405daa91, type: 3}
-  _iconViewPrefab: {fileID: 621865102448177399, guid: 6e37d4aa77dcb9d4c80f6ebd6b3eaaff, type: 3}
-  _itemsListViewMB: {fileID: 6983435630482097093, guid: a2f5ac1ba09dd814bb86a3c55ca5b4ec, type: 3}
-  _simpleWorkbanch: {fileID: 4443277702404232062, guid: 25e343c52f8d41246819da6f0535f6ae, type: 3}
   _hitSource: {fileID: 2821119007637527163, guid: f9568458ac60c0a4c8a1f0c17939262b, type: 3}
   _coroutineRunner: {fileID: 4963991494058231926}
 --- !u!114 &4963991494058231926

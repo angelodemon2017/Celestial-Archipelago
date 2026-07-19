@@ -12,8 +12,8 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
     private readonly EntityRuntimeService _entityRuntimeService;
     protected readonly PlayerInteractionService _playerInteractionService;
     private readonly EntityViewsFactory _entityViewsFactory;
+    private readonly GameplayLocalFPSModel _gameplayLocalFPSModel;
 
-    private EntityViewMB LocalPlayerView;
     private FPSCommonModel _fPSCommonModel;
 
     public override string GetHint => _playerInteractionService.GetHint;
@@ -24,6 +24,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         DiContainer container,
         PlayerConfig playerConfig,
         FPSCommonModel fPSCommonModel,
+        GameplayLocalFPSModel gameplayLocalFPSModel,
         RaycastService raycastService,
         CameraService cameraService,
         EntityRuntimeService entityRuntimeService,
@@ -35,6 +36,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         _container = container;
         _playerConfig = playerConfig;
         _fPSCommonModel = fPSCommonModel;
+        _gameplayLocalFPSModel = gameplayLocalFPSModel;
         _raycastService = raycastService;
         _cameraService = cameraService;
         _entityRuntimeService = entityRuntimeService;
@@ -59,13 +61,13 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
 
     private void SetPlayerController()
     {
-        _cameraService.AttachTo(LocalPlayerView.transform, Vector3.up);
+        _cameraService.AttachTo(_gameplayLocalFPSModel.LocalPlayerView.transform, Vector3.up);
         InputProviderUpdated?.Invoke();
     }
 
     private void CheckPlayerController()
     {
-        if (LocalPlayerView != null)
+        if (_gameplayLocalFPSModel.LocalPlayerView != null)
             return;
 
         var players = _entityRuntimeService.GetModelsByEType(EEntityType.Player);
@@ -88,7 +90,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         _fPSCommonModel.SetPlModel((PlayerModel)playerData.CreateModel());
         _entityRuntimeService.AddModel(_fPSCommonModel.LocalPlayerModel);
 
-        LocalPlayerView = _entityViewsFactory.Spawn(_fPSCommonModel.LocalPlayerModel);
+        _gameplayLocalFPSModel.LocalPlayerView = _entityViewsFactory.Spawn(_fPSCommonModel.LocalPlayerModel);
     }
 
     public override void StateOff()
@@ -104,17 +106,17 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
 
     public override void StateFixedRun()
     {
-        Vector3 moveDirection = LocalPlayerView.transform.right * _fPSCommonModel.CurrentMoveInput.x +
-            LocalPlayerView.transform.forward * _fPSCommonModel.CurrentMoveInput.y;
+        Vector3 moveDirection = _gameplayLocalFPSModel.LocalPlayerView.transform.right * _fPSCommonModel.CurrentMoveInput.x +
+            _gameplayLocalFPSModel.LocalPlayerView.transform.forward * _fPSCommonModel.CurrentMoveInput.y;
         Vector3 targetVelocity = moveDirection.normalized * _fPSCommonModel.LocalPlayerModel.MoveSpeed;
-        targetVelocity.y = LocalPlayerView.RB.linearVelocity.y;
+        targetVelocity.y = _gameplayLocalFPSModel.LocalPlayerView.RB.linearVelocity.y;
 
-        LocalPlayerView.RB.linearVelocity = targetVelocity;
+        _gameplayLocalFPSModel.LocalPlayerView.RB.linearVelocity = targetVelocity;
     }
 
     public override void ProcessLook(Vector2 lookInput)
     {
-        if (!LocalPlayerView)
+        if (!_gameplayLocalFPSModel.LocalPlayerView)
             return;
 
         float mouseX = lookInput.x * _playerConfig.mouseSensitivity * Time.deltaTime;
@@ -125,7 +127,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
 
         _cameraService.ProcessLookVertical(mouseY);
 
-        LocalPlayerView.transform.Rotate(Vector3.up * mouseX);
+        _gameplayLocalFPSModel.LocalPlayerView.transform.Rotate(Vector3.up * mouseX);
     }
 
     public override void ProcessJump(bool jumpPressed)
@@ -134,7 +136,7 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
         {
             if (_fPSCommonModel.LocalPlayerModel.IsGrounded)
             {
-                LocalPlayerView.RB.AddForce(Vector3.up * _fPSCommonModel.JumpForce, ForceMode.Impulse);
+                _gameplayLocalFPSModel.LocalPlayerView.RB.AddForce(Vector3.up * _fPSCommonModel.JumpForce, ForceMode.Impulse);
             }
         }
     }

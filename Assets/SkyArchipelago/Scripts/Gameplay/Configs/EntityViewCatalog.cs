@@ -20,7 +20,7 @@ public struct RootViewHandler : BaseCatalogElementConfig<EEntityType>
     public EntityRootHandlerMB entityRootHandlerPrefab;
     public ModelConfig modelConfig;
 
-    public EEntityType KeyOfCatalog
+    public EEntityType UidKeyOfCatalog
     {
         get => modelConfig.eEntityType;
         set => modelConfig.eEntityType = value;

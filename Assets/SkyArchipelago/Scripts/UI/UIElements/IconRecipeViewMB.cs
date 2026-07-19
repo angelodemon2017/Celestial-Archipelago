@@ -16,7 +16,10 @@ public class IconRecipeViewMB : MonoBehaviour, IPoolable<IModelOfRecipeElement>
     private IModelOfRecipeElement _modelOfRecipe;
     private int _recipeId;
 
+    public int GetId => _modelOfRecipe.RecipeId;
+
     public Action<int> OnSelfButton;
+    public Action<IModelOfRecipeElement> OnRecipeClick;
 
     public void Init(IModelOfRecipeElement modelOfRecipe)
     {
@@ -46,6 +49,7 @@ public class IconRecipeViewMB : MonoBehaviour, IPoolable<IModelOfRecipeElement>
     private void OnSelfClick()
     {
         OnSelfButton?.Invoke(_recipeId);
+        OnRecipeClick?.Invoke(_modelOfRecipe);
     }
 
     private void OnDisable()

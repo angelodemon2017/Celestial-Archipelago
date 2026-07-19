@@ -61,8 +61,8 @@ public class HitSource : MonoBehaviour, IPoolable<HitSourceInitModel>
 
         if (_hits.Add(other.gameObject))
         {
-            var targetEntity = _hitsCoordinatorService.GetEntityByGOOfTrigger(other.gameObject);
-            if (_wasHits.Add(targetEntity))
+            if (_hitsCoordinatorService.TryGetEntityByGOOfTrigger(other.gameObject, out var targetEntity) &&
+                _wasHits.Add(targetEntity))
             {
                 _signalBus.Fire(new InteractContext(
                     _entityOwner,

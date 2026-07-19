@@ -10,9 +10,9 @@ public class ItemConfig : BaseDataConfig, BaseCatalogElementConfig<EItemType>
     public string KeyDesc;
     public int MaxStack;
     public int FuelStorage = 0;
-    public GameObject PrefabOfItem;//TODO model of building
+    public CollidersContainerMB PrefabOfItem;
 
-    public EItemType KeyOfCatalog
+    public EItemType UidKeyOfCatalog
     {
         get => TypeItem;
         set => TypeItem = value;

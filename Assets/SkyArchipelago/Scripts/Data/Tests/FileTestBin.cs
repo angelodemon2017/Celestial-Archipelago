@@ -114,14 +114,6 @@ public class FileTestBin : MonoBehaviour
     {
         var island = new IslandData();
 
-        island.entities.AddNewData(new BuildingEntityData
-        {
-            buildingType = "House",
-            level = 2,
-            position = new Vector3(0, 0, 0),
-            rotation = Quaternion.Euler(0, 45, 0)
-        });
-
         island.entities.AddNewData(new DemoNPCData
         {
             NpcId = "merchant_01",

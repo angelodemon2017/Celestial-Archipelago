@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WorldShowerService
 {
+    private readonly SystemSO _systemSO;
     private readonly CatalogIslandConfigs _catalogConfig;
     private readonly DataService _dataService;
     private readonly MachingCubesMeshGenerator _machingCubesMeshGenerator;
@@ -15,12 +16,14 @@ public class WorldShowerService
     private Dictionary<(int,int), Queue<int>> _entsByChunk = new();
 
     public WorldShowerService(
+        SystemSO systemSO,
         CatalogIslandConfigs catalogConfig,
         DataService dataService,
         MachingCubesMeshGenerator machingCubesMeshGenerator,
         EntityRuntimeService entityRuntimeService,
         EntityViewsFactory entityViewsFactory)
     {
+        _systemSO = systemSO;
         _catalogConfig = catalogConfig;
         _dataService = dataService;
         _machingCubesMeshGenerator = machingCubesMeshGenerator;
@@ -47,10 +50,14 @@ public class WorldShowerService
         }
     }
 
-    public void SpawnViewModelEntity(EntityModel entity)
+    public EntityViewMB SpawnViewModelEntity(EntityModel entity, bool autoPosition = true)
     {
         var view = _entityViewsFactory.Spawn(entity);
+        if(autoPosition &&
+            view.transform.position.TryGetDownPoint(_systemSO.SpawnRaycastMask, out var hitPoint, out var hiti))
+            view.transform.position = hitPoint;
         _entityViewMBs.Add(view);
+        return view;
     }
 
     private Queue<int> GetPoolByChunk(int x, int y)

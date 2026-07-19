@@ -600,6 +600,59 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!1 &8415096986953984950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8435026986572903349}
+  - component: {fileID: 3642793674829125616}
+  m_Layer: 9
+  m_Name: ValidatePlacement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8435026986572903349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415096986953984950}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1002893605012329387}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3642793674829125616
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415096986953984950}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 503
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.0851517, y: 2.0631104, z: 5.1501594}
+  m_Center: {x: 0.038138866, y: -1.1220245, z: 0.022999525}
 --- !u!1 &8420330361165554473
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,6 +714,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 8435026986572903349}
   - {fileID: 4923041695699081904}
   - {fileID: 7802285469897734715}
   m_Father: {fileID: 0}
@@ -677,6 +731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a21bf13599f46384cac02b28a29c63f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Gameplay::EntityRootHandlerMB
+  _colliderOfValidatePlacement: {fileID: 3642793674829125616}
   _hitDetector: {fileID: 0}
   _interactHandler: {fileID: 0}
 --- !u!1 &9135690065944031695

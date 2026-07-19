@@ -12,6 +12,7 @@ public enum CtxFlag : uint
     HaveRecipe = 1 << 5,
     HaveContainers = 1 << 6,
     ItemSpawner = 1 << 7,
+    Maquette = 1 << 8,
 
     //SomeComboFlag = HaveRecipe | Fueling, - how correct checking
     All = uint.MaxValue
