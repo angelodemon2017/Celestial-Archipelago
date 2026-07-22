@@ -8,7 +8,7 @@ public class HitSource : MonoBehaviour, IPoolable<HitSourceInitModel>
     [SerializeField] private List<Collider> colliders;
 
     private SignalBus _signalBus;
-    private HitsCoordinatorService _hitsCoordinatorService;
+    private HitDetectorsMap _hitsCoordinatorService;
     private UIMBFactory<HitSourceInitModel, HitSource> _hitSourceFactory;
 
     private bool _inited = false;
@@ -33,7 +33,7 @@ public class HitSource : MonoBehaviour, IPoolable<HitSourceInitModel>
     [Inject]
     public void Construct(
         SignalBus signalBus,
-        HitsCoordinatorService hitsCoordinatorService,
+        HitDetectorsMap hitsCoordinatorService,
         UIMBFactory<HitSourceInitModel, HitSource> hitSourceFactory)
     {
         _signalBus = signalBus;

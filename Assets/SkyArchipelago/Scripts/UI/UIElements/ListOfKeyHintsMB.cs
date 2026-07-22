@@ -12,16 +12,32 @@ public class ListOfKeyHintsMB : MonoBehaviour, IPoolable<List<string>>
 
     public void OnSpawned(List<string> hints)
     {
+        ShowList(hints);
+    }
+
+    public void UpdateList(List<string> hints)
+    {
+        CleanCurrentList();
+        ShowList(hints);
+    }
+
+    private void ShowList(List<string> hints)
+    {
         int count = hints.Count;
         for (int i = 0; i < count; i++)
             _textLabelOfs.Add(_labelFactory.Create(hints[i], _parentHints));
     }
 
-    public void OnDespawned()
+    private void CleanCurrentList()
     {
         int count = _textLabelOfs.Count;
         for (int i = 0; i < count; i++)
             _labelFactory.Despawn(_textLabelOfs[i]);
         _textLabelOfs.Clear();
+    }
+
+    public void OnDespawned()
+    {
+        CleanCurrentList();
     }
 }

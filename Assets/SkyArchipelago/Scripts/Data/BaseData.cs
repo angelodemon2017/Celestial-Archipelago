@@ -6,7 +6,7 @@ public abstract class BaseData<T>
     where T : BaseDataConfig
 {
     public int IdOwner = -1;
-    public EEntityType EntityType;
+    public EEntityType EntityType;//??
     public int Id;
     [NonSerialized]
     public T Config;

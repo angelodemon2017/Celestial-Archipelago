@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EntityViewCatalog", menuName = "Entity/EntityViewCatalog")]
-public class EntityViewCatalog : BaseCatalogConfig<RootViewHandler, EEntityType>
+public class EntityViewCatalog : BaseCatalogConfig<RootViewHandler, int>
 {
     public EntityViewMB entityViewPrefab;
 
@@ -9,20 +9,23 @@ public class EntityViewCatalog : BaseCatalogConfig<RootViewHandler, EEntityType>
     {
         for (int i = 0; i < _elements.Count; i++)
         {
-            _elements[i].modelConfig.Uid = i;
+            var element = _elements[i];
+            element.JustName = _elements[i].modelConfig.name;
+            element.modelConfig.Uid = i;
         }
     }
 }
 
 [System.Serializable]
-public struct RootViewHandler : BaseCatalogElementConfig<EEntityType>
+public class RootViewHandler : BaseCatalogElementConfig<int>
 {
+    public string JustName;
     public EntityRootHandlerMB entityRootHandlerPrefab;
     public ModelConfig modelConfig;
 
-    public EEntityType UidKeyOfCatalog
+    public int UidKeyOfCatalog
     {
-        get => modelConfig.eEntityType;
-        set => modelConfig.eEntityType = value;
+        get => modelConfig.Uid;
+        set => modelConfig.Uid = value;
     }
 }

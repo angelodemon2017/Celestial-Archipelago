@@ -5,6 +5,9 @@
     private readonly MenuOfEntityModel _menuOfEntityModel;
     private readonly RecipesGlossaryService _recipesGlossaryService;
 
+    public override int Priority => 1;
+    public override EModeInteract DefMode => EModeInteract.EKB;
+
     public ShowUIHandler(
         DialogModel dialogModel,
         GameplayStateService gameplayStateService,
@@ -16,8 +19,6 @@
         _menuOfEntityModel = menuOfEntityModel;
         _recipesGlossaryService = recipesGlossaryService;
     }
-
-    public override int Priority => 1;
 
     public override bool CanHandle(ItemModel item, EntityModel target)
     {
@@ -50,5 +51,10 @@
         }
 
         return false;
+    }
+
+    public override string GetHint(EntityModel target)
+    {
+        return $"{KeyPrefix} Открыть {target.ModelName}";
     }
 }

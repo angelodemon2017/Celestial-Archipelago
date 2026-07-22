@@ -60,7 +60,7 @@ public class RecipesGlossaryService : IInitializable, IDisposable
         if (_targetEntity == null)
             return;
 
-        if (!(_entitiesCatalogManager.TryGetModule(_targetEntity.EntType, CtxFlag.HaveRecipe, out var module) &&
+        if (!(_entitiesCatalogManager.TryGetModule(_targetEntity.ConfigId, CtxFlag.HaveRecipe, out var module) &&
             module is RecipesModuleConfig recipesModule))
             return;
 
@@ -134,7 +134,7 @@ public class RecipesGlossaryService : IInitializable, IDisposable
             if (!cache.ContainsKey(recipe.UidKeyOfCatalog))
                 cache[recipe.UidKeyOfCatalog] = new RecipeStateOfWorld(recipe);
             var stateRecipe = cache[recipe.UidKeyOfCatalog];
-            stateRecipe.CountAvailable = _craftingOperationService.GetAvailableProductionByRecipe(stateRecipe.CurrentRecipe, container);
+            stateRecipe.CountAvailable = _craftingOperationService.GetAvailableProductionsByRecipe(stateRecipe.CurrentRecipe, container);
             _recipeGlossaryRepository.CurrentModelRecipes.Add(stateRecipe);
         }
     }

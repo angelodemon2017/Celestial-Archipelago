@@ -83,8 +83,10 @@ public abstract class BaseFPSState<T> : StateWithWindow<T>
 
         var sps = _entityRuntimeService.GetModelsByEType(EEntityType.SpawnPoint);
         var spawnPoint = (sps[0] is SpawnPointModel spm) ? spm.SpawnPoint : Vector3.zero;
-        var playerData = new PlayerData(_fPSCommonModel.PlayerName);
-        playerData.Config = _playerConfig.PlayerEntityConfig;
+        var playerData = EntityDataMap.CreateData(EEntityType.Player);
+        playerData.InitConfig(_playerConfig.PlayerEntityConfig);
+        if (playerData is PlayerData pd)
+            pd.PlayerName = _fPSCommonModel.PlayerName;
         playerData.position = spawnPoint;
         playerData.rotation = sps[0].Rotation;
         _fPSCommonModel.SetPlModel((PlayerModel)playerData.CreateModel());

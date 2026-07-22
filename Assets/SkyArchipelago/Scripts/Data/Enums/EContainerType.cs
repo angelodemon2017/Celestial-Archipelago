@@ -7,4 +7,5 @@
     SourceInput = 4,
     ProductionOutput = 5,
     PlayerDragByUI = 6,
+    MaquetteSource = 7,
 }

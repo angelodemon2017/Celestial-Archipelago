@@ -41,6 +41,25 @@ public class RaycastService : IRaycastService, IInitializable
         return Physics.Raycast(ray, out hit, maxDistance, layerMask);
     }
 
+    public bool Raycast(Vector3 startPoint, out RaycastHit hit, float maxDistance = Mathf.Infinity)
+    {
+        return Raycast(startPoint, out hit, _currentLayerMask, maxDistance);
+    }
+
+    public bool Raycast(Vector3 startPoint, out RaycastHit hit, LayerMask layerMask, float maxDistance = Mathf.Infinity)
+    {
+        if (_camera == null)
+        {
+            hit = default;
+            return false;
+        }
+
+        Vector3 direction = _camera.transform.forward;
+
+        Ray ray = new Ray(startPoint, direction);
+        return Physics.Raycast(ray, out hit, maxDistance, layerMask);
+    }
+
     public Vector3 GetLookPoint(float maxDistance = 100f)
     {
         if (_camera == null) return _camera.transform.position + _camera.transform.forward * maxDistance;

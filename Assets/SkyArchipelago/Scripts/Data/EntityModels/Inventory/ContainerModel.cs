@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
 
 [Serializable]
@@ -8,6 +7,7 @@ public class ContainerModel : BaseModel<ContainerData, ContainerConfig>, IPoolab
 {
     private readonly ItemModelFactory _itemModelFactory;
 
+    public int Slots => _dataModel.Slots;
     public int IdEntityOwner => _dataModel.IdEntityOwner;
     public override string ModelName => string.Empty;
     public string TitleContainer => ConfigModel.KeyName;
@@ -91,6 +91,11 @@ public class ContainerModel : BaseModel<ContainerData, ContainerConfig>, IPoolab
     public ItemModel GetItemBySlot(int slotId)
     {
         return _itemsBySlots[slotId];
+    }
+
+    public int GetItemCountByType(EItemType itemType)
+    {
+        return _dataModel.GetItemCountByType(itemType);
     }
 
     private void CleanList()

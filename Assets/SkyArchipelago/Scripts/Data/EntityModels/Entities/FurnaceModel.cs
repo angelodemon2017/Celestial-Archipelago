@@ -1,13 +1,16 @@
-﻿public class FurnaceModel : EntityModel<FurnaceData>,
+﻿using System.Collections.Generic;
+
+public class FurnaceModel : EntityModel<FurnaceData>,
     IUIshowable, IHaveContainer, ICraftable, IBurnable
 {
     public override bool IsInteractable => true;
     public override float MaxInteractionDistance => 4f;
     public override string InteractionPrompt => $"Печка {base.InteractionPrompt}";
     public bool UIAvailable => true;//or false from state
-    public bool IsNeedBurn => CraftIdProcess >= 0;//circle 
+    public bool IsNeedBurn => CraftIdProcess >= 0;
     public bool IsActive => CraftIdProcess >= 0 && BurnIdProcess >= 0;
     public EContainerType MainContainer => EContainerType.SourceInput;
+    public int IdEntityOwner => Id;
     public int CraftIdProcess
     {
         get => GetData.CraftIdProcess;
@@ -64,5 +67,18 @@
                 return true;
         }
         return false;
+    }
+
+    public int GetAllContainersId(List<int> ids)
+    {
+        ids.Add(GetData.ContainerInputId);
+        ids.Add(GetData.ContainerOutputId);
+        ids.Add(GetData.ContainerFuelId);
+        return 3;
+    }
+
+    public override void OnDespawned()
+    {
+        base.OnDespawned();
     }
 }

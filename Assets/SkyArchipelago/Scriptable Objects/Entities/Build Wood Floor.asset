@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6be48b82fb522464b8bd96337007fc98, type: 3}
-  m_Name: Drop spawner
+  m_Name: Build Wood Floor
   m_EditorClassIdentifier: Data::ModelConfig
-  Uid: 7
-  eEntityType: 7
-  ContentName: SYSTEM OBJECT
+  Uid: 10
+  eEntityType: 1002
+  ContentName: "\u041F\u043E\u043B"
   ModuleConfigs:
-  - {fileID: 11400000, guid: b744ccfd3f2179d449f2bfa44feaeda1, type: 2}
+  - {fileID: 11400000, guid: 58bea65414397c04bb721c1c75ebfac9, type: 2}

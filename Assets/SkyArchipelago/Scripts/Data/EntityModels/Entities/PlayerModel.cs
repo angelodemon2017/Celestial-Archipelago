@@ -1,11 +1,13 @@
-﻿public class PlayerModel : EntityModel<PlayerData>, IHaveContainer
+﻿using System.Collections.Generic;
+
+public class PlayerModel : EntityModel<PlayerData>, IHaveContainer
 {
     public string PlayerId => GetData.PlayerName;
     public override bool IsPhysical => true;
     public override float MoveSpeed => 5f;
     public ItemModel CurrentItem => null;
-
     public EContainerType MainContainer => EContainerType.BasePlayer;
+    public int IdEntityOwner => Id;
 
     public PlayerModel(PlayerData data) : base(data)
     {
@@ -34,5 +36,12 @@
                 break;
         }
         return true;
+    }
+
+    public int GetAllContainersId(List<int> ids)
+    {
+        ids.Add(GetData.ContainerIdInventory);
+        ids.Add(GetData.ContainerIdOfDrag);
+        return 2;
     }
 }

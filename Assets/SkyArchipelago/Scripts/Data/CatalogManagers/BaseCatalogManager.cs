@@ -16,7 +16,7 @@ public class BaseCatalogManager<T, T2, T3>
 
         int count = _catalog.Elements.Count;
         for (int i = 0; i < count; i++)
-            _cacheConfigs.Add(_catalog.Elements[i].UidKeyOfCatalog, _catalog.Elements[i]);
+            _cacheConfigs[_catalog.Elements[i].UidKeyOfCatalog] = _catalog.Elements[i];
     }
 
     public bool TryGetConfigByKey(T3 key, out T2 configResult)

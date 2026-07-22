@@ -5,7 +5,7 @@ public class InteractHandlerMB : MonoBehaviour
 {
     public List<GameObject> GOsOfColliders;
 
-    private EntityModel _model;
+    public EntityModel _model;//private
     protected bool _isFocused = false;
     private float _powOfInteractDist;
 

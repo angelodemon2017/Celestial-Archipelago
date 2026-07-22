@@ -15,3 +15,4 @@ MonoBehaviour:
   buildMarkerPrefab: {fileID: 7548734956966344503, guid: 76174c1965b600149a70d52b2f54ad69, type: 3}
   ValidMaterial: {fileID: 2100000, guid: b3d75322079b77e48a2ecd94182e2621, type: 2}
   InValidMaterial: {fileID: 2100000, guid: 3f2c7b10e9f53bb468af6f3f3fd7cf3f, type: 2}
+  ConfigBaseMaquette: {fileID: 11400000, guid: 05c11b0629b5bd7499e861e21261f2e5, type: 2}

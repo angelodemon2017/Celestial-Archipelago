@@ -9,9 +9,8 @@ public class EntityViewMB : MonoBehaviour, IPoolable<EntityRootHandlerMB>
     private EntityRootHandlerMB _entityRootHandler;
     private EntityModel _entityModel;
 
-    public int GetId => _entityModel.Id;
+    public int GetConfigId => _entityModel.ConfigId;
     public EntityRootHandlerMB EntityRootHandler => _entityRootHandler;
-    public EEntityType EntType => _entityModel.EntType;
     public Rigidbody RB => _rb;
 
     public void OnSpawned(EntityRootHandlerMB p1)
@@ -33,6 +32,7 @@ public class EntityViewMB : MonoBehaviour, IPoolable<EntityRootHandlerMB>
     {
         _entityRootHandler.transform.SetParent(_rootEntity);
         _entityRootHandler.transform.localPosition = Vector3.zero;
+        _entityRootHandler.transform.localRotation = Quaternion.identity;
     }
 
     private void Update()

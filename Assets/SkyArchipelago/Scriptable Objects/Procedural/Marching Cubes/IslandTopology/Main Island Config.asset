@@ -52,8 +52,13 @@ MonoBehaviour:
   - CutterConfig: {fileID: 0}
     smoothK: 1
     rotationOffset: {x: 0, y: 0, z: 0}
-    positionOffset: {x: -6, y: 8, z: 0}
+    positionOffset: {x: -6, y: 9, z: 2}
     ModelConfig: {fileID: 11400000, guid: 785c4c55eb5cff54fb2778207987f171, type: 2}
+  - CutterConfig: {fileID: 0}
+    smoothK: 1
+    rotationOffset: {x: 0, y: 0, z: 0}
+    positionOffset: {x: -6, y: 9, z: -2}
+    ModelConfig: {fileID: 11400000, guid: 919108c7c678e4043a9e6c50b10fd30a, type: 2}
   surfaceLevel: -0.01
   layers:
   - Color: {r: 0, g: 1, b: 0, a: 1}

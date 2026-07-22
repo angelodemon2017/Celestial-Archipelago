@@ -29,12 +29,13 @@ public class MenuOfSelectBuild : MonoBehaviour, IPoolable<int>
         _tabCount = _tabButtons.Count;
         _tabButtons[0].onClick.AddListener(() => OnClickTab(0));
         _tabButtons[1].onClick.AddListener(() => OnClickTab(1));
+        _tabButtons[2].onClick.AddListener(() => OnClickTab(2));
         _startPlaceButton.onClick.AddListener(OnClickStartBuild);
     }
 
     public void OnSpawned(int dummyParametr)
     {
-        OnClickTab(0);
+        OnClickTab(_lastTab);
     }
 
     private void OnClickTab(int id)

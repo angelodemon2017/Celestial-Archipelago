@@ -14,6 +14,7 @@ public class MenuOfManagerView : UIWindowBase
     [Inject] private UIMBFactory<int, MenuOfSelectBuild> _factorySelectBuild;
     [Inject] private FPSCommonModel _fPSCommonModel;
 
+    private int _lastIdTab = 0;
     private int _tabCounts;
     private MenuOfSelectBuild _menuOfSelectBuild;
     private ItemsListViewMB _inventoryListView;
@@ -32,6 +33,7 @@ public class MenuOfManagerView : UIWindowBase
     public override void Show()
     {
         base.Show();
+        OnClickButton(_lastIdTab);
     }
 
     public override void Hide()
@@ -42,6 +44,7 @@ public class MenuOfManagerView : UIWindowBase
 
     private void OnClickButton(int idTab)
     {
+        _lastIdTab = idTab;
         CloseAll();
         switch (idTab)
         {

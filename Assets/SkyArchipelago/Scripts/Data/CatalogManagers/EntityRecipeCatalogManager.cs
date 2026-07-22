@@ -4,10 +4,17 @@ public class EntityRecipeCatalogManager :
     BaseCatalogManager<EntitiesRecipesCatalogConfig, EntityRecipeConfig, int>
 {
     private readonly Dictionary<EEntityCategory, List<EntityRecipeConfig>> _recipesByCategory = new();
+    private readonly Dictionary<int, EntityRecipeConfig> _recipesByEntity = new();
 
     public EntityRecipeCatalogManager(EntitiesRecipesCatalogConfig catalog) :
         base(catalog)
     {
+        int count = _catalog.Elements.Count;
+        for (int i = 0; i < count; i++)
+        {
+            var recipe = _catalog.Elements[i];
+            _recipesByEntity[recipe.EntityConfig.Uid] = recipe;
+        }
     }
 
     public List<EntityRecipeConfig> GetEntityRecipesByCategory(EEntityCategory eEntityCategory)
@@ -24,5 +31,10 @@ public class EntityRecipeCatalogManager :
                 _recipesByCategory[elem.eEntityCategory].Add(elem);
             }
         return _recipesByCategory[eEntityCategory];
+    }
+
+    public bool TryGetRecipeByEntityUId(int idConfig, out EntityRecipeConfig entityRecipe)
+    {
+        return _recipesByEntity.TryGetValue(idConfig, out entityRecipe);
     }
 }

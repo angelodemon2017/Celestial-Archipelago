@@ -55,7 +55,10 @@ public class BuildingFPSState : BaseFPSState<GameplayControllerView>
     public override void StateRun()
     {
         base.StateRun();
-        _maquettePlacementService.UpdatePositionMaquette(_playerInteractionService.LastHit);
+        if(_playerInteractionService.TryRayCastByFilter(_maquettePlacementService.CurrentEntity, out var pos, out var rot))
+            _maquettePlacementService.UpdateMaquetteByAnchor(pos, rot);
+        else
+            _maquettePlacementService.UpdatePositionMaquette(_playerInteractionService.LastHit);
         UpdateMarker();
     }
 

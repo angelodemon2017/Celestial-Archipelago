@@ -42,7 +42,7 @@ public class MaquetteReleaseService
 
         var container = _containersService.GetContainerModelById(idContainer);
 
-        if(_craftingOperationService.GetAvailableProductionByRecipe(recipeConfig, container._dataModel) <= 0)
+        if(_craftingOperationService.GetAvailableProductionsByRecipe(recipeConfig, container._dataModel) <= 0)
             return false;
 
         _craftingOperationService.DeleteInputItems(container, recipeConfig);

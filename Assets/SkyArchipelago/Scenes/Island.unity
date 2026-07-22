@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 103708349}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.79679, y: 7.40622, z: -15.74456}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -188,18 +188,21 @@ MonoBehaviour:
           - IdOwner: -1
             EntityType: 1
             Id: 0
+            ConfigId: 0
             position: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
             AvailableFlags: 0
           - IdOwner: -1
             EntityType: 3
             Id: 0
+            ConfigId: 0
             position: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
             AvailableFlags: 0
           - IdOwner: -1
             EntityType: 4
             Id: 0
+            ConfigId: 0
             position: {x: 0, y: 0, z: 0}
             rotation: {x: 0, y: 0, z: 0, w: 0}
             AvailableFlags: 0

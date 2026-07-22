@@ -2,12 +2,13 @@
 
 public class DebugLabelHandlers : BaseInteractHandler
 {
+    public override int Priority => 1;
+    public override EModeInteract DefMode => EModeInteract.EKB;
+
     public DebugLabelHandlers()
     {
 
     }
-
-    public override int Priority => 1;
 
     public override bool CanHandle(ItemModel item, EntityModel target)
     {
@@ -22,5 +23,10 @@ public class DebugLabelHandlers : BaseInteractHandler
         Debug.Log($"DebugLabelHandlers: Interacted with DebugLabelModel: {debugLabel.DebugText}");
 
         return true;
+    }
+
+    public override string GetHint(EntityModel target)
+    {
+        return $"{KeyPrefix} Выполнить {target.ModelName}";
     }
 }

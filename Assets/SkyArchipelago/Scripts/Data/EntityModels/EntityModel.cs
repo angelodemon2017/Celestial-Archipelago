@@ -13,9 +13,10 @@ public class EntityModel<T> : EntityModel
     }
 }
 
+[System.Serializable]
 public class EntityModel : BaseModel<EntityData, ModelConfig>, IEntity
 {
-    public int Uid => ConfigModel.Uid;
+    public int ConfigId => _dataModel.ConfigId;
     public CtxFlag AvailableTags => _dataModel.AvailableFlags;
 
     public bool HaveChange { get; set; }
@@ -37,7 +38,7 @@ public class EntityModel : BaseModel<EntityData, ModelConfig>, IEntity
         get => _dataModel.rotation;
         set => _dataModel.rotation = value;
     }
-    public override string ModelName => "Model name";
+    public override string ModelName => _dataModel.Config.ContentName;
 
     public virtual void OnSpawned(EntityData entityData)
     {

@@ -5,7 +5,16 @@ public class WoodChestData : EntityData
 {
     public int ContainerId = -1;
 
-    public WoodChestData() => EntityType = EEntityType.WoodChest;
+    public WoodChestData()
+    {
+        EntityType = EEntityType.WoodChest;
+    }
+
+    public override void InitConfig(ModelConfig config)
+    {
+        base.InitConfig(config);
+        AvailableFlags |= CtxFlag.Disassemble | CtxFlag.HaveContainers;
+    }
 
     public override EntityModel CreateModel()
     {

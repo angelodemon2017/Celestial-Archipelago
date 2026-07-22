@@ -11,9 +11,10 @@ public class PlacementEntityRootHandlerMB : EntityRootHandlerMB
     [Inject] private EntityViewsFactory _entityViewsFactory;
 
     private int _uid;
-    private MaquetteOfEntityModel _model;
+    public MaquetteOfEntityModel _model;//private
     private BasePlacebleEntityRootHandlerMB _entityRoot;
     private HashSet<GameObject> _conflictEntities = new();
+    public List<GameObject> TESTLIST;
 
     public int CountConflictEntities => _conflictEntities.Count;
 
@@ -27,11 +28,15 @@ public class PlacementEntityRootHandlerMB : EntityRootHandlerMB
     private void TriggerEnterEntity(GameObject gameObject)
     {
         _conflictEntities.Add(gameObject);
+        TESTLIST.Clear();
+        TESTLIST.AddRange(_conflictEntities);
     }
 
     private void TriggerExitEntity(GameObject gameObject)
     {
         _conflictEntities.Remove(gameObject);
+        TESTLIST.Clear();
+        TESTLIST.AddRange(_conflictEntities);
     }
 
     private void ShowGhostModel(MaquetteOfEntityModel maquette)
@@ -45,6 +50,7 @@ public class PlacementEntityRootHandlerMB : EntityRootHandlerMB
         if (!(erh is BasePlacebleEntityRootHandlerMB entityRoot))
             return;
 
+        transform.localRotation = Quaternion.identity;
         _conflictEntities.Clear();
         _entityRoot = entityRoot;
         _entityRoot.transform.SetParent(_root);
@@ -54,7 +60,7 @@ public class PlacementEntityRootHandlerMB : EntityRootHandlerMB
         _entityRoot.TriggerDetector.TriggerEntered += TriggerEnterEntity;
         _entityRoot.TriggerDetector.TriggerExited += TriggerExitEntity;
         for (int i = 0; i < _entityRoot.InteractHandler.GOsOfColliders.Count; i++)
-            _interactableCoordinatorService.Register(_entityRoot.InteractHandler.GOsOfColliders[0], _interactHandler);
+            _interactableCoordinatorService.Register(_entityRoot.InteractHandler.GOsOfColliders[i], _interactHandler);
     }
 
     public void ShowValidState(bool on)
@@ -68,7 +74,7 @@ public class PlacementEntityRootHandlerMB : EntityRootHandlerMB
     {
         base.OnDespawned();
         for (int i = 0; i < _entityRoot.InteractHandler.GOsOfColliders.Count; i++)
-            _interactableCoordinatorService.Unregister(_entityRoot.InteractHandler.GOsOfColliders[0]);
+            _interactableCoordinatorService.Unregister(_entityRoot.InteractHandler.GOsOfColliders[i]);
         _entityRoot.TriggerDetector.TriggerEntered -= TriggerEnterEntity;
         _entityRoot.TriggerDetector.TriggerExited -= TriggerExitEntity;
         _entityRoot.DisableGhost();

@@ -6,14 +6,23 @@ public class InventoryTransactionsService : IInitializable, IDisposable
     private readonly SignalBus _signalBus;
     private readonly ContainersService _containersService;
     private readonly ContainerOperationsService _containerOperationsService;
+    private readonly ItemsCatalogManager _itemsCatalogManager;
+    private readonly SimpleFactory<ItemConfig, ItemData> _itemDataFactory;
+    private readonly ItemModelFactory _itemModelFactory;
 
     public InventoryTransactionsService(
         SignalBus signalBus,
+        ItemsCatalogManager itemsCatalogManager,
+        SimpleFactory<ItemConfig, ItemData> itemDataFactory,
+        ItemModelFactory itemModelFactory,
         ContainersService containersService,
         ContainerOperationsService containerOperationsService)
     {
         _signalBus = signalBus;
         _containersService = containersService;
+        _itemsCatalogManager = itemsCatalogManager;
+        _itemDataFactory = itemDataFactory;
+        _itemModelFactory = itemModelFactory;
         _containerOperationsService = containerOperationsService;
     }
 
@@ -24,10 +33,24 @@ public class InventoryTransactionsService : IInitializable, IDisposable
         _signalBus.Subscribe<MoveAmountBetweenSlotsSignal>(OnHandle);
     }
 
-    public bool TryPickItemToContainer(ContainerModel containerModel, ItemModel itemModel)
+    public bool TryAddItem(ContainerModel containerModel, EItemType itemType, int count, ContainerAvailabilityFlag reason)
+    {
+        if (!(_itemsCatalogManager.TryGetConfigByKey(itemType, out var itemConfig)))
+            return false;
+
+        var itemData = _itemDataFactory.Spawn(itemConfig);
+        itemData.Amount = count;
+        var itemModel = _itemModelFactory.Spawn(itemData);
+        var result = TryAddItemModel(containerModel, itemModel, reason);
+        _itemDataFactory.Despawn(itemData);
+        _itemModelFactory.Despawn(itemModel);
+        return result;
+    }
+
+/*    public bool TryPickItemToContainer(ContainerModel containerModel, ItemModel itemModel)
     {
         return TryAddItemModel(containerModel, itemModel, ContainerAvailabilityFlag.CanHandleDrop);
-    }
+    }/**/
 
     public bool TryAddItemModel(ContainerModel containerModel, ItemModel itemModel, ContainerAvailabilityFlag reason)
     {

@@ -4,6 +4,7 @@ using Zenject;
 public class MaquettePlacementService
 {
     private readonly SignalBus _signalBus;
+    private readonly BuildFPSStateConfig _buildFPSStateConfig;
     private readonly EntitiesCatalogManager _catalogManager;
     private readonly DataService _dataService;
     private readonly EntityRuntimeService _entityRuntimeService;
@@ -14,8 +15,6 @@ public class MaquettePlacementService
     private readonly MaquetteReleaseService _maquetteReleaseService;
     private readonly FPSCommonModel _fPSCommonModel;
 
-    private ModelConfig _configBaseMaquette;
-
     private EntityRecipeConfig _entityRecipeConfig;
     private EntityModel _maquetteOfEntityModel;
     private EntityViewMB _maquetteView;
@@ -23,11 +22,13 @@ public class MaquettePlacementService
     private bool _validPlacement;
     private int _angleYSwift;
 
+    public EEntityType CurrentEntity => _entityRecipeConfig?.EntityConfig?.eEntityType ?? EEntityType.None;
     private int _powerRotating => 5;
 
     public MaquettePlacementService(
         SignalBus signalBus,
         DataService dataService,
+        BuildFPSStateConfig buildFPSStateConfig,
         FPSCommonModel fPSCommonModel,
         EntityRecipeCatalogManager entityRecipeCatalogManager,
         EntityRuntimeService entityRuntimeService,
@@ -38,6 +39,7 @@ public class MaquettePlacementService
         MaquetteReleaseService maquetteReleaseService)
     {
         _signalBus = signalBus;
+        _buildFPSStateConfig = buildFPSStateConfig;
         _catalogManager = catalogManager;
         _fPSCommonModel = fPSCommonModel;
         _entityRecipeCatalogManager = entityRecipeCatalogManager;
@@ -47,9 +49,6 @@ public class MaquettePlacementService
         _buildingModel = buildingModel;
         _gameplayLocalFPSModel = gameplayLocalFPSModel;
         _maquetteReleaseService = maquetteReleaseService;
-
-        if (_catalogManager.TryGetConfigByKey(EEntityType.MaquetteEntity, out var pare))
-            _configBaseMaquette = pare.modelConfig;
     }
 
     public void StartPlacement()
@@ -60,7 +59,7 @@ public class MaquettePlacementService
         _entityRecipeConfig = recipe;
         _angleYSwift = 0;
         var maquetteData = (MaquetteOfEntityData)EntityDataMap.CreateData(EEntityType.MaquetteEntity);
-        maquetteData.InitConfig(_configBaseMaquette);
+        maquetteData.InitConfig(_buildFPSStateConfig.ConfigBaseMaquette);
         maquetteData.EntityId = _buildingModel.IdEntity;
         maquetteData.RecipeId = _buildingModel.RecipeId;
         _dataService.worldData.StaticIslands.Datas[0].entities.AddNewData(maquetteData);
@@ -80,6 +79,13 @@ public class MaquettePlacementService
         var eulRot = _gameplayLocalFPSModel.LocalPlayerView.transform.rotation.eulerAngles;
         eulRot.y += _angleYSwift;
         _maquetteView.transform.rotation = Quaternion.Euler(eulRot);
+        CheckAndUpdateValid();
+    }
+
+    public void UpdateMaquetteByAnchor(Vector3 newPos, Quaternion rot)
+    {
+        _maquetteView.transform.position = newPos;
+        _maquetteView.transform.rotation = rot;
         CheckAndUpdateValid();
     }
 

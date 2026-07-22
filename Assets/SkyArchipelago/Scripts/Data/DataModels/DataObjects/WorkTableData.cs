@@ -5,6 +5,12 @@ public class WorkTableData : EntityData
 {
     public WorkTableData() => EntityType = EEntityType.WorkTable;
 
+    public override void InitConfig(ModelConfig config)
+    {
+        base.InitConfig(config);
+        AvailableFlags |= CtxFlag.Disassemble;
+    }
+
     public override EntityModel CreateModel()
     {
         return new WorkTableModel(this);

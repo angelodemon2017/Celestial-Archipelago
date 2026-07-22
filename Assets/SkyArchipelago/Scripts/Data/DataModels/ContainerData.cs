@@ -113,10 +113,14 @@ public class ContainerData : BaseData<ContainerConfig>, IPoolable<ContainerConfi
 
     public void OnDespawned()
     {
-        itemDatas.ForEach(i => _itemDataFactory.Despawn(i));
+        for (int i = 0; i < Slots; i++)
+            _itemDataFactory.Despawn(itemDatas[i]);
         itemDatas.Clear();
         _mapItemsByType.Clear();
+        _countsByType.Clear();
+        _availableSpace.Clear();
         EmptySlots = 0;
+        Slots = 0;
     }
 
     public override void LoadFromBinary(BinaryReader binaryReader)

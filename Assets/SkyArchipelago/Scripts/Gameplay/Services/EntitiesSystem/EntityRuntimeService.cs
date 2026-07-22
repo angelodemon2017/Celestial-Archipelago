@@ -9,6 +9,8 @@ public class EntityRuntimeService : IInitializable, ITimeTickable, IDisposable
     private readonly DataService _dataService;
     private readonly IGameTimeService _timeService;
     private readonly RecipesGlossaryService _recipesGlossaryService;
+    private readonly ContainersService _containersService;
+    private readonly CraftProcessRepository _craftProcessRepository;
 
     private Dictionary<EEntityType, Queue<EntityModel>> _entityPools = new();
 
@@ -23,20 +25,24 @@ public class EntityRuntimeService : IInitializable, ITimeTickable, IDisposable
 
     public List<EntityModel> AllModels => _entityModels;
 
-    public Action<int, int> BeforeDeleteEntity;
+    public Action<EntityModel, int> BeforeDeleteEntity;
 
     public EntityRuntimeService(
         SignalBus signalBus,
         SystemSO systemSO,
         DataService dataService,
         IGameTimeService timeService,
-        RecipesGlossaryService recipesGlossaryService)
+        RecipesGlossaryService recipesGlossaryService,
+        ContainersService containersService,
+        CraftProcessRepository craftProcessRepository)
     {
         _signalBus = signalBus;
         _systemSO = systemSO;
         _dataService = dataService;
         _timeService = timeService;
         _recipesGlossaryService = recipesGlossaryService;
+        _containersService = containersService;
+        _craftProcessRepository = craftProcessRepository;
     }
 
     public void Initialize()
@@ -158,7 +164,9 @@ public class EntityRuntimeService : IInitializable, ITimeTickable, IDisposable
 
     public void Remove(EntityModel model)
     {
-        BeforeDeleteEntity?.Invoke(model.Id, model.IdOwner);
+        _craftProcessRepository.DeletedEntity(model);
+        _containersService.DeletedEntity(model);
+        BeforeDeleteEntity?.Invoke(model, model.IdOwner);
         _dataService.worldData.StaticIslands.Datas[0].entities.RemoveData(model.Id);
         _entityModels.Remove(model);
         _mapEntByIds.Remove(model.Id);

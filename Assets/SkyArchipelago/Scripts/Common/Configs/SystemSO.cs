@@ -9,5 +9,6 @@ public class SystemSO : ScriptableObject
     public float globalBurnPeriod = 0.1f;
     public float globalSpawnTimer = 2f;
 
+    public ModelConfig ConfigDropItem;
     public LayerMask SpawnRaycastMask;
 }

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableCoordinatorService
+public class InteractHandlersRegistry
 {
     private Dictionary<GameObject, InteractHandlerMB> _mapColliderByEntity = new();
 
     public void Register(GameObject objectOfCollider, InteractHandlerMB ownerEntity)
     {
-        _mapColliderByEntity.TryAdd(objectOfCollider, ownerEntity);
+        _mapColliderByEntity[objectOfCollider] = ownerEntity;
     }
 
     public void Unregister(GameObject objectOfCollider)

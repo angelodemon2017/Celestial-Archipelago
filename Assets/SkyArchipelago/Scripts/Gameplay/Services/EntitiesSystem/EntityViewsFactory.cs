@@ -28,7 +28,7 @@ public class EntityViewsFactory : IInitializable, IDisposable
     {
         if (model == null) return null;
 
-        _entitiesCatalogManager.TryGetConfigByKey(model.EntType, out var confHand);
+        _entitiesCatalogManager.TryGetConfigByKey(model.ConfigId, out var confHand);
         if(!confHand.entityRootHandlerPrefab)
             return null;
 
@@ -61,7 +61,7 @@ public class EntityViewsFactory : IInitializable, IDisposable
     {
         if (entityView == null) return;
 
-        _entitiesCatalogManager.TryGetConfigByKey(entityView.EntType, out var entityCon);
+        _entitiesCatalogManager.TryGetConfigByKey(entityView.GetConfigId, out var entityCon);
         var idObj = entityCon.modelConfig.Uid;
 
         Despawn(idObj, entityView.EntityRootHandler);

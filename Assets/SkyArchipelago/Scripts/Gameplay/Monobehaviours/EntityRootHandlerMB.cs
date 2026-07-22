@@ -6,9 +6,10 @@ public class EntityRootHandlerMB : MonoBehaviour, IPoolable<EntityModel>
     [SerializeField] private HitDetector _hitDetector;
     [SerializeField] protected InteractHandlerMB _interactHandler;
 
-    private HitsCoordinatorService _hitsCoordinatorService;
-    protected InteractableCoordinatorService _interactableCoordinatorService;
-    private EntityModel _entityModel;
+    private HitDetectorsMap _hitsCoordinatorService;
+    protected InteractHandlersRegistry _interactableCoordinatorService;
+    
+    public EntityModel _entityModel;//private
 
     public EntityModel EntityModel => _entityModel;
     public InteractHandlerMB InteractHandler => _interactHandler;
@@ -20,20 +21,11 @@ public class EntityRootHandlerMB : MonoBehaviour, IPoolable<EntityModel>
 
     [Inject]
     public void Construct(
-        HitsCoordinatorService hitsCoordinatorService,
-        InteractableCoordinatorService interactableCoordinatorService)
+        HitDetectorsMap hitsCoordinatorService,
+        InteractHandlersRegistry interactableCoordinatorService)
     {
         _hitsCoordinatorService = hitsCoordinatorService;
         _interactableCoordinatorService = interactableCoordinatorService;
-    }
-
-    private void RegisterEntity()
-    {
-        if (_interactHandler && _interactableCoordinatorService != null)
-            for (int i = 0; i < _interactHandler.GOsOfColliders.Count; i++)
-                _interactableCoordinatorService.Register(_interactHandler.GOsOfColliders[i], _interactHandler);
-        if (_hitDetector && _entityModel != null && _hitsCoordinatorService != null)
-            _hitsCoordinatorService.Register(_hitDetector.gameObject, _entityModel);
     }
 
     public void OnSpawned(EntityModel p1)
@@ -46,6 +38,15 @@ public class EntityRootHandlerMB : MonoBehaviour, IPoolable<EntityModel>
     {
         _entityModel = model;
         _interactHandler?.SetModel(model);
+    }
+
+    private void RegisterEntity()
+    {
+        if (_interactHandler && _interactableCoordinatorService != null)
+            for (int i = 0; i < _interactHandler.GOsOfColliders.Count; i++)
+                _interactableCoordinatorService.Register(_interactHandler.GOsOfColliders[i], _interactHandler);
+        if (_hitDetector && _entityModel != null && _hitsCoordinatorService != null)
+            _hitsCoordinatorService.Register(_hitDetector.gameObject, _entityModel);
     }
 
     public virtual void OnDespawned()

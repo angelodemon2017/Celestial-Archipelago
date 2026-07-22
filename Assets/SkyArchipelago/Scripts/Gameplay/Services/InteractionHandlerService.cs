@@ -10,6 +10,11 @@ public class InteractionHandlerService : IInitializable, IDisposable
     private readonly SignalBus _signalBus;
 
     private Dictionary<EModeInteract, List<BaseInteractHandler>> _handlerByModes = new();
+    private int _cacheCount;
+    private List<BaseInteractHandler> _cachAllHandlers = new();
+    private List<BaseInteractHandler> _validOnCurrentFocus = new();
+
+    public Action ExecutedTarget;
 
     [Inject]
     public InteractionHandlerService(
@@ -29,13 +34,13 @@ public class InteractionHandlerService : IInitializable, IDisposable
 
     private void InitHandlers()
     {
-        RegisterHandler(EModeInteract.EKB, _container.Resolve<FullingMaquetteHandler>());
-        RegisterHandler(EModeInteract.RCM, _container.Resolve<CancellingMaquetteHandler>());
-        RegisterHandler(EModeInteract.LCM, _container.Resolve<DamagableHandler>());
-        RegisterHandler(EModeInteract.RCM, _container.Resolve<HarvestHandler>());
-        RegisterHandler(EModeInteract.EKB, _container.Resolve<PickUpHandler>());
-        RegisterHandler(EModeInteract.EKB, _container.Resolve<ShowUIHandler>());
-        RegisterHandler(EModeInteract.EKB, _container.Resolve<DebugLabelHandlers>());
+        RegisterHandler(_container.Resolve<FullingMaquetteHandler>());
+        RegisterHandler(_container.Resolve<DisassemblingHandler>());
+        RegisterHandler(_container.Resolve<DamagableHandler>());
+        RegisterHandler(_container.Resolve<HarvestHandler>());
+        RegisterHandler(_container.Resolve<PickUpHandler>());
+        RegisterHandler(_container.Resolve<ShowUIHandler>());
+        RegisterHandler(_container.Resolve<DebugLabelHandlers>());
 
         foreach (var item in _handlerByModes)
         {
@@ -45,13 +50,15 @@ public class InteractionHandlerService : IInitializable, IDisposable
         }
     }
 
-    private void RegisterHandler(EModeInteract mode, BaseInteractHandler handler)
+    private void RegisterHandler(BaseInteractHandler handler)
     {
-        if (!_handlerByModes.ContainsKey(mode))
+        _cachAllHandlers.Add(handler);
+        _cacheCount = _cachAllHandlers.Count;
+        if (!_handlerByModes.ContainsKey(handler.DefMode))
         {
-            _handlerByModes.Add(mode, new());
+            _handlerByModes.Add(handler.DefMode, new());
         }
-        _handlerByModes[mode].Add(handler);
+        _handlerByModes[handler.DefMode].Add(handler);
     }
 
     private void OnHandle(InteractContext ctx)
@@ -65,13 +72,28 @@ public class InteractionHandlerService : IInitializable, IDisposable
         }
     }
 
+    public List<BaseInteractHandler> GetValidCurrentFocus(ItemModel item, EntityModel targetEntity)
+    {
+        _validOnCurrentFocus.Clear();
+        if(targetEntity == null)
+            return _validOnCurrentFocus;
+
+        for (int i = 0; i < _cacheCount; i++)
+            if (_cachAllHandlers[i].CanHandle(item, targetEntity))
+                _validOnCurrentFocus.Add(_cachAllHandlers[i]);
+
+        return _validOnCurrentFocus;
+    }
+
     public bool TryPerform(InteractContext ctx, List<BaseInteractHandler> handlers)
     {
-        foreach (var handler in handlers)
+        var count = handlers.Count;
+        for (int i = 0; i < count; i++)
         {
-            if (handler.CanHandle(ctx.Item, ctx.Target) &&
-                handler.TryExecute(ctx.Source, ctx.Item, ctx.Target))
+            if (handlers[i].CanHandle(ctx.Item, ctx.Target) &&
+                handlers[i].TryExecute(ctx.Source, ctx.Item, ctx.Target))
             {
+                ExecutedTarget?.Invoke();
                 return true;
             }
         }

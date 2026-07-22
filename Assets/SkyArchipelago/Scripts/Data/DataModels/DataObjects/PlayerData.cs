@@ -7,10 +7,9 @@ public class PlayerData : EntityData
     public int ContainerIdInventory = -1;
     public int ContainerIdOfDrag = -1;
 
-    public PlayerData(string playerName)
+    public PlayerData()
     {
         EntityType = EEntityType.Player;
-        PlayerName = playerName;
     }
 
     public override EntityModel CreateModel()

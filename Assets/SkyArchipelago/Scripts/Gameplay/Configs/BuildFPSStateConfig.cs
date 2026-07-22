@@ -6,4 +6,5 @@ public class BuildFPSStateConfig : ScriptableObject
     public BuildMarkerMB buildMarkerPrefab;
     public Material ValidMaterial;
     public Material InValidMaterial;
+    public ModelConfig ConfigBaseMaquette;
 }

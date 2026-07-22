@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class ContainersService
 {
@@ -7,7 +8,10 @@ public class ContainersService
     private readonly SimpleFactory<ContainerData, ContainerModel> _containerModelFactory;
     private readonly DataService _dataService;
 
+    private List<int> _preparingIds = new();
     private Dictionary<int, ContainerModel> _mapContainerModels = new();
+
+    public Action<ContainerModel> DeletedContainer;
 
     public ContainersService(
         ContainersCatalogManager containersCatalogManager,
@@ -43,7 +47,7 @@ public class ContainersService
         {
             _containersCatalogManager.TryGetConfigByKey(contType, out var containerConfig);
             var newDataContainer = _containerDataFactory.Spawn(containerConfig);
-            newDataContainer.IdEntityOwner = entityWithContainer.Id;
+            newDataContainer.IdEntityOwner = entityWithContainer.IdEntityOwner;
             contId = _dataService.AddNewContainer(newDataContainer);
             if (!entityWithContainer.SetIdContainerByEType(contType, contId))
             {
@@ -69,10 +73,30 @@ public class ContainersService
         return _mapContainerModels[id];
     }
 
+    /// <summary>
+    /// questionable decision
+    /// </summary>
+    /// <param name="entity"></param>
+    public void DeletedEntity(EntityModel entity)
+    {
+        if ((entity.AvailableTags & CtxFlag.HaveContainers) != CtxFlag.HaveContainers)
+            return;
+
+        if (!(entity is IHaveContainer haveContainer))
+            return;
+
+        _preparingIds.Clear();
+        var count = haveContainer.GetAllContainersId(_preparingIds);
+        for (var i = 0; i < count; i++)
+            DeleteContainer(_preparingIds[i]);
+    }
+
     public void DeleteContainer(int containerId)
     {
         if (_mapContainerModels.TryGetValue(containerId, out ContainerModel container))
         {
+            DeletedContainer?.Invoke(container);
+            _dataService.worldData.ContainerDatas.RemoveData(containerId);
             _containerDataFactory.Despawn(container._dataModel);
             _mapContainerModels.Remove(containerId);
             _containerModelFactory.Despawn(container);

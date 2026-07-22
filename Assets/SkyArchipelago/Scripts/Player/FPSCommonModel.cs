@@ -11,6 +11,7 @@ public class FPSCommonModel
     public PlayerModel LocalPlayerModel;
     public ContainerModel ContainerModel;
     public ContainerModel ContainerDragUIOfPlayer;
+    public ItemModel CurrentItemModel;
 
     public float XRotation = 0f;
     public Vector2 CurrentMoveInput;

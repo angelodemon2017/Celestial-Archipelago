@@ -73,7 +73,7 @@ public class SelectingCraftService : IInitializable, IDisposable
 
     public void TryAutoSelectingCraft(ICraftable craftable, IHaveContainer entitySourceContainer)
     {
-        if (!(_entitiesCatalogManager.TryGetModule(craftable.EntType, CtxFlag.HaveRecipe, out var module) &&
+        if (!(_entitiesCatalogManager.TryGetModule(craftable.ConfigId, CtxFlag.HaveRecipe, out var module) &&
             module is RecipesModuleConfig recipesModuleConfig))
             return;
 
@@ -84,7 +84,7 @@ public class SelectingCraftService : IInitializable, IDisposable
         {
             var recipe = recipesModuleConfig.AvailableRecipes[i];
             if (!recipe.IsStaticRecipe &&
-                _craftingOperationService.GetAvailableProductionByRecipe(recipe, inputContainer._dataModel) > 0)
+                _craftingOperationService.GetAvailableProductionsByRecipe(recipe, inputContainer._dataModel) > 0)
             {
                 var craft = _craftProcessRepository.StartCraft(craftable, craftable, recipe);
                 craftable.CraftIdProcess = craft.Id;

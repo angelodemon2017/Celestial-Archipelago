@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class HitsCoordinatorService
+public class HitDetectorsMap
 {
     private Dictionary<GameObject, EntityModel> _mapColliderByEntity = new();
 

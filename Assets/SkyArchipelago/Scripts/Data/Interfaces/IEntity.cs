@@ -1,6 +1,7 @@
 ﻿public interface IEntity
 {
     int Id { get; }
+    int ConfigId { get; }
     CtxFlag AvailableTags { get; }
     EEntityType EntType { get; }
     /// <summary>

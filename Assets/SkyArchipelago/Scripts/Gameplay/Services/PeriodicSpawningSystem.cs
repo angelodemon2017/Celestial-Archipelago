@@ -4,7 +4,6 @@ using Zenject;
 
 public class PeriodicSpawningSystem : ITimeTickable, IInitializable, IDisposable
 {
-    private readonly SignalBus _signalBus;
     private readonly SystemSO _systemSO;
     private readonly IGameTimeService _timeService;
     private readonly EntityRuntimeService _entityRuntimeService;
@@ -14,14 +13,12 @@ public class PeriodicSpawningSystem : ITimeTickable, IInitializable, IDisposable
     private float _spawnTime;
 
     public PeriodicSpawningSystem(
-        SignalBus signalBus,
         SystemSO systemSO,
         IGameTimeService gameTimeService,
         EntityRuntimeService entityRuntimeService,
         EntitiesCatalogManager entitiesCatalogManager,
         SpawnerDropItemsService spawnerDropItemsService)
     {
-        _signalBus = signalBus;
         _systemSO = systemSO;
         _timeService = gameTimeService;
         _entityRuntimeService = entityRuntimeService;
@@ -44,13 +41,13 @@ public class PeriodicSpawningSystem : ITimeTickable, IInitializable, IDisposable
     {
         var spawnItems = _entityRuntimeService.GetModelsByEType(EEntityType.SpawnerDrops);
         var count = spawnItems.Count;
-        if (!(_entitiesCatalogManager.TryGetModule(EEntityType.SpawnerDrops, CtxFlag.ItemSpawner, out var module) &&
-                module is SpawnerDropsModuleConfig spawnerDropsModule))
-            return;
-
         for (int i = 0; i < count; i++)
-            if (spawnItems[i] is SpawnerDropsModel spawnerDrops)
+        {
+            if (_entitiesCatalogManager.TryGetModule(spawnItems[i].ConfigId, CtxFlag.ItemSpawner, out var module) &&
+                module is SpawnerDropsModuleConfig spawnerDropsModule &&
+                spawnItems[i] is SpawnerDropsModel spawnerDrops)
                 Check(spawnerDrops, spawnerDropsModule);
+        }
     }
 
     private void Check(SpawnerDropsModel spawnerDrops, SpawnerDropsModuleConfig spawnerDropsModule)
@@ -58,7 +55,7 @@ public class PeriodicSpawningSystem : ITimeTickable, IInitializable, IDisposable
         if (spawnerDrops.CurrentCountDrops >= spawnerDropsModule.MaxDrops)
             return;
 
-        if (UnityEngine.Random.value < spawnerDrops.CurrentChance)
+        if (UnityEngine.Random.value > spawnerDrops.CurrentChance)
         {
             spawnerDrops.CurrentChance += spawnerDropsModule.IncChanceByFall;
             return;
@@ -85,28 +82,25 @@ public class PeriodicSpawningSystem : ITimeTickable, IInitializable, IDisposable
         spawnerDrops.CurrentCountDrops++;
     }
 
-    private void CheckBeforeDeleteEntity(int IdEntity, int IdEntityOwner)
+    private void CheckBeforeDeleteEntity(EntityModel Entity, int IdEntityOwner)
     {
-        if (_entityRuntimeService.TryGetEntityById(IdEntity, out var ent) &&
-        ent.EntType == EEntityType.DroppedItem &&
-        _entityRuntimeService.TryGetEntityById(IdEntityOwner, out var owner) &&
-        owner.EntType == EEntityType.SpawnerDrops &&
-        owner is SpawnerDropsModel spawnerDrops &&
-            spawnerDrops.OwnItems.Remove(IdEntity))
-            spawnerDrops.CurrentCountDrops--;
+        if (Entity.EntType == EEntityType.DroppedItem &&
+            _entityRuntimeService.TryGetEntityById(IdEntityOwner, out var owner) &&
+            owner.EntType == EEntityType.SpawnerDrops &&
+            owner is SpawnerDropsModel spawnerDrops &&
+            spawnerDrops.OwnItems.Remove(Entity.Id))
+                spawnerDrops.CurrentCountDrops--;
     }
 
     public void Initialize()
     {
         _timeService.Register(this);
         _entityRuntimeService.BeforeDeleteEntity += CheckBeforeDeleteEntity;
-//        _signalBus.Subscribe<EntityDeleteRequestSignal>(OnHandle);
     }
 
     public void Dispose()
     {
         _timeService.Unregister(this);
         _entityRuntimeService.BeforeDeleteEntity -= CheckBeforeDeleteEntity;
-        //        _signalBus.Unsubscribe<EntityDeleteRequestSignal>(OnHandle);
     }
 }

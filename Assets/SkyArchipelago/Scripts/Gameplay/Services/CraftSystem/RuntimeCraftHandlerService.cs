@@ -46,9 +46,10 @@ public class RuntimeCraftHandlerService : ITimeTickable, IInitializable, IDispos
 
     private void RunTickAutocraft()
     {
+        var listCrafts = _craftProcessRepository.GetAllCraft;
         for (int i = 0; i < _craftProcessRepository.CountCrafts; i++)
         {
-            var craft = _craftProcessRepository.GetAllCraft[i];
+            var craft = listCrafts[i];
             var uaPower = craft.craftable.UAPower;
             var isStaticRecipe = craft.ConfigModel.IsStaticRecipe;//todo move logic to other place
             if (_craftingOperationService.TakeUA(craft, uaPower))

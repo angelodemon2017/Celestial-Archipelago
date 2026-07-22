@@ -9,7 +9,10 @@ public class FurnaceData : EntityData
     public int CraftIdProcess = -1;
     public int BurnIdProcess = -1;
 
-    public FurnaceData() => EntityType = EEntityType.Furnace;
+    public FurnaceData()
+    {
+        EntityType = EEntityType.Furnace;
+    }
 
     public override EntityModel CreateModel()
     {
@@ -19,7 +22,7 @@ public class FurnaceData : EntityData
     public override void InitConfig(ModelConfig config)
     {
         base.InitConfig(config);
-        AvailableFlags |= CtxFlag.HaveContainers;
+        AvailableFlags |= CtxFlag.HaveContainers | CtxFlag.Disassemble;
     }
 
     public override void SaveToBinary(BinaryWriter writer)
@@ -40,5 +43,15 @@ public class FurnaceData : EntityData
         ContainerFuelId = binaryReader.ReadInt32();
         CraftIdProcess = binaryReader.ReadInt32();
         BurnIdProcess = binaryReader.ReadInt32();
+    }
+
+    public override void ResetData()
+    {
+        base.ResetData();
+        ContainerInputId = -1;
+        ContainerOutputId = -1;
+        ContainerFuelId = -1;
+        CraftIdProcess = -1;
+        BurnIdProcess = -1;
     }
 }

@@ -102,7 +102,7 @@ public class ProjectInstaller : MonoInstaller
 
     private void InstallHandlers()
     {
-        Container.BindInterfacesAndSelfTo<CancellingMaquetteHandler>().AsSingle();
+        Container.BindInterfacesAndSelfTo<DisassemblingHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<FullingMaquetteHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<DamagableHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<PickUpHandler>().AsSingle();
@@ -133,13 +133,14 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<PeriodicSpawningSystem>().AsSingle();
         Container.BindInterfacesAndSelfTo<BurningFuelsRepository>().AsSingle();
         Container.BindInterfacesAndSelfTo<RuntimeBurningsHandlerService>().AsSingle();
-
+        
         Container.BindInterfacesAndSelfTo<CursorService>().AsSingle();
         Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
         Container.BindInterfacesAndSelfTo<RaycastService>().AsSingle();
         Container.BindInterfacesAndSelfTo<CameraService>().AsSingle();
-        Container.BindInterfacesAndSelfTo<HitsCoordinatorService>().AsSingle();
-        Container.BindInterfacesAndSelfTo<InteractableCoordinatorService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<AnchorsRegistry>().AsSingle();
+        Container.BindInterfacesAndSelfTo<HitDetectorsMap>().AsSingle();
+        Container.BindInterfacesAndSelfTo<InteractHandlersRegistry>().AsSingle();
         Container.BindInterfacesAndSelfTo<PlayerInteractionService>().AsSingle();
         Container.BindInterfacesAndSelfTo<InteractionHandlerService>().AsSingle();
         Container.BindInterfacesAndSelfTo<MaquettePlacementService>().AsSingle();

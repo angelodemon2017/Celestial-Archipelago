@@ -58,6 +58,12 @@ public class SimpleWorkbenchViewMB : BaseViewOfModelEntity<WorkTableModel>
             if (isSelectedRecipe)
                 UpdateSelectRecipe(rsw);
         }
+        if (_recipeCounts > 0 &&
+            idSelectRecipe == -1)
+        {
+            int firstRecipe = _recipeGlossaryRepository.CurrentModelRecipes[0].RecipeId;
+            ClickedOnSlot(firstRecipe);
+        }
     }
 
     private void UpdateSelectRecipe(IModelOfRecipeElement rsw)

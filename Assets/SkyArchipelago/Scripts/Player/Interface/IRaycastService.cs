@@ -17,6 +17,8 @@ public interface IRaycastService
     /// </summary>
     bool Raycast(out RaycastHit hit, LayerMask layerMask, float maxDistance = Mathf.Infinity);
 
+    bool Raycast(Vector3 startPoint, out RaycastHit hit, float maxDistance = Mathf.Infinity);
+
     /// <summary>
     /// Получить точку взгляда (на максимальной дистанции, если ничего не попало)
     /// </summary>

@@ -17,7 +17,7 @@ public static class EntityDataMap
     {
         Register<SpawnPointData>();
         Register<DebugLabelData>();
-        //?!        Register<PlayerData>();
+        Register<PlayerData>();
         Register<DemoNPCData>();
         Register<WoodChestData>();
         Register<WorkTableData>();
@@ -25,6 +25,8 @@ public static class EntityDataMap
         Register<DroppedItemData>();
         Register<SpawnerDropsData>();
         Register<MaquetteOfEntityData>();
+        Register<BuildFloorData>();
+        Register<BuildWallData>();
     }
 
     public static void Register<T>()
@@ -52,7 +54,7 @@ public static class EntityDataMap
 
     public static void ReturnData(EntityData entityData)
     {
-        entityData.Id = -1;
+        entityData.ResetData();
         var pool = GetPoolByType(entityData.EntityType);
         pool.Enqueue(entityData);
     }

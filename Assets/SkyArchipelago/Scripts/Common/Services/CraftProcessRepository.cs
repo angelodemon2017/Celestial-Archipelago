@@ -88,6 +88,18 @@ public class CraftProcessRepository
         return _mapOfProcesses.TryGetValue(id, out craftProcess);
     }
 
+    public void DeletedEntity(EntityModel entity)
+    {
+        if ((entity.AvailableTags & CtxFlag.HaveRecipe) != CtxFlag.HaveRecipe)
+            return;
+
+        if (!(entity is ICraftable haveCraft))
+            return;
+
+        if (haveCraft.CraftIdProcess != -1)
+            RemoveCraft(haveCraft.CraftIdProcess);
+    }
+
     public void RemoveCraft(int id)
     {
         if (_mapOfProcesses.TryGetValue(id, out var craft))

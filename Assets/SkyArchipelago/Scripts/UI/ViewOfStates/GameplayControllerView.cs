@@ -1,39 +1,48 @@
-using UnityEngine;
+using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 using Zenject;
 
 public class GameplayControllerView : UIWindowBase
 {
     [SerializeField] private TextMeshProUGUI _timeText;
     [SerializeField] private TextMeshProUGUI _hintInteractText;
+    [SerializeField] private Transform _keyHintsParent;
 
     private SignalBus _signalBus;
     private DayNightModel _dayNightModel;
     private HinterService _hinterService;
+    private UIMBFactory<List<string>, ListOfKeyHintsMB> _listKeysFactory;
+
+    [SerializeField] private ListOfKeyHintsMB _locTemp;
 
     [Inject]
     private void Init(
         SignalBus signalBus,
         DayNightModel dayNightModel,
-        HinterService hinterService)
+        HinterService hinterService,
+        UIMBFactory<List<string>, ListOfKeyHintsMB> listKeysFactory)
     {
         _signalBus = signalBus;
         _dayNightModel = dayNightModel;
         _hinterService = hinterService;
+        _listKeysFactory = listKeysFactory;
 
-        Subs();
+        _hintInteractText.text = string.Empty;
 
         UpdateHint();
     }
 
-    private void OnEnable()
+    public override void Show()
     {
+        base.Show();
         UpdateHint();
+        Subs();
     }
 
     private void Subs()
     {
-        _hinterService.UpdatedHint += UpdateHint;
+        _hinterService.UpdateListHints += UpdateHint;
         _signalBus.Subscribe<TimeUpdateSignal>(OnTimeSecond);
     }
 
@@ -44,15 +53,16 @@ public class GameplayControllerView : UIWindowBase
 
     private void UpdateHint()
     {
-        _hintInteractText.text =
-            _hinterService == null ?
-            string.Empty :
-            _hinterService.Hint;
+        if (!_locTemp)
+            _locTemp = _listKeysFactory.Create(_hinterService.GetHints, _keyHintsParent);
+        else
+            _locTemp.UpdateList(_hinterService.GetHints);
     }
 
-    private void OnDestroy()
+    public override void Hide()
     {
-        _hinterService.UpdatedHint -= UpdateHint;
+        base.Hide();
+        _hinterService.UpdateListHints -= UpdateHint;
         _signalBus.Unsubscribe<TimeUpdateSignal>(OnTimeSecond);
     }
 }

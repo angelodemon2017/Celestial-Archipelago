@@ -20,13 +20,13 @@ public class EntityUIviewFactory
     public BaseViewOfModelEntity Spawn(EntityModel entity, Transform parent = null)
     {
         BaseViewOfModelEntity view = null;
-        if (_poolViewByEntityUid.TryGetValue(entity.Uid, out var result))
+        if (_poolViewByEntityUid.TryGetValue(entity.ConfigId, out var result))
         {
             view = result;
         }
         else
         {
-            if (_entitiesCatalogManager.TryGetModule(entity.EntType, CtxFlag.UIHave, out ModuleConfig module) &&
+            if (_entitiesCatalogManager.TryGetModule(entity.ConfigId, CtxFlag.UIHave, out ModuleConfig module) &&
                 module is UIModuleConfig uiModule)
                 view = _container.InstantiatePrefabForComponent<BaseViewOfModelEntity>(uiModule.View);
         }

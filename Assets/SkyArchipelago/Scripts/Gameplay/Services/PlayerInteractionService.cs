@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class PlayerInteractionService : ITickable, ISourceHint
+public class PlayerInteractionService : ITickable, ISourceHint, IInitializable, IDisposable
 {
     private readonly SignalBus _signalBus;
     private readonly IRaycastService _raycastService;
     private readonly FPSCommonModel _fPSCommonModel;
     private readonly UIMBFactory<HitSourceInitModel, HitSource> _hitSourceFactory;
-    private readonly InteractableCoordinatorService _interactableCoordinatorService;
+    private readonly InteractHandlersRegistry _interactableCoordinatorService;
+    private readonly InteractionHandlerService _interactionHandlerService;
+    private readonly HinterService _hinterService;
+    private readonly AnchorsRegistry _anchorsRegistry;
 
     private InteractHandlerMB _currentHandlerFocus;
+    private List<string> _listHints = new();
 
     public Vector3 LastHit;
     public string GetHint => _currentHandlerFocus?.InteractionPrompt ?? string.Empty;
@@ -21,14 +26,20 @@ public class PlayerInteractionService : ITickable, ISourceHint
         SignalBus signalBus,
         FPSCommonModel fPSCommonModel,
         IRaycastService raycastService,
+        HinterService hinterService,
         UIMBFactory<HitSourceInitModel, HitSource> hitSourceFactory,
-        InteractableCoordinatorService interactableCoordinatorService)
+        InteractHandlersRegistry interactableCoordinatorService,
+        InteractionHandlerService interactionHandlerService,
+        AnchorsRegistry anchorsRegistry)
     {
         _signalBus = signalBus;
         _fPSCommonModel = fPSCommonModel;
         _raycastService = raycastService;
         _hitSourceFactory = hitSourceFactory;
+        _hinterService = hinterService;
         _interactableCoordinatorService = interactableCoordinatorService;
+        _interactionHandlerService = interactionHandlerService;
+        _anchorsRegistry = anchorsRegistry;
     }
 
     public void Tick()
@@ -49,7 +60,6 @@ public class PlayerInteractionService : ITickable, ISourceHint
         if (hitSomething)
         {
             newFocus = _interactableCoordinatorService.GetInteractHandlerMBOrNull(hit.collider.gameObject);
-//                hit.collider.GetComponentInParent<InteractHandlerMB>();
 
             if (newFocus != null &&
                 !newFocus.IsInRange(_raycastService.CurrentCamera.transform.position)) // или позиции игрока
@@ -63,8 +73,52 @@ public class PlayerInteractionService : ITickable, ISourceHint
             _currentHandlerFocus?.OnFocusExit();
             newFocus?.OnFocusEnter();
             _currentHandlerFocus = newFocus;
+            RecalcHinters();
             HintUpdated?.Invoke();
         }
+    }
+
+    public bool TryRayCastByFilter(EEntityType Filter, out Vector3 endPos, out Quaternion endRot)
+    {
+        endPos = Vector3.zero;
+        endRot = Quaternion.identity;
+
+        Vector3 hitPoint = _raycastService.CurrentCamera.transform.position;
+
+        int trys = 10;
+        while (trys > 0)
+        {
+            if (_raycastService.Raycast(hitPoint, out RaycastHit hit, Mathf.Infinity) &&
+                _anchorsRegistry.TryGetEntityByGOOfTrigger(hit.collider.gameObject, out var result) &&
+                    result.Filter == Filter)
+            {
+                endPos = result.TargetPosition;
+                endRot = result.TargetRotation;
+                return true;
+            }
+            hitPoint = hit.point;
+
+            trys--;
+        }
+
+        return false;
+    }
+
+    private void RecalcHinters()
+    {
+        _listHints.Clear();
+        if (_currentHandlerFocus == null)
+        {
+            _hinterService.SetListHints(_listHints);
+            return;
+        }
+        var vars = _interactionHandlerService.GetValidCurrentFocus(_fPSCommonModel.CurrentItemModel, _currentHandlerFocus.GetModel);
+        for (int i = 0; i < vars.Count; i++)
+        {
+            _listHints.Add(vars[i].GetHint(_currentHandlerFocus.GetModel));
+        }
+
+        _hinterService.SetListHints(_listHints);
     }
 
     public void TryMainAction()
@@ -121,5 +175,15 @@ public class PlayerInteractionService : ITickable, ISourceHint
                     EModeInteract.EKB,
                     _currentHandlerFocus.GetModel));
         }
+    }
+
+    public void Initialize()
+    {
+        _interactionHandlerService.ExecutedTarget += RecalcHinters;
+    }
+
+    public void Dispose()
+    {
+        _interactionHandlerService.ExecutedTarget -= RecalcHinters;
     }
 }

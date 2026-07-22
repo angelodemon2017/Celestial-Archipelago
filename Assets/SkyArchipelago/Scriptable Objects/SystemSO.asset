@@ -17,6 +17,7 @@ MonoBehaviour:
   globalAutoCraftAction: 0.1
   globalBurnPeriod: 0.1
   globalSpawnTimer: 2
+  ConfigDropItem: {fileID: 11400000, guid: 0ff2fc1e3f34a7d438ae0f51339f8099, type: 2}
   SpawnRaycastMask:
     serializedVersion: 2
     m_Bits: 64

@@ -3,6 +3,7 @@
     public override int Priority => 50;
     public int DefEmptyDamage => 1;
     public int DefToolDamage => 3;//or from some config
+    public override EModeInteract DefMode => EModeInteract.LCM;
 
     public override bool CanHandle(ItemModel item, EntityModel target)
     {
@@ -45,5 +46,10 @@
         //calcDamage
 
         return true;
+    }
+
+    public override string GetHint(EntityModel target)
+    {
+        return KeyPrefix;
     }
 }

@@ -4,23 +4,17 @@ using Zenject;
 public class CraftingOperationService
 {
     private readonly SignalBus _signalBus;
-    private readonly SimpleFactory<ItemConfig, ItemData> _itemDataFactory;
-    private readonly ItemModelFactory _itemModelFactory;
     private readonly InventoryTransactionsService _inventoryTransactionsService;
 
     public CraftingOperationService(
         SignalBus signalBus,
-        SimpleFactory<ItemConfig, ItemData> itemDataFactory,
-        ItemModelFactory itemModelFactory,
         InventoryTransactionsService inventoryTransactionsService)
     {
         _signalBus = signalBus;
-        _itemDataFactory = itemDataFactory;
-        _itemModelFactory = itemModelFactory;
         _inventoryTransactionsService = inventoryTransactionsService;
     }
 
-    public int GetAvailableProductionByRecipe(BaseRecipeConfig recipeConfig, ContainerData container)
+    public int GetAvailableProductionsByRecipe(BaseRecipeConfig recipeConfig, ContainerData container)
     {
         int haveItemsForRecipe = int.MaxValue;
 
@@ -54,7 +48,7 @@ public class CraftingOperationService
             craftProcess.Process -= craftProcess.ConfigModel.ActionUnitsRequired;
 
             if (!craftProcess.ConfigModel.IsDeleteInputsOnStart &&
-                GetAvailableProductionByRecipe(craftProcess.ConfigModel, craftProcess.SourceContainer._dataModel) <= 0)
+                GetAvailableProductionsByRecipe(craftProcess.ConfigModel, craftProcess.SourceContainer._dataModel) <= 0)
                 return false;
 
             if (!IsAvailableContainer(craftProcess.ProductionContainer, craftProcess.ConfigModel))
@@ -104,11 +98,9 @@ public class CraftingOperationService
         for (int i = 0; i < countOutputs; i++)
         {
             var outp = recipe._outputs[i];
-            var newItemData = _itemDataFactory.Spawn(outp.Config);
-            newItemData.Amount = outp.Amount;
-            var newItemModel = _itemModelFactory.Spawn(newItemData);
+
             var reason = recipe.IsCalcingInAutoCraftTicks ? ContainerAvailabilityFlag.CanAutoDrop : ContainerAvailabilityFlag.CanHandleDrop;
-            _inventoryTransactionsService.TryAddItemModel(productionContainer, newItemModel, reason);
+            _inventoryTransactionsService.TryAddItem(productionContainer, outp.Config.TypeItem, outp.Amount, reason);
         }
     }
 }

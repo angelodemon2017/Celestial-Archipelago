@@ -139,6 +139,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Gameplay::InteractHandlerMB
   GOsOfColliders: []
+  _model:
+    _dataModel:
+      IdOwner: -1
+      EntityType: 0
+      Id: 0
+      ConfigId: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      AvailableFlags: 0
+    IsGrounded: 0
 --- !u!114 &-1616440038705484815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +163,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Gameplay::PlacementEntityRootHandlerMB
   _hitDetector: {fileID: 0}
   _interactHandler: {fileID: 7556558186526805533}
+  _entityModel:
+    _dataModel:
+      IdOwner: -1
+      EntityType: 0
+      Id: 0
+      ConfigId: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      AvailableFlags: 0
+    IsGrounded: 0
   _root: {fileID: 6385488730383101212}
+  _model:
+    _dataModel:
+      IdOwner: -1
+      EntityType: 0
+      Id: 0
+      ConfigId: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      AvailableFlags: 0
+    IsGrounded: 0
+  TESTLIST: []
 --- !u!1 &1285681072948818574
 GameObject:
   m_ObjectHideFlags: 0
